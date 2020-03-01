@@ -2,6 +2,14 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.3.
 
+## Prerequisites : 
+
+Clone this project to your local disk. If you do not have Angular CLI, please follow the these steps :
+- Redirect to the project folder
+- Open Node.js command prompt for easier use 
+- Run the following command to install : 
+npm install -g @angular/cli
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
