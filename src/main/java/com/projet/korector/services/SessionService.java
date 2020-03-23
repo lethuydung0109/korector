@@ -1,19 +1,23 @@
 package com.projet.korector.services;
 
+import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.SessionImp;
+import com.projet.korector.repository.ProjectRepository;
 import com.projet.korector.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SessionService {
 
     @Autowired
     private SessionRepository sessionRepository;
 
     @Autowired
-    //private ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
 
     public Session createSession(SessionImp sessionImp)
@@ -23,7 +27,7 @@ public class SessionService {
         return null;
     }
 
-    public List<Session> getAllSession()
+    public List<Session> getAllSessions()
     {
         return sessionRepository.findAll();
     }
@@ -34,18 +38,22 @@ public class SessionService {
         return null;
     }
 
-//    public List<Project> getSessionProjects()
-//    {
-//        return
-//    }
+    public List<Project> getSessionProjects(Long sessionId)
+    {
+        return null;
+    }
 
-    public void addProject()
+    public void addProjectToSession()
     {
         // l'idSession d'un projet passe de null à l'id de la session
     }
 
-    public void deleteProject(Long id)
+    public void deleteProjectFromSession(Long id)
     {
         //projectRepository.delete(id);
+    }
+
+    public void deleteSession(Long id){
+
     }
 }

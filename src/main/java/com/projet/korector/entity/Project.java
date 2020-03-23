@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Session  {
+public class Project {
 
     private static final long serialVersionUID = -2054386655979281969L;
 
@@ -13,20 +13,16 @@ public class Session  {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private Float note;
     //private User user;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable
-    private Set<Project> projects;
-
-    @OneToMany(mappedBy="runs")
-    private Set<Run> runs;
+    @ManyToMany(mappedBy = "projects")
+    private Set<Session> sessions;
 
 
-    public Session(Long id, String name) {
-        this.id = id;
+    public Project(String name, Float note) {
         this.name = name;
-        this.projects= new HashSet<>();
-        this.runs = new HashSet<>();
+        this.note = note;
+        this.sessions= new HashSet<>();
     }
 
     public Long getId() {
@@ -45,29 +41,29 @@ public class Session  {
         this.name = name;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
+    public Float getNote() {
+        return note;
     }
 
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+    public void setNote(Float note) {
+        this.note = note;
     }
 
-    public Set<Run> getRuns() {
-        return runs;
+    public Set<Session> getSessions() {
+        return sessions;
     }
 
-    public void setRuns(Set<Run> runs) {
-        this.runs = runs;
+    public void setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Session{");
+        final StringBuilder sb = new StringBuilder("Project{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", projects=").append(projects);
-        sb.append(", runs=").append(runs);
+        sb.append(", note=").append(note);
+        sb.append(", sessions=").append(sessions);
         sb.append('}');
         return sb.toString();
     }
