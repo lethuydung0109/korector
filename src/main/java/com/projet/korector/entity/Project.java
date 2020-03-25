@@ -1,11 +1,12 @@
 package com.projet.korector.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Project {
+public class Project implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
 

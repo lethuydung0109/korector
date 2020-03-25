@@ -1,11 +1,12 @@
 package com.projet.korector.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Session  {
+public class Session implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
 
@@ -18,12 +19,18 @@ public class Session  {
     @JoinTable
     private Set<Project> projects;
 
-    @OneToMany(mappedBy="runs")
+    @OneToMany
     private Set<Run> runs;
 
 
     public Session(Long id, String name) {
         this.id = id;
+        this.name = name;
+        this.projects= new HashSet<>();
+        this.runs = new HashSet<>();
+    }
+
+    public Session( String name) {
         this.name = name;
         this.projects= new HashSet<>();
         this.runs = new HashSet<>();

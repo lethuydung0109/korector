@@ -1,9 +1,10 @@
 package com.projet.korector.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Run {
+public class Run implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
 
