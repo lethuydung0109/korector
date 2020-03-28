@@ -10,7 +10,7 @@ import { SessionService } from '../services/session.service';
 
 export class SessionComponent implements OnInit {
 
-  private ses =  new Session(1, "session");
+  private ses =  new Session("session");
 
   sessions = [this.ses];
    

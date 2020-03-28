@@ -1,12 +1,20 @@
-export class Session {
-    private id : number;
-    private name:string;
-    //private projects : Array<Project>
+import { Project } from './project';
+import { Criteria } from './criteria';
 
-    constructor(id : number, name : string)
+export class Session {
+    public id : number;
+    public name:string;
+    public projects : Array<Project>
+    public criteria : Array<Criteria>
+    public dateDepot : Date;
+
+    constructor(name : string)
     {
-        this.id=id;
+        this.id=null;
         this.name=name;
+        this.projects=[];
+        this.criteria=[];
+        this.dateDepot=null;
     }
 
 }
