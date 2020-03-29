@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SessionComponent } from './session/session.component';
-import { HomeComponent } from './home/home.component';
-import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
-import { SessionDetailComponent } from './session-detail/session-detail.component';
-import { CreateSessionComponent } from './create-session/create-session.component';
 
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
+import { BoardUserComponent } from './board-user/board-user.component';
+import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
+import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  //{ path: 'about', component: AboutComponent },
-  { path: 'session', component: SessionComponent },
-  { path: 'session-detail/:id', component: SessionDetailComponent },
-  { path: 'createSession', component: CreateSessionComponent },
-  //{ path: '**', component: NoPageFoundComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'user', component: BoardUserComponent },
+  { path: 'mod', component: BoardModeratorComponent },
+  { path: 'admin', component: BoardAdminComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({
