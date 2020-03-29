@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <div class="row">
+        <h1>Creation d'une session</h1>
+    </div> <br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <select >
+                Type session
+                <option (click)="changeSessionType('depot')">Depot</option>   
+                <option (click)="changeSessionType('normal')">Normal</option>                 
+            </select>
+        </div>
+        <div class="col-md-6">
+            Nom session <input type="text" name="nameSession" class="form-control"> <br>
+        </div>
+        <!-- Type session <input type="text" class="form-control" id="usr"> <br> -->
+        <div *ngIf="this.typeSession=='depot'">
+            Date et heure depot <input type="text" id="date" class="form-control"> <br>
+        </div>
+    </div> <br>
+
+    
+
+    <div class="row">        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Projects
+                </div>
+                <div class="card-body">
+                    <div class="row" >
+                        <select >
+                            <option *ngFor="let project of projects" (click)="addProjetToSelectedProject(project)">{{project.name}}</option>
+                            <!-- <option>Projet 2</option>
+                            <option>Projet 3</option> -->
+                        </select>
+                    </div> <br><br>
+                    <div class="row">
+                        <ul >
+                            <li *ngFor="let project of selectedProjects">{{project.name}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+              
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Critères statiques
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <select >
+                            <option *ngFor="let critere of criterias" (click)="addCriteriaToSelectedCriteria(critere)">{{critere.name}}</option>
+                            <!-- <option>Critere 2</option>
+                            <option>Critere 3</option> -->
+                        </select>
+                    </div> <br><br>
+                    <div class="row">
+                        <ul *ngFor="let critere of selectedCriteria">
+                            <li>{{critere.name}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <mat-label>Choisir critère</mat-label> -->
+            <!-- <mat-select multiple>                
+                <mat-option>critere</mat-option>
+            </mat-select> <br> -->
+        
+    </div> <br>
+    <div class="row">
+        <div class="col-md-6">
+          <button class="btn" (click)="createSession()">Creer Session </button>
+        </div>
+    </div> <br>
+</div>

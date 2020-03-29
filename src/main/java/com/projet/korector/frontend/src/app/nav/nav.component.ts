@@ -1,23 +1,20 @@
-import { Component } from '@angular/core';
-import { TokenStorageService } from './_services/token-storage.service';
+import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
-export class AppComponent {
-  title = 'korector';
-  // login - logout 
+export class NavComponent implements OnInit {
   private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
   username: string;
-
   constructor(private tokenStorageService: TokenStorageService) { }
 
-  ngOnInit() {
+  ngOnInit(){
     this.isLoggedIn = !!this.tokenStorageService.getToken();
 
     if (this.isLoggedIn) {
@@ -28,11 +25,12 @@ export class AppComponent {
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.username = user.username;
-    }
   }
+}
 
-  logout() {
-    this.tokenStorageService.signOut();
-    window.location.reload();
-  }
+logout() {
+  this.tokenStorageService.signOut();
+  window.location.reload();
+}
+
 }
