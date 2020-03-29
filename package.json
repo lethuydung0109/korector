@@ -1,0 +1,23 @@
+{
+  "name": "korector",
+  "version": "1.0.0",
+  "description": "---\r noteId: \"3c6be7d062ec11ea82776f805b338ba9\"\r tags: []",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GBerenice98/korector.git"
+  },
+  "keywords": [],
+  "author": "Kamilia Sadaoui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GBerenice98/korector/issues"
+  },
+  "homepage": "https://github.com/GBerenice98/korector#readme",
+  "dependencies": {
+    "systemjs-nodelibs": "^1.0.0"
+  }
+}

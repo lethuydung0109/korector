@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {CriteriaListComponent} from "./criteria-list/criteria-list.component";
+import {CreateCriteriaComponent} from "./create-criteria/create-criteria.component";
+import {SearchCriteriaComponent} from "./search-criteria/search-criteria.component";
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -10,6 +13,7 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -17,7 +21,9 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  {path: 'criteria', component: CriteriaListComponent},
+  {path: 'add', component: CreateCriteriaComponent},
+  {path: 'findCriteria', component: SearchCriteriaComponent},
 ];
 
 @NgModule({
