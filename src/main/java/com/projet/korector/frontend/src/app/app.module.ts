@@ -5,17 +5,27 @@ import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
+
+
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 import { SessionDetailComponent } from './session-detail/session-detail.component';
 import { HomeComponent } from './home/home.component';
 import { CreateSessionComponent } from './create-session/create-session.component';
+
+
+//{Awa part }
+import { AddComponent } from './add/add.component';
+import { AddStudentComponent } from './add-student/add-student.component';
+import { AddTeacherComponent } from './add-teacher/add-teacher.component';
+
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 
 import { from } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
@@ -41,7 +51,11 @@ import { FormsModule } from '@angular/forms';
     BoardAdminComponent,
     BoardUserComponent,
     BoardModeratorComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddComponent,
+    AddStudentComponent,
+    AddTeacherComponent,
+  
   ],
   imports: [
     BrowserModule,
@@ -51,7 +65,7 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
     // MatInputModule,
     // MatFormFieldModule,
     //MatSelectModule
