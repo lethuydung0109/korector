@@ -1,15 +1,27 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.model.Role;
+import com.projet.korector.model.User;
+import com.projet.korector.payload.response.JwtResponse;
+import com.projet.korector.payload.response.StatistiqueResponse;
+import com.projet.korector.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/resource")
 public class ResourceController {
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/all")
     public String allAccess() {
         return "Public Content.";
@@ -31,5 +43,34 @@ public class ResourceController {
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
+    }
+
+    @GetMapping("/stat")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> adminStatistique() {
+        List<User> allUsers = userRepository.findAll();
+        System.out.println("Number of users : " + allUsers.size());
+
+        int nb_students = 0;
+        int nb_profs = 0;
+        int nb_classes = 0;
+
+        for(User user : allUsers){
+            System.out.println(user.getRoles().size());
+            for(Role role : user.getRoles()){
+                System.out.println("Role : " + role.getName());
+                if(role.getName().toString() == ("ROLE_ETUDIANT")){
+                    nb_students ++;
+                    System.out.println("count ROLE_ETUDIANT");
+                }
+                if(role.getName().toString() == ("ROLE_ENSEIGNANT")){
+                    nb_profs ++;
+                    System.out.println("count ROLE_ENSEIGNANT");
+                }
+            }
+
+        }
+
+        return ResponseEntity.ok(new StatistiqueResponse(nb_students, nb_profs, nb_classes));
     }
 }
