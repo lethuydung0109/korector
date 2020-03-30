@@ -44,17 +44,25 @@ public class User {
 
     public User() {
     }
-
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.githubAccount = githubAccount;
     }
-    public User(String username, String email, String password, String githubAccount) {
+   public User(String username, String email, String password, String githubAccount) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.githubAccount = githubAccount;
+    }
+
+    public void setGithubAccount(String github_account) {
+        this.githubAccount = github_account;
+    }
+
+    public String getGithubAccount() {
+        return githubAccount;
     }
 
     public Long getId() {

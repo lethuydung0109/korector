@@ -40,10 +40,17 @@ public class UserService {
         //  return userDAO.findById(userID).get();
     }
 
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
 
     }
+//    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmailIgnoreCase(email);
+    }
+
+
     public List<User> getAllStudent(String idClasse) {
 
         return null;

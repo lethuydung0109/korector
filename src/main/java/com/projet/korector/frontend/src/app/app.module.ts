@@ -17,6 +17,8 @@ import { CreateSessionComponent } from './create-session/create-session.componen
 import { AddComponent } from './add/add.component';
 import { AddStudentComponent } from './add-student/add-student.component';
 import { AddTeacherComponent } from './add-teacher/add-teacher.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -66,6 +68,9 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    NgxSpinnerModule /* for using spinner */
+
+
     // MatInputModule,
     // MatFormFieldModule,
     //MatSelectModule
