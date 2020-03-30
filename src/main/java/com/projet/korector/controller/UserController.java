@@ -88,18 +88,7 @@ public class UserController {
 
     }
 
-/*
-    @GetMapping("/all")
-    @RequestMapping(value = "/saveUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 
-   // @PostMapping (value = "/saveUser")
-   public User saveUser(User user) {
-         user = new User(user.getUsername(),
-               user.getEmail(),
-                user.getPassword(), user.getGithubAccount());
-        return service.saveUser(user);
-
-    } */
 
     @PostMapping(value = "/updateUser")
     public User updateUser(User user) {
