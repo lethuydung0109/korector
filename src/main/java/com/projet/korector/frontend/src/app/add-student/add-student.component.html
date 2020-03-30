@@ -1,0 +1,81 @@
+<p>student works!</p>
+{{diagnostic}}
+
+<div class="container">
+    <form  #studentForm="ngForm"  > 
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username"   required
+        [(ngModel)]="model.username" name="username"  #username="ngModel">
+        <div [hidden]="username.valid || username.pristine"
+     class="alert alert-danger">
+  Username is required
+      </div>
+    </div>
+
+   
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="text" class="form-control" id="email" required
+      [(ngModel)]="model.email" name="email" #email="ngModel">
+      <div [hidden]="email.valid || email.pristine"
+   class="alert alert-danger">
+Email is required
+    </div>
+  </div>
+
+
+      <div class="form-group">
+        <label for="pwd">motDePasse</label>
+        <input type="text" class="form-control" id="pwd" required
+        [(ngModel)]="model.password" name="pwd" #pwd="ngModel">
+        <div [hidden]="pwd.valid || pwd.pristine"
+     class="alert alert-danger">
+Mdp is required
+      </div>
+    </div>
+
+      <div class="form-group">
+        <label for="gtb">github</label>
+        <input type="text" class="form-control" id="gtb" required
+        [(ngModel)]="model.githubAccount" name="gtb" #gtb="ngModel">
+        <div [hidden]="gtb.valid || gtb.pristine"
+     class="alert alert-danger">
+Github is required
+      </div>
+    </div>
+
+      
+
+      <div>
+   <button [value]="actionButton" (click)= "createStudent()"   [disabled]="!studentForm.form.valid" type="submit" class="btn btn-success">Submit</button>
+    </div>
+
+    </form>
+</div>
+
+
+<div id="submitFormMessage" [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+
+    <div class="row">
+      <div class="col-xs-3">Username</div>
+      <div class="col-xs-9">{{ model.username}}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-3">E-mail</div>
+      <div class="col-xs-9">{{ model.email }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-3">Github</div>
+      <div class="col-xs-9">{{ model.githubAccount }}</div>
+    </div>
+
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+
+  </div>
