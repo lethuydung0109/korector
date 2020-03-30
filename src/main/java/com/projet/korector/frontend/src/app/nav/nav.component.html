@@ -25,6 +25,10 @@
           <a class="nav-link" href="#">A propos</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/add">ADD USER</a>
+        </li>
+
         <!-- Right nav items  -->
       </ul>
       <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
@@ -43,6 +47,8 @@
         <li class="nav-item">
           <a href class="nav-link" (click)="logout()">LogOut</a>
         </li>
+
+     
       </ul>
     </div>
   </nav>

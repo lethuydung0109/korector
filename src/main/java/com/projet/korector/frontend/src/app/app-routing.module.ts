@@ -12,6 +12,11 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
+//{ Awa part }
+import { AddComponent } from './add/add.component';
+import { AddStudentComponent } from './add-student/add-student.component';
+import { AddTeacherComponent } from './add-teacher/add-teacher.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,8 +33,13 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
-  
+  //
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  //{ Awa part}
+  { path: 'add', component: AddComponent },
+  { path: 'addStudent', component: AddStudentComponent },
+  { path: 'addTeacher', component: AddTeacherComponent },
+
 ];
 
 @NgModule({
