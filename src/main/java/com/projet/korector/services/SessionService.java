@@ -1,34 +1,43 @@
 package com.projet.korector.services;
 
+import com.projet.korector.controller.SessionController;
 import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Session;
-import com.projet.korector.model.SessionImp;
 import com.projet.korector.repository.ProjectRepository;
+import com.projet.korector.repository.RunRepository;
 import com.projet.korector.repository.SessionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class SessionService {
+
+    final static Logger log = LoggerFactory.getLogger(SessionController.class);
 
     @Autowired
     private SessionRepository sessionRepository;
 
     @Autowired
+    private RunRepository runRepository;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
 
-    public Session createSession(SessionImp sessionImp)
+    public Session createSession(Session session)
     {
-
-        //sessionRepository.save(session);
-        return null;
+        //System.out.println("Session json : "+session.getName());
+        return this.sessionRepository.save(session);
     }
 
     public List<Session> getAllSessions()
     {
+        System.out.println(" Toute la bdd : "+sessionRepository.findAll());
         return sessionRepository.findAll();
     }
 
@@ -38,9 +47,9 @@ public class SessionService {
         return null;
     }
 
-    public List<Project> getSessionProjects(Long sessionId)
+    public Set<Project> getSessionProjects(Long sessionId)
     {
-        return null;
+       return this.sessionRepository.findById(sessionId).orElse(null).getProjects();
     }
 
     public void addProjectToSession()
@@ -54,6 +63,11 @@ public class SessionService {
     }
 
     public void deleteSession(Long id){
+        if(this.sessionRepository.findById(id).isPresent()) this.sessionRepository.deleteById(id);
+    }
 
+    public void deleteAllSessions()
+    {
+        this.sessionRepository.deleteAll();
     }
 }

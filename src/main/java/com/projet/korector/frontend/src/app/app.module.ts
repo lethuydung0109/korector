@@ -25,6 +25,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCardModule} from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { from } from 'rxjs';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
@@ -57,7 +60,7 @@ import { FormsModule } from '@angular/forms';
     AddComponent,
     AddStudentComponent,
     AddTeacherComponent,
-  
+
   ],
   imports: [
     BrowserModule,
@@ -68,14 +71,19 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    NgxSpinnerModule /* for using spinner */
-
-
-    // MatInputModule,
-    // MatFormFieldModule,
-    //MatSelectModule
+    NgxSpinnerModule, /* for using spinner */
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatCardModule
    ],
-  providers: [authInterceptorProviders],
+  providers: [
+    authInterceptorProviders,
+    MatDatepickerModule,
+    MatCardModule
+  ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

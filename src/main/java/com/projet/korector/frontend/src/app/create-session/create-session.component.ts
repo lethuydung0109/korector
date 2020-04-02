@@ -3,6 +3,14 @@ import { Project } from '../classes/project';
 import { Criteria } from '../classes/criteria';
 import { Session } from '../classes/session';
 import { SessionService } from '../services/session.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
+
+
+
 
 @Component({
   selector: 'app-create-session',
@@ -17,7 +25,7 @@ export class CreateSessionComponent implements OnInit {
   public selectedCriteria : Array<Criteria> = [];
   public typeSession : string;
 
-  constructor(private sessionService : SessionService) { 
+  constructor(private sessionService : SessionService) {
     this.typeSession='normal';
   }
 
@@ -50,5 +58,10 @@ export class CreateSessionComponent implements OnInit {
     // this.sessionService.createSession(createSession).subscribe(data =>
     //   console.log("data", data)
     // );
+  }
+
+  public retrieveProjectToselected(project : Project) : void
+  {
+    this.selectedProjects.splice(this.selectedProjects.indexOf(project),1);
   }
 }

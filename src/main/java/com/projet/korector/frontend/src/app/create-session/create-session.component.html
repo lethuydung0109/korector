@@ -1,81 +1,85 @@
 <div class="container-fluid">
-    <div class="row">
-        <h1>Creation d'une session</h1>
-    </div> <br>
+  <div class="row">
+    <h1>Creation d'une session</h1>
+  </div> <br>
 
-    <div class="row">
-        <div class="col-md-6">
+  <div class="row">
+    <div class="card-deck">
+      <div class="card">
+        <div class="card-header">
+          Informations Session
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-label>Type Session</mat-label>
+                <mat-select>
+                  <mat-option (click)="changeSessionType('normal')" value="Normal"> Normal </mat-option>
+                  <mat-option (click)="changeSessionType('depot')" value="Depot"> Depot </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field *ngIf="this.typeSession=='depot'">
+                <mat-label>Choose a date</mat-label>
+                <input id="date" matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Projects
+        </div>
+        <div class="card-body">
+          <div class="row" >
             <select >
-                Type session
-                <option (click)="changeSessionType('depot')">Depot</option>   
-                <option (click)="changeSessionType('normal')">Normal</option>                 
+              <option *ngFor="let project of projects" (click)="addProjetToSelectedProject(project)">{{project.name}}</option>
             </select>
+          </div> <br><br>
+          <div class="row">
+            <ul style="list-style-type: none;" >
+              <li *ngFor="let project of selectedProjects" (click)="retrieveProjectToselected(project)"><i class="fa fa-minus"></i> {{project.name}}</li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-6">
-            Nom session <input type="text" name="nameSession" class="form-control"> <br>
-        </div>
-        <!-- Type session <input type="text" class="form-control" id="usr"> <br> -->
-        <div *ngIf="this.typeSession=='depot'">
-            Date et heure depot <input type="text" id="date" class="form-control"> <br>
-        </div>
-    </div> <br>
+      </div>
 
-    
+      <div class="card">
+        <div class="card-header">
+          Critères statiques
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <select >
+              <option *ngFor="let critere of criterias" (click)="addCriteriaToSelectedCriteria(critere)">{{critere.name}}</option>
+              <!-- <option>Critere 2</option>
+              <option>Critere 3</option> -->
+            </select>
+          </div> <br><br>
+          <div class="row">
+            <ul style="list-style-type: none;" >
+              <li *ngFor="let critere of selectedCriteria"><i class="fa fa-minus"></i> {{critere.name}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-    <div class="row">        
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Projects
-                </div>
-                <div class="card-body">
-                    <div class="row" >
-                        <select >
-                            <option *ngFor="let project of projects" (click)="addProjetToSelectedProject(project)">{{project.name}}</option>
-                            <!-- <option>Projet 2</option>
-                            <option>Projet 3</option> -->
-                        </select>
-                    </div> <br><br>
-                    <div class="row">
-                        <ul >
-                            <li *ngFor="let project of selectedProjects">{{project.name}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-              
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Critères statiques
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <select >
-                            <option *ngFor="let critere of criterias" (click)="addCriteriaToSelectedCriteria(critere)">{{critere.name}}</option>
-                            <!-- <option>Critere 2</option>
-                            <option>Critere 3</option> -->
-                        </select>
-                    </div> <br><br>
-                    <div class="row">
-                        <ul *ngFor="let critere of selectedCriteria">
-                            <li>{{critere.name}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- <mat-label>Choisir critère</mat-label> -->
-            <!-- <mat-select multiple>                
-                <mat-option>critere</mat-option>
-            </mat-select> <br> -->
-        
-    </div> <br>
-    <div class="row">
-        <div class="col-md-6">
-          <button class="btn" (click)="createSession()">Creer Session </button>
-        </div>
-    </div> <br>
+    </div>
+  </div> <br><br>
+
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn" (click)="createSession()">Creer Session </button>
+    </div>
+  </div> <br>
 </div>
