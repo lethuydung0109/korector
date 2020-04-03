@@ -18,7 +18,7 @@ public class Session implements Serializable {
     private Long id;
     private String name;
     private Date date_depot;
-    //private Long userId;
+    //private User user;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable
     private Set<Project> projects;
@@ -31,6 +31,13 @@ public class Session implements Serializable {
     public Session(String n) {
         this.name = n;
         this.projects= new HashSet<>();
+        this.runs = new HashSet<>();
+        this.date_depot=null;
+    }
+
+    public Session(String n, Set<Project> projects) {
+        this.name = n;
+        this.projects= projects;
         this.runs = new HashSet<>();
         this.date_depot=null;
     }

@@ -9,9 +9,6 @@ import { SessionService } from '../services/session.service';
 })
 
 export class SessionComponent implements OnInit {
-
-  private ses =  new Session("session");
-
   public sessions : Array<Session> = [];
 
   constructor(private sessionService : SessionService) { }

@@ -19,7 +19,8 @@ import {MatCardModule} from '@angular/material/card';
 })
 export class CreateSessionComponent implements OnInit {
 
-  public projects : Array<Project> =[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
+  //public projects : Array<Project> =[new Project("p1",5), new Project("p2",15), new Project("p3",8), new Project("p4",13)];
+  public projects : Array<Project> =[new Project("p1",5), new Project("p2",15), new Project("p3",8), new Project("p4",13)];
   public criterias : Array<Criteria> =[new Criteria("c1"), new Criteria("c2"), new Criteria("c3"), new Criteria("c4")];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
@@ -30,6 +31,14 @@ export class CreateSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // let listProjects: Array<Project>;
+    // this.projectService().getAllProjects().subscribe(data => {
+    //   data.forEach(s => {
+    //     listProjects.push(s);
+    //   })
+    // });
+    // this.projects=listProjects;
 
   }
 
@@ -51,13 +60,13 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession(): void{
     let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
-    let createSession = new Session(nameSession);
-    createSession.projects=this.selectedProjects;
-    createSession.criteria=this.selectedCriteria;
+    let createSession = new Session(nameSession, this.selectedProjects);
+    //createSession.projects=this.selectedProjects;
+    //createSession.criteria=this.selectedCriteria;
 
-    // this.sessionService.createSession(createSession).subscribe(data =>
-    //   console.log("data", data)
-    // );
+    this.sessionService.createSession(createSession).subscribe(data =>
+      console.log("data", data)
+    );
   }
 
   public retrieveProjectToselected(project : Project) : void

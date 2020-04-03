@@ -1,13 +1,22 @@
+import { Session } from 'protractor';
+
 export class Project {
 
-    private name : string;
-    private notes : Array<Number>;
-    private gitUrl: string
+    public id : Number;
+    public name : string;
+    public note : Number;
+    public sessions : Array<Session>
+    //private gitUrl: string
 
-    constructor(name : string)
+   
+
+    constructor(name : string, note :Number)
     {
+        this.id=null;        
         this.name=name;
-        this.gitUrl="";
-        this.notes=[];
+        this.note=note;
+        this.sessions=[];
+        // this.gitUrl="";
+        // this.notes=[];
     }
 }

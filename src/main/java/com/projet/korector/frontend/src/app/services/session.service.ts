@@ -16,7 +16,8 @@ export class SessionService {
 
   public createSession(session : Session) : Observable<Session>
   {
-    const routeQuery=this.url+"/createSession/"+session;
+    const routeQuery=this.url+"/createSession";
+    console.log("session", session)
 
     console.log("session dans service : ", session)
     return this.http.post<Session>(routeQuery,session);
@@ -41,8 +42,27 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  public deleteAllSessions () {
+  //A implementer dans backend
+  public deleteAllSessions () : Observable<any> {
     const routeQuery=this.url+"/deleteAllSessions";
     return this.http.delete(routeQuery);
   }
+
+  public deleteProjectFromSession (sessionId :Number): Observable<any>
+  {
+    const routeQuery=this.url+"/deleteProjectFromSession/"+sessionId;
+    return this.http.delete(routeQuery);
+  }
+
+  /**
+   * Récupérer les sessions par user
+   * Ajouter projet dans session
+   * delete projet d'un session
+   * update session
+   * ajouter bouton lancer dans session-detail
+   * mettre des checkbox dans la liste des projets
+   * bouton lancer, crée un objet run
+   * générer un fichier excel avec détails session, projets et notes
+   * 
+   */
 }
