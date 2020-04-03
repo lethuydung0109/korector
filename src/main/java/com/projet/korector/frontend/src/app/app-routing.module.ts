@@ -13,9 +13,12 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 //{ Awa part }
-import { AddComponent } from './add/add.component';
+import { StatsComponent } from './stats/stats.component';
 import { AddStudentComponent } from './add-student/add-student.component';
 import { AddTeacherComponent } from './add-teacher/add-teacher.component';
+import { StudentStatsComponent } from './student-stats/student-stats.component';
+import { ProfsStatsComponent } from './profs-stats/profs-stats.component';
+import { ClassesStatsComponent } from './classes-stats/classes-stats.component';
 
 
 const routes: Routes = [
@@ -36,9 +39,13 @@ const routes: Routes = [
   //
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   //{ Awa part}
-  { path: 'add', component: AddComponent },
+  { path: 'add', component: StatsComponent },
   { path: 'addStudent', component: AddStudentComponent },
   { path: 'addTeacher', component: AddTeacherComponent },
+  { path: 'stats', component: StatsComponent },
+  { path: 'studentStats', component: StudentStatsComponent },
+  { path: 'profsStats', component: ProfsStatsComponent},
+  { path: 'classesStats', component: ClassesStatsComponent },
 
 ];
 
