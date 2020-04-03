@@ -1,7 +1,10 @@
 package com.projet.korector.entity;
 
+import com.projet.korector.model.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,26 +17,30 @@ public class Session implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private Date date_depot;
     //private User user;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable
     private Set<Project> projects;
 
     @OneToMany
     private Set<Run> runs;
 
+    public Session() { }
 
-    public Session(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public Session(String n) {
+        this.name = n;
         this.projects= new HashSet<>();
         this.runs = new HashSet<>();
+        this.date_depot=null;
     }
 
-    public Session( String name) {
-        this.name = name;
+    public Session(String n, Date date) {
+        this.name = n;
+        //this.projects= projects;
         this.projects= new HashSet<>();
         this.runs = new HashSet<>();
+        this.date_depot=date;
     }
 
     public Long getId() {
@@ -66,6 +73,14 @@ public class Session implements Serializable {
 
     public void setRuns(Set<Run> runs) {
         this.runs = runs;
+    }
+
+    public Date getDate_depot() {
+        return date_depot;
+    }
+
+    public void setDate_depot(Date date_depot) {
+        this.date_depot = date_depot;
     }
 
     @Override

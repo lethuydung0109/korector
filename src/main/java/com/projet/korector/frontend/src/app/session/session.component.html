@@ -1,32 +1,30 @@
 <div class="container-fluid">
-    <div class="row">
-        <h1>Liste des sessions</h1>
-    </div> <br>
-    <div class="row">
-        <div class="col-md-6">
-          <button class="btn"><a class="nav-link" routerLinkActive="active" routerLink="/createSession">Creer Session </a></button>
-        </div>
-    </div> <br>
-    <div class="row">
-        <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Afficher</th>
-                <th scope="col">Supprimer</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let session of sessions">
-              <tr>
-                <th scope="row">{{session.id}}</th>
-                <td>{{session.name}}</td>
-                <td><button class="btn"><a [routerLink]="['/session-detail/', session.id]"><i class="fa fa-eye"></i></a></button></td>
-                <td><button class="btn"><i class="fa fa-trash"></i></button></td>
-              </tr>    
-            </tbody>
-        </table>          
+  <div class="row">
+    <h1>Liste des sessions</h1>
+  </div> <br>
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn"><a class="nav-link" routerLinkActive="active" routerLink="/createSession">Creer Session </a></button>
     </div>
+  </div> <br>
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Supprimer</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let session of sessions">
+      <tr>
+        <td><a [routerLink]="['/session-detail/', session.id]">{{session.id}}</a></td>
+        <td>{{session.name}}</td>
+        <td><button class="btn" (click)="deleteSessionById(session)"><i class="fa fa-trash"></i></button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 
 </div>

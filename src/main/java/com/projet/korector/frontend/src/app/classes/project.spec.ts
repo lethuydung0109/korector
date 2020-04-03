@@ -1,8 +1,7 @@
-import {Project} from './project';
+import { Project } from './project';
 
 describe('Project', () => {
   it('should create an instance', () => {
-    // @ts-ignore
-    expect(new Projet(undefined, undefined, session)).toBeTruthy();
+    expect(new Project(name)).toBeTruthy();
   });
 });

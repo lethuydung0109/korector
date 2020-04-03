@@ -1,1 +1,70 @@
-<h5>Session Id is: {{sessionId}}</h5>
+<div class="container">
+  <div class="row" text="align-center">
+    <h1>Session - {{sessionId}}</h1>
+  </div> <br>
+
+  <!-- <div class="row">
+
+      <div class="col-md-6">
+          Nom session : {{sessionId}} <br>
+      </div>
+      <-- Type session <input type="text" class="form-control" id="usr"> <br> ->
+      <div class="col-md-6">
+          Date depot : null <br>
+      </div>
+  </div> <br> -->
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card " style="text-align:left;">
+        <div class="card-header bg-info text-white">
+          Session {{sessionId}}
+        </div>
+        <div class="card-body">
+          Nom session : {{sessionId}} <br>
+          Date depot : null <br>
+          Critères Statiques : <br><br>
+          <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Critère 1 </td>
+              <td>10 %</td>
+            </tr>
+            <tr>
+              <td>Critère 2</td>
+              <td>20 %</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div> <br><br>
+
+  <div class="row">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Projet</th>
+        <th scope="col">Relancé</th>
+        <th scope="col">Supprimer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Projet test</td>
+        <td><button class="btn"><a><i class="fa fa-refresh"></i></a></button></td>
+        <td><button class="btn"><i class="fa fa-trash"></i></button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

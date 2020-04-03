@@ -1,10 +1,10 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {SessionComponent} from './session/session.component';
-import {NavComponent} from './nav/nav.component';
-import {FooterComponent} from './footer/footer.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { SessionComponent } from './session/session.component';
+import { NavComponent } from './nav/nav.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 import {NoPageFoundComponent} from './no-page-found/no-page-found.component';
@@ -37,7 +37,12 @@ import {SectionComponent} from './section/section.component';
 import {SectionDetailComponent} from './section-details/section-detail.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -76,14 +81,19 @@ import {ProjetDetailComponent} from './projet-details/projet-detail.component';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    NgxSpinnerModule /* for using spinner */
-
-
-    // MatInputModule,
-    // MatFormFieldModule,
-    //MatSelectModule
+    NgxSpinnerModule, /* for using spinner */
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatCardModule
    ],
-  providers: [authInterceptorProviders],
+  providers: [
+    authInterceptorProviders,
+    MatDatepickerModule,
+    MatCardModule
+  ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
