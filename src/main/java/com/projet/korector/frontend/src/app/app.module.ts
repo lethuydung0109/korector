@@ -14,9 +14,13 @@ import { CreateSessionComponent } from './create-session/create-session.componen
 
 
 //{Awa part }
-import { AddComponent } from './add/add.component';
+import { StatsComponent } from './stats/stats.component';
 import { AddStudentComponent } from './add-student/add-student.component';
 import { AddTeacherComponent } from './add-teacher/add-teacher.component';
+import { StudentStatsComponent } from './student-stats/student-stats.component';
+import { ProfsStatsComponent } from './profs-stats/profs-stats.component';
+import { ClassesStatsComponent } from './classes-stats/classes-stats.component';
+
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 
@@ -38,6 +42,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,9 +59,12 @@ import { FormsModule } from '@angular/forms';
     BoardUserComponent,
     BoardModeratorComponent,
     ProfileComponent,
-    AddComponent,
+    StatsComponent,
     AddStudentComponent,
     AddTeacherComponent,
+    StudentStatsComponent,
+    ProfsStatsComponent,
+    ClassesStatsComponent,
   
   ],
   imports: [

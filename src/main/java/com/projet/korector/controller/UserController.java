@@ -4,6 +4,8 @@ import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
 import com.projet.korector.model.UserDTO;
+import com.projet.korector.payload.response.MessageResponse;
+import com.projet.korector.payload.response.StatistiqueResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
 import com.projet.korector.services.UserService;
@@ -19,10 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.modelmapper.ModelMapper;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import javax.validation.Valid;
 
 
@@ -69,16 +68,6 @@ public class UserController {
                 encoder.encode(userRequest.getPassword()),userRequest.getGithubAccount());
 
         User userResponse = service.saveUser(userRequest);
-
-
-        // For adding a role to user
-       /* Role etudiantRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-
-        // Add a role to user
-        roles.add(etudiantRole);
-        user.setRoles(roles); */
-
         if (userResponse != null) {
             UserDTO UserDTO = mapUserToUserDTO(userResponse);
             return new ResponseEntity<UserDTO>(UserDTO, HttpStatus.CREATED);
@@ -94,17 +83,49 @@ public class UserController {
     public User updateUser(User user) {
         return service.updateUser(user);
     }
-    @RequestMapping(value = "/deleteUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public void deleteUser(Long userID) {
-        service.deleteUser(userID);
+    @RequestMapping(value = "/deleteUser/{userId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteById(@PathVariable ("userId") Long userId) {
+        service.deleteById(userId);
 
     }
-
-    @RequestMapping(value = "/findAllUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> findAllUser()
+    @RequestMapping(value = "/findAllStudent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List <User> >  findAllStudent()
     {
-        return service.findAllUser();
+        List<User> allUsers = userRepository.findAll();
+        ArrayList<User> studentsResponse = new ArrayList<User>();
+        for(User user : allUsers){
+            for(Role role : user.getRoles()){
+                if(role.getName().toString() == ("ROLE_ETUDIANT")){
+                   // usersResponse[allUsers.get()] = new List<User>();
+                    studentsResponse.add(user) ;
+                }
+                }
+
+            }
+        return new  ResponseEntity <List <User> >(studentsResponse, HttpStatus.OK);
+    }
+    @RequestMapping(value = "/findAllProf", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<List <User> > findAllProf()
+    {
+        List<User> allProfs = userRepository.findAll();
+        ArrayList<User> profsResponse = new ArrayList<User>();
+        for(User user : allProfs){
+            for(Role role : user.getRoles()){
+                if(role.getName().toString() == ("ROLE_ENSEIGNANT")){
+                    profsResponse.add(user) ;
+                }
+            }
+
+        }
+        return new  ResponseEntity <List <User> >(profsResponse, HttpStatus.OK);
+
+    }
+    @RequestMapping(value = "/findAllClasses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findAllClasses()
+    {
+        Integer nb_classes = 0;
+        return ResponseEntity.ok(new MessageResponse("Test"));
     }
 
     @RequestMapping(value = "/findById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

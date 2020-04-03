@@ -1,15 +1,21 @@
 package com.projet.korector.payload.response;
 
+import com.projet.korector.model.User;
+
+import java.util.List;
+
 public class StatistiqueResponse {
     int nb_students;
     int nb_profs;
     int nb_classes;
+    List <User> users;
 
     public StatistiqueResponse(int nb_students, int nb_profs, int nb_classes) {
         this.nb_students = nb_students;
         this.nb_profs = nb_profs;
         this.nb_classes = nb_classes;
     }
+
 
     public int getNb_students() {
         return nb_students;
