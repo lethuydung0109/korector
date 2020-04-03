@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/resource")
-public class ResourceController {
+public class RessourceController {
     @Autowired
     UserRepository userRepository;
 
@@ -45,7 +45,7 @@ public class ResourceController {
         return "Admin Board.";
     }
 
-    @GetMapping("/stat")
+    @GetMapping("/stats")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> adminStatistique() {
         List<User> allUsers = userRepository.findAll();

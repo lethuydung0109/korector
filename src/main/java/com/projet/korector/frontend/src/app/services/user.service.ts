@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 import {  retry, catchError } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
 
-const API_URL = 'http://localhost:8080/api/user/saveUser/';
+const API_URL = 'http://localhost:8080/api/user/';
+
+allStudent : User   ;
 const httpOptions = {
   headers: new HttpHeaders(
   { 
@@ -22,9 +24,8 @@ const httpOptions = {
 })
 export class UserService {
   //public url =environment.api_url;
-  private usersUrl: string;
    constructor(private http: HttpClient) { 
-        this.usersUrl = 'http://localhost:8080/api/user/saveUser';
+
 
    }
 
@@ -35,7 +36,7 @@ export class UserService {
      console.log("User dans sservice " +  JSON.stringify(user) );
      
     
-        return this.http.post<User>(this.usersUrl , {
+        return this.http.post<User>( API_URL + 'saveUser', {
           username: user.username,
           password: user.password,
           email : user.email,
