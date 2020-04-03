@@ -14,12 +14,12 @@ import { CreateSessionComponent } from './create-session/create-session.componen
 
 
 //{Awa part }
-import { StatsComponent } from './stats/stats.component';
+//import { StatsComponent } from './stats/stats.component';
 import { AddStudentComponent } from './add-student/add-student.component';
 import { AddTeacherComponent } from './add-teacher/add-teacher.component';
-import { StudentStatsComponent } from './student-stats/student-stats.component';
-import { ProfsStatsComponent } from './profs-stats/profs-stats.component';
-import { ClassesStatsComponent } from './classes-stats/classes-stats.component';
+// import { StudentStatsComponent } from './student-stats/student-stats.component';
+// import { ProfsStatsComponent } from './profs-stats/profs-stats.component';
+// import { ClassesStatsComponent } from './classes-stats/classes-stats.component';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -62,12 +62,12 @@ import { FormsModule } from '@angular/forms';
     BoardUserComponent,
     BoardModeratorComponent,
     ProfileComponent,
-    StatsComponent,
+    //StatsComponent,
     AddStudentComponent,
     AddTeacherComponent,
-    StudentStatsComponent,
-    ProfsStatsComponent,
-    ClassesStatsComponent,
+    // StudentStatsComponent,
+    // ProfsStatsComponent,
+    // ClassesStatsComponent,
 
   ],
   imports: [
