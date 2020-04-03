@@ -1,6 +1,6 @@
 package com.projet.korector.services;
+import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Section;
-import com.projet.korector.model.SectionImp;
 import com.projet.korector.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,17 @@ public class SectionService {
     private SectionRepository repository;
 
     public Section createSection(Section section) {
-        return repository.save(section);
+        return null;
     }
 
-    public List<Section> getAllSections() { return repository.findAll(); }
+    public List<Project> getAllSections() { return repository.findAll(); }
 
     public void deleteSection(Long sectionId) {
         repository.deleteById(sectionId);
     }
 
     public Section getSectionByName(Long name) {
-       return repository.getSectionByName(name);
+        return repository.getSectionByName(name);
     }
 
     public Section getSectionById(Long id) {

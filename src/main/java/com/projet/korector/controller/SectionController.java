@@ -1,5 +1,6 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Section;
 import com.projet.korector.services.SectionService;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class SectionController {
     }
 
     @RequestMapping(value = "/allSections", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Section> getAllSections() { return service.getAllSections(); }
+    public List<Project> getAllSections() { return service.getAllSections(); }
 
     @RequestMapping(value = "/deleteSection/{sectionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteSection(@PathVariable Long sectionId)

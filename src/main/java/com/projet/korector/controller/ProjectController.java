@@ -1,15 +1,15 @@
 package com.projet.korector.controller;
 
 import com.projet.korector.entity.Project;
-import com.projet.korector.model.User;
-import com.projet.korector.repository.UserRepository;
+import com.projet.korector.entity.Project;
+import com.projet.korector.model.ProjectImp;
+import com.projet.korector.model.ProjectImp;
+import com.projet.korector.services.ProjectService;
 import com.projet.korector.services.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,11 +17,12 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "/api/ressource")
+@CrossOrigin
+@RequestMapping(value = "/api/project")
 public class ProjectController {
 
     final static Logger log = LoggerFactory.getLogger(ProjectController.class);
@@ -30,8 +31,8 @@ public class ProjectController {
     private ProjectService service;
 
     @RequestMapping(value = "/createProject", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Project createProject(@Valid @RequestBody Project projet) {
-        return service.createProject(projet);
+    public void createProject(@Valid @RequestBody Project projet) {
+         service.createProject(projet);
     }
 
     @RequestMapping(value = "/allProjects", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,15 +44,15 @@ public class ProjectController {
        // HttpServletRequest request = new HttpServletRequest("https://api.github.com/users/{userId}/repos");
 
     }
-
+/*
     @RequestMapping(value = "/allProjectBySession/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Project> getProjectBySession(@PathVariable Long sessionId)
     {
         return service.getProjectBySession(sessionId);
     }
-
+*/
     @RequestMapping(value = "/project/{ProjectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Project getProject(@PathVariable Long ProjectId)
+    public Optional<Project> getProject(@PathVariable Long ProjectId)
     {
          return service.getProjectById(ProjectId);
     }
