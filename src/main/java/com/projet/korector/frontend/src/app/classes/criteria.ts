@@ -1,9 +1,9 @@
 export class Criteria {
-    private type : string;
+    private type: string;
     private name:string;
-    private value : Number;
+    private value: number;
 
-    constructor(name : string)
+    constructor(name: string)
     {
         this.type="static";
         this.name=name;

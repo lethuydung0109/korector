@@ -1,13 +1,17 @@
+import {Session} from './session';
+
 export class Project {
+  id: number;
+  name: string;
+  descripion: string;
+  url: string;
+  note: number;
+  dateDepot: string;
+  session: Session;
 
-    private name : string;
-    private notes : Array<Number>;
-    private gitUrl: string
+  constructor(name: string) {
+    this.name = name;
+  }
 
-    constructor(name : string)
-    {
-        this.name=name;
-        this.gitUrl="";
-        this.notes=[];
-    }
+
 }
