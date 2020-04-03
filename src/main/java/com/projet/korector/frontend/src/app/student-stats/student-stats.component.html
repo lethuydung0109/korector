@@ -1,0 +1,36 @@
+
+<td><button class="btnStats" routerLink="/addStudent"><a > Ajouter etudiant</a></button></td>
+
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">No.</th>
+
+            <th scope="col"> Username</th>
+            <th scope="col">Github</th>
+            <th scope="col">Email</th>
+
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+          </tr>
+        </thead>
+        <tbody  *ngFor="let student of students">
+            <tr  > 
+              <td>{{ student.id }}</td>
+
+            <td>{{ student.username }}</td>
+            <td>{{ student.github }}</td>
+            <td>{{ student.email}}</td>
+
+            <td><button  class="btn"><a routerLink="/">Update  </a></button></td>
+         
+            <td><button  (click)="deleteUserById(student)" class="btn"><i class="fa fa-trash"></i></button></td>
+
+          </tr>    
+          
+        </tbody>
+    </table>          
+</div><br><br>
+
