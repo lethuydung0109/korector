@@ -1,0 +1,37 @@
+<td><button class="btnStats" routerLink="/addTeacher"><a > Ajouter prof</a></button></td>
+
+
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Github</th>
+            <th scope="col">Email</th>
+
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+
+          </tr>
+        </thead>
+        <tbody  *ngFor="let prof of profs">
+            <tr  > 
+            <td>{{ prof.username }}</td>
+            <td>{{ prof.id }}</td>
+
+            <td>{{ prof.username }}</td>
+            <td>{{ prof.github }}</td>
+            <td>{{ prof.email}}</td>
+
+
+            <td><button  class="btn"><a routerLink="/"> Update </a></button></td>
+         
+            <td><button  (click)="deleteUserById(prof)" class="btn"><i class="fa fa-trash"></i></button></td>
+
+          </tr>    
+          
+        </tbody>
+    </table>          
+</div><br><br>
+
