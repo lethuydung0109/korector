@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/api/project")
+@RequestMapping(value = "/api/ressource")
 public class ProjectController {
 
     final static Logger log = LoggerFactory.getLogger(ProjectController.class);

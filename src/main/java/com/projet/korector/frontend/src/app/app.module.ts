@@ -37,7 +37,12 @@ import {SectionComponent} from './section/section.component';
 import {SectionDetailComponent} from './section-details/section-detail.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [

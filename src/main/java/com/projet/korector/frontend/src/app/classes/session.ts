@@ -11,12 +11,12 @@ export class Session {
    // public criteria : Array<Criteria>
     
 
-    constructor(name : string, projects :Array<Project>)
+    constructor(name : string, date : Date)
     {
         this.id=null;
         this.name=name;
-        this.dateDepot=null;
-        this.projects=projects;
+        this.dateDepot=date;
+        this.projects=[];
         this.runs=[];
         //this.projects=projects;
        // this.criteria=[];

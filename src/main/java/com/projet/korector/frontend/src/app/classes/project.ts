@@ -1,3 +1,5 @@
+import { Session } from './session';
+
 export class Project {
   id: number;
   name: string;
@@ -5,10 +7,16 @@ export class Project {
   url: string;
   note: number;
   dateDepot: string;
-  session: Session;
+  session: Array<Session>;
 
   constructor(name: string) {
     this.name = name;
+    this.id = null;
+    this.descripion="";
+    this.url="";
+    this.note=0;
+    this.dateDepot=null;
+    this.session=[];
   }
 
 

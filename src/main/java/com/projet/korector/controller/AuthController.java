@@ -46,7 +46,6 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    //@GetMapping("/all")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 

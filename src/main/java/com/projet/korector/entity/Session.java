@@ -35,11 +35,12 @@ public class Session implements Serializable {
         this.date_depot=null;
     }
 
-    public Session(String n, Set<Project> projects) {
+    public Session(String n, Date date) {
         this.name = n;
-        this.projects= projects;
+        //this.projects= projects;
+        this.projects= new HashSet<>();
         this.runs = new HashSet<>();
-        this.date_depot=null;
+        this.date_depot=date;
     }
 
     public Long getId() {

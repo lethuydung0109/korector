@@ -3,19 +3,12 @@ import {Project} from '../classes/project';
 import {Criteria} from '../classes/criteria';
 import {Session} from '../classes/session';
 import {SessionService} from '../services/session.service';
-import { Component, OnInit } from '@angular/core';
-import { Project } from '../classes/project';
-import { Criteria } from '../classes/criteria';
-import { Session } from '../classes/session';
-import { SessionService } from '../services/session.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
-
-
-
+import { ProjectService } from '../_services/project.service';
 
 @Component({
   selector: 'app-create-session',
@@ -24,22 +17,22 @@ import {MatCardModule} from '@angular/material/card';
 })
 export class CreateSessionComponent implements OnInit {
 
-  public projects : Array<Project> =[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
+  public projects : Array<Project>=[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
   public criterias : Array<Criteria> =[new Criteria("c1"), new Criteria("c2"), new Criteria("c3"), new Criteria("c4")];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
   public typeSession : string;
 
-  constructor(private sessionService : SessionService) {
+  constructor(private sessionService : SessionService, private projectService : ProjectService) {
     this.typeSession='normal';
   }
 
   ngOnInit(): void {
 
     // let listProjects: Array<Project>;
-    // this.projectService().getAllProjects().subscribe(data => {
-    //   data.forEach(s => {
-    //     listProjects.push(s);
+    // this.projectService.getProjectList().subscribe(data => {
+    //   data.forEach(p => {
+    //     listProjects.push(p);
     //   })
     // });
     // this.projects=listProjects;
@@ -64,7 +57,9 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession(): void{
     let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
-    let createSession = new Session(nameSession, this.selectedProjects);
+    let date : Date = new Date(document.getElementsByName("date")[0]["value"]);
+    console.log("date",document.getElementsByName("date")[0]["value"])
+    let createSession = new Session(nameSession, date);
     //createSession.projects=this.selectedProjects;
     //createSession.criteria=this.selectedCriteria;
 
