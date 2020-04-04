@@ -63,10 +63,14 @@ export class CreateSessionComponent implements OnInit {
     //createSession.projects=this.selectedProjects;
     //createSession.criteria=this.selectedCriteria;
 
-    this.sessionService.createSession(createSession).subscribe(data =>
-      console.log("data", data)
-    );
-  }
+    this.sessionService.createSession(createSession).subscribe(
+      data =>{
+      alert("Session created successfully. see your list of sessions in tab Session");
+      console.log("data", data);
+
+    });
+
+      }
 
   public retrieveProjectToselected(project : Project) : void
   {
