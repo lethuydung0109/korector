@@ -14,9 +14,15 @@
 	<name>korector</name>
 	<description>Une application de correction automatique de projet via sonarqube</description>
 
+<<<<<<< HEAD
     <properties>
         <java.version>11</java.version>
     </properties>
+=======
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+>>>>>>> e42a773fec6370ab1bda31504524a9ded579f6bb
 
 	<dependencies>
         <!-- jpa, crud repository -->
