@@ -10,6 +10,10 @@ import {ProfileComponent} from './profile/profile.component';
 import {BoardUserComponent} from './board-user/board-user.component';
 import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
 import {BoardAdminComponent} from './board-admin/board-admin.component';
+import {CriteriaListComponent} from "./criteria-list/criteria-list.component";
+import {CreateCriteriaComponent} from "./create-criteria/create-criteria.component";
+import {SearchCriteriaComponent} from "./search-criteria/search-criteria.component";
+
 //{ Awa part }
 import {StatsComponent} from './stats/stats.component';
 import {AddStudentComponent} from './add-student/add-student.component';
@@ -55,6 +59,10 @@ const routes: Routes = [
   { path: 'studentStats', component: StudentStatsComponent },
   { path: 'profsStats', component: ProfsStatsComponent},
   { path: 'classesStats', component: ClassesStatsComponent },
+  {path: 'criteria', component: CriteriaListComponent},
+  {path: 'add', component: CreateCriteriaComponent},
+  {path: 'findCriteria', component: SearchCriteriaComponent},
+
 
 ];
 

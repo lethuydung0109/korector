@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -14,6 +14,7 @@ export class AppComponent {
   showAdminBoard = false;
   showModeratorBoard = false;
   username: string;
+  title = 'korector-client';
 
   constructor(private tokenStorageService: TokenStorageService) { }
 
