@@ -1,5 +1,6 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.entity.Session;
 import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
@@ -8,6 +9,7 @@ import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.payload.response.StatistiqueResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
+import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,12 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.modelmapper.ModelMapper;
 
+
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 
@@ -42,6 +51,8 @@ public class UserController {
 
     @Autowired
     PasswordEncoder encoder;
+    private AuthenticationManager authenticationManager;
+
     /**
      * Ajoute un nouveau utilisateur dans la base de donnée. Si le client existe déjà, on retourne un code indiquant que la création n'a pas abouti.
      * @param userDTORequest
@@ -138,6 +149,19 @@ public class UserController {
 
     public Optional<User> findByUsername(String username) {
         return service.findByUsername(username);
+
+    }
+
+    @GetMapping("/sessions")
+    public ResponseEntity<Set<Session>> getSessions() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        User currentUser = findById(userDetails.getId());
+        Set<Session> sessions = currentUser.getSessions();
+
+        return new ResponseEntity<Set<Session>>(sessions, HttpStatus.OK);
 
     }
 
