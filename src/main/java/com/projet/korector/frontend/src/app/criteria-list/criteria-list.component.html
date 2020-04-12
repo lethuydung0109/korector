@@ -1,0 +1,33 @@
+
+<h1>Criteria List</h1>
+<div class="criteriaListButton">
+  <button routerLink="/addCriteria" class="btn1">Add New Criteria</button>
+  <button routerLink="/findCriteria" class="btn2">Search Criteria</button><br>
+</div>
+<div class="row">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Type</th>
+      <th scope="col">Value</th>
+      <th scope="col">URL</th>
+      <th scope="col">Show Details</th>
+      <th scope="col">Delete</th>
+      <th scope="col">Update</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let criteria of criteriaList | async">
+    <tr>
+      <th scope="row">{{criteria.id}}</th>
+      <td>{{criteria.name}}</td>
+      <td>{{criteria.type}}</td>
+      <td>{{criteria.value}}</td>
+      <td>{{criteria.url}}</td>
+      <td><button (click)="criteriaDetails(criteria.id)" class="btn btn-info "><i class="fa fa-eye"></i></button></td>
+      <td><button (click)="deleteCriteria(criteria.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+      <td><button (click)="updateCriteria(criteria.id)" class="btn btn-info" style="margin-left: 10px"><i class="fa fa-edit"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

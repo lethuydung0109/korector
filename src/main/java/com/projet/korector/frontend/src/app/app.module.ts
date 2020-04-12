@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
 import { NavComponent } from './nav/nav.component';
@@ -30,19 +32,28 @@ import {BoardAdminComponent} from './board-admin/board-admin.component';
 import {BoardUserComponent} from './board-user/board-user.component';
 import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
 import {ProfileComponent} from './profile/profile.component';
-import {authInterceptorProviders} from './_helpers/auth.interceptor';
-import {FormsModule} from '@angular/forms';
 import {ProjectComponent} from './project/project.component';
 import {SectionComponent} from './section/section.component';
 import {SectionDetailComponent} from './section-details/section-detail.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
+import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { CreateCriteriaComponent } from './create-criteria/create-criteria.component';
+import { SearchCriteriaComponent } from './search-criteria/search-criteria.component';
+import { CriteriaListComponent } from './criteria-list/criteria-list.component';
+import { CriteriaDetailsComponent } from './criteria-details/criteria-details.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { CreateCriteriaGroupComponent } from './create-criteria-group/create-criteria-group.component';
+import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
+import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
+import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+
+
 
 @NgModule({
   declarations: [
@@ -70,12 +81,18 @@ import { MatInputModule } from '@angular/material/input';
     SectionComponent,
     SectionDetailComponent,
     CreateProjetComponent,
-    ProjetDetailComponent
+    ProjetDetailComponent,
+    CreateCriteriaComponent,
+    SearchCriteriaComponent,
+    CriteriaListComponent,
+    CriteriaDetailsComponent,
+    CreateCriteriaGroupComponent,
+    CriteriaGroupDetailsComponent,
+    CriteriaGroupListComponent,
+    UpdateCriteriaGroupComponent
+
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -92,7 +109,9 @@ import { MatInputModule } from '@angular/material/input';
   providers: [
     authInterceptorProviders,
     MatDatepickerModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

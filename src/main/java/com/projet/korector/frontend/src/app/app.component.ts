@@ -8,7 +8,7 @@ import { TokenStorageService } from './_services/token-storage.service';
 })
 export class AppComponent {
   title = 'korector';
-  // login - logout 
+  // login - logout
   private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;

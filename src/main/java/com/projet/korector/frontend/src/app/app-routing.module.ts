@@ -10,6 +10,10 @@ import {ProfileComponent} from './profile/profile.component';
 import {BoardUserComponent} from './board-user/board-user.component';
 import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
 import {BoardAdminComponent} from './board-admin/board-admin.component';
+import {CriteriaListComponent} from "./criteria-list/criteria-list.component";
+import {CreateCriteriaComponent} from "./create-criteria/create-criteria.component";
+import {SearchCriteriaComponent} from "./search-criteria/search-criteria.component";
+
 //{ Awa part }
 import {StatsComponent} from './stats/stats.component';
 import {AddStudentComponent} from './add-student/add-student.component';
@@ -22,12 +26,12 @@ import {ProjetDetailComponent} from './projet-details/projet-detail.component';
 import {SectionDetailComponent} from './section-details/section-detail.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {CreateSectionComponent} from './createSection/createSection.component';
+import {SectionComponent} from "./section/section.component";
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  //{ path: 'about', component: AboutComponent },
   { path: 'session', component: SessionComponent },
   { path: 'session-detail/:id', component: SessionDetailComponent },
   { path: 'createSession', component: CreateSessionComponent },
@@ -40,7 +44,7 @@ const routes: Routes = [
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'projet', component: ProjectComponent },
-  { path: 'section', component: ProjectComponent },
+  { path: 'section', component: SectionComponent },
   { path: 'section-detail/id', component: SectionDetailComponent },
   { path: 'projet-detail/:id', component: ProjetDetailComponent },
   { path: 'createProjet', component: CreateProjetComponent },
@@ -55,6 +59,10 @@ const routes: Routes = [
   { path: 'studentStats', component: StudentStatsComponent },
   { path: 'profsStats', component: ProfsStatsComponent},
   { path: 'classesStats', component: ClassesStatsComponent },
+  {path: 'criteria', component: CriteriaListComponent},
+  {path: 'addCriteria', component: CreateCriteriaComponent},
+  {path: 'findCriteria', component: SearchCriteriaComponent},
+
 
 ];
 
