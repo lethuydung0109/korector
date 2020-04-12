@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Criteria} from "../model/criteria";
+import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service";
 import {CriteriaListComponent} from "../criteria-list/criteria-list.component";
 
@@ -15,14 +15,6 @@ export class CriteriaDetailsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  public  deleteCriteria() {
-    this.criteriaService.deleteCriteria(this.criteria.id).subscribe(
-      data=> {
-        console.log(data);
-        this.listComponent.reloadData();
-      },
-      error => console.log(error)
-    );
-  }
+
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Criteria} from "../model/criteria";
+import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service"
 
 @Component({
@@ -30,5 +30,15 @@ export class CreateCriteriaComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.save();
+  }
+
+  changeCriteriaType(type: string) {
+    this.criteria.type= type;
+
+  }
+  verifyInput(type: string, url: string) {
+    if(type != "Dynamique") {
+      (document.getElementById(url) as HTMLInputElement).disabled = false;
+    }
   }
 }

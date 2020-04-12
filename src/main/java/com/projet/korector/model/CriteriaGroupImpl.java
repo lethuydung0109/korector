@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaGroupImpl {
+    private Long id ;
     private String name;
-    private List<CriteriaImpl> Criteria;
+    private List<CriteriaImpl> criteria;
 
-    public CriteriaGroupImpl(Long idGroup, String name) {
+    public Long getId() {
+        return id;
+    }
+
+    public CriteriaGroupImpl (Long id, String name) {
+        this.id=id;
         this.name = name;
-        Criteria = new ArrayList<CriteriaImpl>();
+        criteria = new ArrayList<CriteriaImpl>();
     }
 
     public String getName() {
@@ -24,6 +30,9 @@ public class CriteriaGroupImpl {
     public String toString() {
         final StringBuilder sb = new StringBuilder("CriteriaGroup{");
         sb.append(", name='").append(name).append('\'');
+        for ( CriteriaImpl c: criteria ) {
+            c.toString();
+        }
         sb.append('}');
         return sb.toString();
     }

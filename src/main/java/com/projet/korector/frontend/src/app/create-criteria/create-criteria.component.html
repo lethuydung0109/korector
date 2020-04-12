@@ -1,5 +1,5 @@
-<h3>Create Criteria</h3>
-<div [hidden]="submitted" style="width: 300px;">
+<h1>Create Criteria</h1>
+<div [hidden]="submitted" style="width: 300px;" class="createCriteria">
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Name</label>
@@ -8,11 +8,18 @@
 
     <div class="form-group">
       <label for="type">Type</label>
-      <input type="text" class="form-control" id="type" required [(ngModel)]="criteria.type" name="type">
+        <select id="type" class="form-control" onChange="verifyInput('Dynamique', 'url')">
+          <option  (click)="changeCriteriaType('Statique')" value="Statique">Statique</option>
+          <option (click)="changeCriteriaType('Dynamique')" value="Dynamique">Dynamique</option>
+        </select>
+    </div>
+    <div class="form-group">
+      <label for="value">Value</label>
+      <input type="text" class="form-control" id="value" required [(ngModel)]="criteria.value" name="type">
     </div>
     <div class="form-group">
       <label for="url">URL</label>
-      <input type="text" class="form-control" id="url" required [(ngModel)]="criteria.url" name="type">
+      <input type="text" class="form-control" id="url" disabled="true" required [(ngModel)]="criteria.url" name="url" >
     </div>
 
     <button type="submit" class="btn btn-success">Submit</button>

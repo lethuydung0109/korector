@@ -1,9 +1,9 @@
-<h3>Find Criteria</h3>
-<div style="width: 300px;">
+<h1>Find Criteria</h1>
+<div style="width: 300px;" class="searchCriteria">
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="id">Id</label>
-      <input type="text" class="form-control" id="id" required [(ngModel)]="id" name="id">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" required [(ngModel)]=criteria.name name="name">
     </div>
 
     <div class="btn-group">
@@ -13,6 +13,6 @@
 </div>
 <ul>
   <li *ngFor="let criteria of criteria">
-    <h4>{{criteria.id}} - {{criteria.name}} {{criteria.type}}</h4>
+    <h4>{{criteria.name}} {{criteria.type}}</h4>
   </li>
 </ul>

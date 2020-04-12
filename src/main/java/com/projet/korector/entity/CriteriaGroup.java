@@ -1,14 +1,17 @@
 package com.projet.korector.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class CriteriaGroup {
+public class CriteriaGroup  implements Serializable {
     private static final long serialVersionUID = -2054386655979281969L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idGroup;
+
+    @Column(name ="name")
     private String name;
 
     public CriteriaGroup(Long idGroup, String name) {

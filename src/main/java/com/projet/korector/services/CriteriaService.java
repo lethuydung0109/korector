@@ -23,7 +23,7 @@ public class CriteriaService {
 
     public Criteria createCriteria(CriteriaImpl criteriaImp)
     {
-        Criteria criteria = criteriaRepository.save(new Criteria(criteriaImp.getName(),criteriaImp.getType(),criteriaImp.getType().equals("Statique")?((StaticCriteriaImpl)criteriaImp).getUrl(): "null"));
+        Criteria criteria = criteriaRepository.save(new Criteria(criteriaImp.getName(),criteriaImp.getType(),criteriaImp.getType().equals("Statique")?((StaticCriteriaImpl)criteriaImp).getUrl(): "null",criteriaImp.getValue()));
         System.out.println("L'ajout du critere "+criteria.getName()+"à été effectué avec succès!");
         return criteria;
     }
@@ -43,7 +43,6 @@ public class CriteriaService {
             System.out.println("Erreur lors de la mise à jours du critère !");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
     public List<Criteria> getAllCriteria()
     {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Criteria} from "../model/criteria";
+import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service";
 
 @Component({
@@ -20,5 +20,23 @@ export class CriteriaListComponent implements OnInit {
   }
   public reloadData() {
     this.criteriaList = this.criteriaService.getCriteriaList();
+  }
+
+  criteriaDetails(id: number) {
+
+  }
+
+  deleteCriteria(id: number) {
+    this.criteriaService.deleteCriteria(id).subscribe(
+      data=> {
+        console.log(data);
+        this.reloadData();
+      },
+      error => console.log(error)
+    );
+  }
+
+  updateCriteria(id: number) {
+
   }
 }

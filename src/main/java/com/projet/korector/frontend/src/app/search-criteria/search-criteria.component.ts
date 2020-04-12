@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Criteria} from "../model/criteria";
+import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service";
 
 @Component({

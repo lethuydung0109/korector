@@ -48,6 +48,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { CreateCriteriaGroupComponent } from './create-criteria-group/create-criteria-group.component';
+import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
+import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
+import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+
 
 
 @NgModule({
@@ -80,7 +85,11 @@ import { MatInputModule } from '@angular/material/input';
     CreateCriteriaComponent,
     SearchCriteriaComponent,
     CriteriaListComponent,
-    CriteriaDetailsComponent
+    CriteriaDetailsComponent,
+    CreateCriteriaGroupComponent,
+    CriteriaGroupDetailsComponent,
+    CriteriaGroupListComponent,
+    UpdateCriteriaGroupComponent
 
   ],
   imports: [
