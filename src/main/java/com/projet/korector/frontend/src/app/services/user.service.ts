@@ -36,7 +36,7 @@ export class UserService {
      console.log("User dans sservice " +  JSON.stringify(user) );
      
     
-        return this.http.post<User>( API_URL + 'saveUser', {
+        return this.http.post<User>( API_URL + 'saveTeacher', {
           username: user.username,
           password: user.password,
           email : user.email,

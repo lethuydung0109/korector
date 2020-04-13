@@ -60,31 +60,32 @@ public class UserController {
      */
 
    // @GetMapping("/all")
-    @PostMapping("/saveUser")
+    @PostMapping("/saveTeacher")
     @ApiOperation(value = "Add a new Customer in the Library", response = UserDTO.class)
     @ApiResponses(value = { @ApiResponse(code = 409, message = "Conflict: the user already exist"),
             @ApiResponse(code = 201, message = "Created: the user is successfully inserted"),
             @ApiResponse(code = 304, message = "Not Modified: the customer is unsuccessfully inserted") })
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTORequest) {
-        //, UriComponentsBuilder uriComponentBuilder
-        User existingCustomer = service.findUserByEmail(userDTORequest.getEmail());
-        if (existingCustomer != null) {
-            return new ResponseEntity<UserDTO>(HttpStatus.CONFLICT);
+    public ResponseEntity<?> saveTeacher(@RequestBody User userDTORequest) {
+       if (userRepository.existsByUsername(userDTORequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
-        User userRequest = mapUserDTOToUser(userDTORequest);
 
-        // Create new user's account
-        User user = new User(userRequest.getUsername(),
-                userDTORequest.getEmail(),
-                encoder.encode(userRequest.getPassword()),userRequest.getGithubAccount());
-
-        User userResponse = service.saveUser(userRequest);
-        if (userResponse != null) {
-            UserDTO UserDTO = mapUserToUserDTO(userResponse);
-            return new ResponseEntity<UserDTO>(UserDTO, HttpStatus.CREATED);
-
+        if (userRepository.existsByEmail(userDTORequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
         }
-        return new ResponseEntity<UserDTO>(HttpStatus.NOT_MODIFIED);
+
+        Set<Role> roles = new HashSet<>();
+        Role enseignantRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(enseignantRole);
+        userDTORequest.setRoles(roles);
+        service.saveUser(userDTORequest);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
 
     }
 

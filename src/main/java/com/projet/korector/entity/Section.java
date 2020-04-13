@@ -19,6 +19,7 @@ public class Section implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
     @ManyToMany(mappedBy = "sections")
     private List<User> teachers;
     private List<User> students;
