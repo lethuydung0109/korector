@@ -15,9 +15,10 @@ export class Project {
     this.descripion="";
     this.url="";
     this.note=0;
-    this.dateDepot=null;
+    this.dateDepot="";
     this.session=[];
   }
+
 
 
 }
