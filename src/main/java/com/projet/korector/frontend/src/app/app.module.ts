@@ -7,6 +7,7 @@ import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
 
 
+
 import {NoPageFoundComponent} from './no-page-found/no-page-found.component';
 import {SessionDetailComponent} from './session-detail/session-detail.component';
 import {HomeComponent} from './home/home.component';
@@ -43,6 +44,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import {CreateSectionComponent} from './createSection/createSection.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { MatInputModule } from '@angular/material/input';
     SectionComponent,
     SectionDetailComponent,
     CreateProjetComponent,
-    ProjetDetailComponent
+    ProjetDetailComponent,
+    CreateSectionComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,7 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule
   ],
   bootstrap: [AppComponent],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AppModule { }

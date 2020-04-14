@@ -1,6 +1,4 @@
 package com.projet.korector.controller;
-
-import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Section;
 import com.projet.korector.services.SectionService;
 import org.slf4j.Logger;
@@ -8,12 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 @RequestMapping(value = "/api/ressource")
 public class SectionController {
 
@@ -22,15 +18,25 @@ public class SectionController {
     @Autowired
     private SectionService service;
 
-    @RequestMapping(value = "/createSection", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Section createSection(@Valid @RequestBody Section section) {
-        return service.createSection(section);
+    @PostMapping(value = "/createSection" )
+    public String createSection(@RequestBody Section section) {
+        System.out.println("Création de la section"+ section.toString());
+        String response;
+        if(service.existByName(section.getName())){
+            response = "This section name already exist ";
+        }
+        else{
+            service.createSection(section);
+            response = "The section is created successfully";
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/allSections", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Project> getAllSections() { return service.getAllSections(); }
+    public List<Section> getAllSections() { return service.getAllSections(); }
 
-    @RequestMapping(value = "/deleteSection/{sectionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/deleteSection/{sectionId}")
     public void deleteSection(@PathVariable Long sectionId)
     {
         service.deleteSection(sectionId);

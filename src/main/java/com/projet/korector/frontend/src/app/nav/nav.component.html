@@ -10,7 +10,7 @@
           <a class="nav-link" routerLinkActive="active" routerLink="/session" *ngIf="isLoggedIn">Session</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn">Projets</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn">Projects</a>
         </li>
         <li class="nav-item" *ngIf="showAdminBoard">
           <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
@@ -23,9 +23,12 @@
         </li>
 
 
-    
+
         <li class="nav-item">
           <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/section" >Sections</a>
         </li>
 
         <!-- Right nav items  -->
