@@ -12,7 +12,7 @@ export class CreateSectionComponent implements OnInit {
 
   section: Section = new Section();
   submitted = false;
-  //liste: ["etudiant1", "etudiant2", "etudiant3" ];
+  liste: ["etudiant1", "etudiant2", "etudiant3" ];
 
   constructor(private sectionService: SectionService,
               private router: Router) { }
@@ -21,7 +21,7 @@ export class CreateSectionComponent implements OnInit {
   }
 
   save() {
-    //this.section.students = this.liste;
+    this.section.students = this.liste;
     this.sectionService.createSection(this.section)
       .subscribe(data => console.log(data), error => console.log(error));
     this.section = new Section();

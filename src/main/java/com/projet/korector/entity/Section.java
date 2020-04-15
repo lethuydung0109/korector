@@ -1,20 +1,16 @@
 package com.projet.korector.entity;
 
-import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "section", uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
 })
-
 public class Section implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
@@ -24,10 +20,8 @@ public class Section implements Serializable {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "sections" ,fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
-
-   private List<User> teachers;
+    @ManyToMany(mappedBy = "sections")
+    private List<User> teachers;
     private List<User> students;
 
     public Section(){
@@ -36,8 +30,8 @@ public class Section implements Serializable {
     public Section(String name) {
 
         this.name = name;
-      //  teachers = new ArrayList<User>();
-      //  students = new ArrayList<User>();
+        teachers = new ArrayList<User>();
+        students = new ArrayList<User>();
 
     }
 

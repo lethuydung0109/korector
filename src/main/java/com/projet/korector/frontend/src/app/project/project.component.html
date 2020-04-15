@@ -1,4 +1,4 @@
-<h3>Liste des projets</h3>
+<h3>Projets List</h3>
 <div class="container-fluid">
   <br>
   <div class="row">
@@ -6,25 +6,29 @@
       <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Nom</th>
+        <th scope="col">Name</th>
         <th scope="col">Note</th>
-        <th scope="col">Afficher</th>
-        <th scope="col">Supprimer</th>
-        <th scope="col">Modifier</th>
+        <th scope="col">Show</th>
+        <th scope="col">Test</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
       </tr>
       </thead>
       <tbody *ngFor="let projet of projets | async">
       <tr>
         <th scope="row">{{projet.id}}</th>
         <td>{{projet.name}}</td>
-        <td>{{projet.descripion}}</td>
+        <td>{{projet.note}}</td>
         <td><button (click)="projetDetails(projet.id)" class="btn btn-info "><i class="fa fa-eye"></i></button></td>
-        <td><button (click)="deleteProject(projet.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+        <td><button (click)="projetDetails(projet.id)" class="btn btn-light "><i class="fa fa-terminal"></i></button></td>
         <td><button (click)="updateProject(projet.id)" class="btn btn-info" style="margin-left: 10px"><i class="fa fa-edit"></i></button></td>
+        <td><button (click)="deleteProject(projet.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
       </tr>
       </tbody>
     </table>
   </div>
 
-
+</div>
+<div class="align-content-lg-around" *ngIf="empty">
+  <p>No result </p>
 </div>

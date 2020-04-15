@@ -1,9 +1,10 @@
 import { Session } from './session';
 
 export class Project {
+
   id: number;
   name: string;
-  descripion: string;
+  description: string;
   url: string;
   note: number;
   dateDepot: string;
@@ -12,11 +13,11 @@ export class Project {
   constructor(name: string) {
     this.name = name;
     this.id = null;
-    this.descripion="";
-    this.url="";
-    this.note=0;
-    this.dateDepot="";
-    this.session=[];
+    this.description= '';
+    this.url= "";
+    this.note= 0;
+    this.dateDepot= null;
+    this.session= [];
   }
 
 

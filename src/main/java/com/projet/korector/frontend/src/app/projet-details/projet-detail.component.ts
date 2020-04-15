@@ -20,10 +20,9 @@ export class ProjetDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.projet = new Project('p');
+
     this.projetService.getProjectById(this.projectId)
       .subscribe(data => {
-        console.log(data)
         this.projet = data;
       }, error => console.log(error));
   }
