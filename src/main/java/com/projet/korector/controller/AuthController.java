@@ -91,6 +91,7 @@ public class AuthController {
 
         if (strRoles == null) {
             Role etudiantRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
+
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(etudiantRole);
         } else {
