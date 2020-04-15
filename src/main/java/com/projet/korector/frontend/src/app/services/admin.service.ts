@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { User } from '../classes/user';
+import { Section} from '../classes/section';
 
 const API_URL = 'http://localhost:8080/api/';
 const httpOptions = {
@@ -29,6 +30,10 @@ user : User ;
   }
   findAllProf() : Observable <User[]> {
     return this.http.get<User[]>(API_URL  + 'user/findAllProf',httpOptions);
+  
+  }
+  getAllSections(): Observable <Section[]> {
+    return this.http.get<Section[]>(API_URL  + 'ressource/allSections',httpOptions);
   
   }
 

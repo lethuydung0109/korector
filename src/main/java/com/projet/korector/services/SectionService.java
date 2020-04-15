@@ -17,7 +17,10 @@ public class SectionService {
         return null;
     }
 
-    public List<Project> getAllSections() { return repository.findAll(); }
+    public List<Section> getAllSections() { return repository.findAll(); }
+
+   // public List<Section> getAllClasses() { return repository.findAll(); }
+
 
     public void deleteSection(Long sectionId) {
         repository.deleteById(sectionId);

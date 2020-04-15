@@ -48,7 +48,18 @@ Github is required
       </div>
     </div>
 
-      
+    <div class="form-group">
+
+    <div class="row">
+      <select [(ngModel)]="sections.name">
+        <option *ngFor="let section of sections" >
+          {{section.name}}
+        </option>
+    </select>
+ 
+   </div>
+      </div>
+    
 
       <div>
    <button [value]="actionButton" (click)= "createStudent()"   [disabled]="!teacherForm.form.valid" type="submit" class="btn btn-success">Submit</button>
@@ -76,11 +87,6 @@ Github is required
       <div class="col-xs-9">{{ model.githubAccount }}</div>
     </div>
 
-
-    <div class="row">
-      <div class="col-xs-3">Classe </div>
-      <div class="col-xs-9"></div>
-    </div>
 
 
     <br>
