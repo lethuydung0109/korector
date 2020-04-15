@@ -10,6 +10,8 @@ import {ProfileComponent} from './profile/profile.component';
 import {BoardUserComponent} from './board-user/board-user.component';
 import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
 import {BoardAdminComponent} from './board-admin/board-admin.component';
+
+
 import {CriteriaListComponent} from "./criteria-list/criteria-list.component";
 import {CreateCriteriaComponent} from "./create-criteria/create-criteria.component";
 import {SearchCriteriaComponent} from "./search-criteria/search-criteria.component";
@@ -26,7 +28,7 @@ import {ProjetDetailComponent} from './projet-details/projet-detail.component';
 import {SectionDetailComponent} from './section-details/section-detail.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {CreateSectionComponent} from './createSection/createSection.component';
-import {SectionComponent} from "./section/section.component";
+import {SectionComponent} from './section/section.component';
 
 
 const routes: Routes = [
@@ -35,8 +37,6 @@ const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'session-detail/:id', component: SessionDetailComponent },
   { path: 'createSession', component: CreateSessionComponent },
-  //{ path: '**', component: NoPageFoundComponent }
-  // Dung's login part
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
@@ -45,13 +45,13 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'projet', component: ProjectComponent },
   { path: 'section', component: SectionComponent },
-  { path: 'section-detail/id', component: SectionDetailComponent },
+
+  { path: 'section-detail/:id', component: SectionDetailComponent },
   { path: 'projet-detail/:id', component: ProjetDetailComponent },
   { path: 'createProjet', component: CreateProjetComponent },
   { path: 'createSection', component: CreateSectionComponent },
   //
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  //{ Awa part}
   { path: 'add', component: StatsComponent },
   { path: 'addStudent', component: AddStudentComponent },
   { path: 'addTeacher', component: AddTeacherComponent },

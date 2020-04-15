@@ -25,8 +25,9 @@ export class CreateSessionComponent implements OnInit {
   public selectedCriteria : Array<Criteria> = [];
   public typeSession : string;
 
+
   constructor(private sessionService : SessionService, private projectService : ProjectService) {
-    this.typeSession='normal';
+    this.typeSession = 'normal';
   }
 
   ngOnInit(): void {
@@ -45,15 +46,15 @@ export class CreateSessionComponent implements OnInit {
   public addProjetToSelectedProject(p : Project) : void{
 
     if(!this.selectedProjects.includes(p)) this.selectedProjects.push(p);
-    else console.log("déjà sélectionné");
+    else console.log('déjà sélectionné');
   }
 
   public addCriteriaToSelectedCriteria(c : Criteria) : void{
     if(!this.selectedCriteria.includes(c)) this.selectedCriteria.push(c);
-    else console.log("déjà sélectionné");
+    else console.log('déjà sélectionné');
   }
 
-  public changeSessionType(type : string) : void
+  public changeSessionType(type: string): void
   {
     this.typeSession=type;
   }
@@ -63,6 +64,7 @@ export class CreateSessionComponent implements OnInit {
     let dateDepot :string = document.getElementsByName("date")[0]["value"];
     let createSession = new Session(nameSession, dateDepot);
     createSession.projects=this.selectedProjects;
+
     //createSession.criteria=this.selectedCriteria;
 
     this.sessionService.createSession(createSession).subscribe(

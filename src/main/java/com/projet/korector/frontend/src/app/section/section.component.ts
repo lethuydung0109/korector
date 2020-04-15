@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Section} from '../classes/section';
 import {SectionService} from '../_services/section.service';
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -27,20 +27,20 @@ export class SectionComponent implements OnInit {
   }
 
   deleteSection(id: number) {
-    this.sectionService.deleteSection(id)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.reloadData();
-        },
-        error => console.log(error));
+    this.sectionService.deleteSection(id).subscribe(
+      data => {
+        console.log(data);
+        this.reloadData();
+      },
+      error => console.log(error));
+    this.reloadData();
   }
 
-  sectionDetails(id: number){
+  sectionDetails(id: number) {
     this.router.navigate(['section-detail', id]);
   }
 
-  updateSection(id: number){
-    //this.router.navigate(['update', id]);
+  updateSection(id: number) {
+    this.router.navigate(['updateSection', id]);
   }
 }

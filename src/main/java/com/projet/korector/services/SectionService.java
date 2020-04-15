@@ -13,11 +13,11 @@ public class SectionService {
     @Autowired
     private SectionRepository repository;
 
-    public Section createSection(Section section) {
-        return null;
+    public void createSection(Section section) {
+        repository.save(section);
     }
 
-    public List<Project> getAllSections() { return repository.findAll(); }
+    public List<Section> getAllSections() { return repository.findAll(); }
 
     public void deleteSection(Long sectionId) {
         repository.deleteById(sectionId);
@@ -31,4 +31,7 @@ public class SectionService {
         return repository.findSectionById(id);
     }
 
+    public boolean existByName(String name) {
+        return repository.existsByName(name);
+    }
 }

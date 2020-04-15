@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "section", uniqueConstraints = {
@@ -19,20 +20,19 @@ public class Section implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private int startYear;
+    private int endYear;
 
-    @ManyToMany(mappedBy = "sections")
-    private List<User> teachers;
-    private List<User> students;
+
+
 
     public Section(){
 
     }
-    public Section(String name) {
-
+    public Section(String name, int start, int end) {
         this.name = name;
-        teachers = new ArrayList<User>();
-        students = new ArrayList<User>();
-
+        this.startYear = start;
+        this.endYear = end;
     }
 
     @Id
@@ -54,10 +54,45 @@ public class Section implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Section{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Section{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startYear=" + startYear +
+                ", endYear=" + endYear +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Section)) return false;
+        Section section = (Section) o;
+        return getStartYear() == section.getStartYear() &&
+                getEndYear() == section.getEndYear() &&
+                Objects.equals(getId(), section.getId()) &&
+                Objects.equals(getName(), section.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
+    }
+
+    @Column(name = "startYear", nullable = false)
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    @Column(name = "endYear", nullable = false)
+    public int getEndYear() {
+        return endYear;
+    }
+
+    public void setEndYear(int endYear) {
+        this.endYear = endYear;
     }
 }

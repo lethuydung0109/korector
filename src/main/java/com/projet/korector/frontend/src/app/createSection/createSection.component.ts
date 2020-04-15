@@ -1,18 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {SectionService} from "../_services/section.service";
-import {Router} from "@angular/router";
-import {Section} from "../classes/section";
+import {SectionService} from '../_services/section.service';
+import {Router} from '@angular/router';
+import {Section} from '../classes/section';
+import {NgForm} from '@angular/forms';
+
 
 @Component({
   selector: 'app-createSection',
-  templateUrl: './createSectioncomponent.html',
+  templateUrl: './createSection.Component.html',
   styleUrls: ['./createSection.component.scss']
 })
-export class CreateSectionComponent implements OnInit {
 
-  section: Section = new Section();
+export class CreateSectionComponent  implements OnInit {
+  private section: Section;
   submitted = false;
-  liste: ["etudiant1", "etudiant2", "etudiant3" ];
+  result: any;
+  years = [2019, 2020, 2021, 2022, 2023, 2024 ];
+  year2: any;
 
   constructor(private sectionService: SectionService,
               private router: Router) { }
@@ -20,22 +24,27 @@ export class CreateSectionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  save() {
-    this.section.students = this.liste;
-    this.sectionService.createSection(this.section)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.section = new Section();
-    this.gotoList();
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    this.save();
-  }
-
   gotoList() {
     this.router.navigate(['/section']);
   }
 
+  resetForm(sectionForm: NgForm) {
+    sectionForm.resetForm();
+  }
 
+  onSubmit(sectionForm: NgForm) {
+    console.log(sectionForm.controls.year1.value);
+    console.log(sectionForm.controls.year2.value);
+    this.section = new Section(sectionForm.controls.name.value, sectionForm.controls.year1.value, sectionForm.controls.year2.value);
+    let resp = this.sectionService.createSection(this.section);
+    resp.subscribe((data) => this.result = data);
+    console.log('Résultat :', this.section);
+    this.submitted = true;
+  }
+
+  changeValue() {
+    let year2 = document.getElementById("year1")['value'];
+    // tslint:disable-next-line:radix
+    this.year2 = parseInt(year2)+1;
+  }
 }
