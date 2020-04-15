@@ -23,6 +23,12 @@ export class SessionService {
     return this.http.post<Session>(routeQuery,session);
   }
 
+  public getSessionById(sessionId : Number) : Observable<Session>
+  {
+    const routeQuery=this.url+"/sessionById/"+sessionId;
+    
+    return this.http.get<Session>(routeQuery);
+  }
   // by user
   public getAllSessions() : Observable<Array<Session>>
   {
@@ -55,11 +61,20 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  public deleteProjectFromSession (sessionId :Number): Observable<any>
+  
+
+  public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
   {
-    const routeQuery=this.url+"/deleteProjectFromSession/"+sessionId;
+    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
+    return this.http.put(routeQuery,project);
+  }
+
+  public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>
+  {
+    const routeQuery=this.url+"/deleteProjectFromSession/"+sessionId+"/"+projectId;
     return this.http.delete(routeQuery);
   }
+
 
   /**
    * Récupérer les sessions par user

@@ -16,7 +16,8 @@ export class SessionComponent implements OnInit {
   ngOnInit(): void {
     //affiche dans console le resultat de la requete
     let letSessions : Array<Session> =[];
-    this.sessionService.getAllSessions().subscribe(data => {
+    this.sessionService.getAllSessionsByUser().subscribe(data => {
+      console.log(data)
       data.forEach(s => {
         letSessions.push(s);
       })

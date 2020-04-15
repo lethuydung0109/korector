@@ -20,7 +20,6 @@ export class Session {
         this.runs=[];
         //this.projects=projects;
        // this.criteria=[];
-
     }
 
 }

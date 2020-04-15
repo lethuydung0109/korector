@@ -61,9 +61,14 @@ export class CreateSessionComponent implements OnInit {
   public createSession(): void{
     let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
     let dateDepot :string = document.getElementsByName("date")[0]["value"];
-    let createSession = new Session(nameSession, dateDepot);
+
+    //var someString: string = "your JSON String here";
+    let jsonDate : any = JSON.parse(dateDepot);
+
+    let createSession = new Session(nameSession, jsonDate);
     createSession.projects=this.selectedProjects;
     //createSession.criteria=this.selectedCriteria;
+    console.log("session à créer  : ", createSession);
 
     this.sessionService.createSession(createSession).subscribe(
       data =>{

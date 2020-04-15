@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row" text="align-center">
-    <h1>Session - {{sessionId}}</h1>
+    <h1>{{sessionName}}</h1>
   </div> <br>
 
   <!-- <div class="row">
@@ -21,8 +21,8 @@
           Session {{sessionId}}
         </div>
         <div class="card-body">
-          Nom session : {{sessionId}} <br>
-          Date depot : null <br>
+          Nom session : {{sessionName}} <br>
+          Date depot : {{sessionDateDepot}} <br>
           Critères Statiques : <br><br>
           <table class="table table-bordered table-sm">
             <thead>
@@ -47,22 +47,35 @@
     </div>
   </div> <br><br>
 
+  <div class="col-md-6">
+    <mat-form-field >
+      <mat-label>Ajouter un projet</mat-label>
+      <mat-select >
+        <mat-option *ngFor="let project of allProjects" [value]="project.name" (click)="addProjectToSession(project)">
+          {{project.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div><br><br>
+
   <div class="row">
     <table class="table table-hover">
       <thead>
       <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Projet</th>
+        <th scope="col">Nom Projet</th>
+        <th scope="col">Url</th>
         <th scope="col">Relancé</th>
-        <th scope="col">Supprimer</th>
+        <th scope="col">Supprimé</th>        
       </tr>
       </thead>
-      <tbody>
+      <tbody *ngFor="let project of sessionProjects">
       <tr>
-        <th scope="row">1</th>
-        <td>Projet test</td>
+        <td>{{project.name}}</td>
+        <td>{{project.url}}</td>
+        <!-- <td><input type="checkbox" id="" name="select"></td> -->
         <td><button class="btn"><a><i class="fa fa-refresh"></i></a></button></td>
-        <td><button class="btn"><i class="fa fa-trash"></i></button></td>
+        <td><button class="btn" (click)="deleteProjectFromSession(project)"><i class="fa fa-trash"></i></button></td>
+                
       </tr>
       </tbody>
     </table>
