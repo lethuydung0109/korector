@@ -17,11 +17,11 @@ import { ProjectService } from '../_services/project.service';
 })
 export class CreateSessionComponent implements OnInit {
 
-  public projects : Array<Project>=[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
-  public criterias : Array<Criteria> =[new Criteria("c1"), new Criteria("c2"), new Criteria("c3"), new Criteria("c4")];
-  public selectedProjects : Array<Project> = [];
-  public selectedCriteria : Array<Criteria> = [];
-  public typeSession : string;
+  public projects: Array<Project>=[new Project('p1'), new Project('p2'), new Project('p3'), new Project('p4')];
+  public criterias: Array<Criteria> =[new Criteria('c1'), new Criteria('c2'), new Criteria('c3'), new Criteria('c4')];
+  public selectedProjects: Array<Project> = [];
+  public selectedCriteria: Array<Criteria> = [];
+  public typeSession: string;
 
   constructor(private sessionService : SessionService, private projectService : ProjectService) {
     this.typeSession = 'normal';
