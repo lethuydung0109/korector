@@ -1,0 +1,32 @@
+<h1>Create Criteria</h1>
+<div [hidden]="submitted" style="width: 300px;" class="createCriteria">
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" required [(ngModel)]="criteria.name" name="name">
+    </div>
+
+    <div class="form-group">
+      <label for="type">Type</label>
+        <select id="type" class="form-control" onChange="verifyInput('Dynamique', 'url')">
+          <option  (click)="changeCriteriaType('Statique')" value="Statique">Statique</option>
+          <option (click)="changeCriteriaType('Dynamique')" value="Dynamique">Dynamique</option>
+        </select>
+    </div>
+    <div class="form-group">
+      <label for="value">Value</label>
+      <input type="text" class="form-control" id="value" required [(ngModel)]="criteria.value" name="type">
+    </div>
+    <div class="form-group">
+      <label for="url">URL</label>
+      <input type="text" class="form-control" id="url" disabled="true" required [(ngModel)]="criteria.url" name="url" >
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <button class="btn btn-success" (click)="newCriteria()">Add</button>
+</div>

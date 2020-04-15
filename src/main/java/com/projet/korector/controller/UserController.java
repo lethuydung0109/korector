@@ -1,5 +1,6 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.entity.Session;
 import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
@@ -8,6 +9,7 @@ import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.payload.response.StatistiqueResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
+import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,12 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.modelmapper.ModelMapper;
 
+
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 
@@ -42,6 +51,8 @@ public class UserController {
 
     @Autowired
     PasswordEncoder encoder;
+    private AuthenticationManager authenticationManager;
+
     /**
      * Ajoute un nouveau utilisateur dans la base de donnée. Si le client existe déjà, on retourne un code indiquant que la création n'a pas abouti.
      * @param userDTORequest
@@ -49,31 +60,32 @@ public class UserController {
      */
 
    // @GetMapping("/all")
-    @PostMapping("/saveUser")
+    @PostMapping("/saveTeacher")
     @ApiOperation(value = "Add a new Customer in the Library", response = UserDTO.class)
     @ApiResponses(value = { @ApiResponse(code = 409, message = "Conflict: the user already exist"),
             @ApiResponse(code = 201, message = "Created: the user is successfully inserted"),
             @ApiResponse(code = 304, message = "Not Modified: the customer is unsuccessfully inserted") })
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTORequest) {
-        //, UriComponentsBuilder uriComponentBuilder
-        User existingCustomer = service.findUserByEmail(userDTORequest.getEmail());
-        if (existingCustomer != null) {
-            return new ResponseEntity<UserDTO>(HttpStatus.CONFLICT);
+    public ResponseEntity<?> saveTeacher(@RequestBody User userDTORequest) {
+       if (userRepository.existsByUsername(userDTORequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
-        User userRequest = mapUserDTOToUser(userDTORequest);
 
-        // Create new user's account
-        User user = new User(userRequest.getUsername(),
-                userDTORequest.getEmail(),
-                encoder.encode(userRequest.getPassword()),userRequest.getGithubAccount());
-
-        User userResponse = service.saveUser(userRequest);
-        if (userResponse != null) {
-            UserDTO UserDTO = mapUserToUserDTO(userResponse);
-            return new ResponseEntity<UserDTO>(UserDTO, HttpStatus.CREATED);
-
+        if (userRepository.existsByEmail(userDTORequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
         }
-        return new ResponseEntity<UserDTO>(HttpStatus.NOT_MODIFIED);
+
+        Set<Role> roles = new HashSet<>();
+        Role enseignantRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(enseignantRole);
+        userDTORequest.setRoles(roles);
+        service.saveUser(userDTORequest);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
 
     }
 
@@ -138,6 +150,19 @@ public class UserController {
 
     public Optional<User> findByUsername(String username) {
         return service.findByUsername(username);
+
+    }
+
+    @GetMapping("/sessions")
+    public ResponseEntity<Set<Session>> getSessions() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        User currentUser = findById(userDetails.getId());
+        Set<Session> sessions = currentUser.getSessions();
+
+        return new ResponseEntity<Set<Session>>(sessions, HttpStatus.OK);
 
     }
 
