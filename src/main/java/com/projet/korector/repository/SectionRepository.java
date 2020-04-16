@@ -10,4 +10,6 @@ public interface SectionRepository  extends JpaRepository<Section,Long> {
     Section getSectionByName(Long name);
 
     Section findSectionById(Long id);
+    boolean existsByName(String name);
+
 }

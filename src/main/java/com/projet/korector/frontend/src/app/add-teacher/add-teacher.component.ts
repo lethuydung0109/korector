@@ -21,10 +21,13 @@ export class AddTeacherComponent implements OnInit {
 
    submitted = false;
    public actionButton: string = 'Save';
-   titles = ['Windstorm', 'Bombasto', 'Magneta', 'Tornado'];
    public sections: Array <Section> = [];
+   sectionSelected : Section;
+  
 
-   constructor( private router: Router,private studentService : UserService,private adminService : AdminService) { 
+
+
+   constructor( private router: Router,private teacherService : UserService,private adminService : AdminService) { 
  //   this.std = new Student();
  
  
@@ -45,11 +48,12 @@ export class AddTeacherComponent implements OnInit {
 
   });
   this.sections = letSections;
+
   }
 
 
-   createStudent() : void {
-    this.studentService.saveUser(this.model)
+   createTeacher() : void {
+    this.teacherService.saveTeacher(this.model)
       .subscribe( data => {
         console.log(data);
         alert("User created successfully.");

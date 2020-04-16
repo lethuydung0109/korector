@@ -30,5 +30,8 @@ public class SectionService {
     public Section getSectionById(Long id) {
         return repository.findSectionById(id);
     }
+    public boolean existByName(String name) {
+        return repository.existsByName(name);
+    }
 
 }

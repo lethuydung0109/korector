@@ -30,7 +30,7 @@ export class UserService {
    }
 
 
-   public saveUser(user : User ) : Observable <User> {
+   public saveTeacher(user : User ) : Observable <User> {
    // const routeQuery=this.url+"/user/saveUser";
 
      console.log("User dans sservice " +  JSON.stringify(user) );
@@ -46,7 +46,22 @@ export class UserService {
 
 
 }
+public saveUser(user : User ) : Observable <User> {
+  // const routeQuery=this.url+"/user/saveUser";
 
+    console.log("User dans sservice " +  JSON.stringify(user) );
+    
+   
+       return this.http.post<User>( API_URL + 'saveTeacher', {
+         username: user.username,
+         password: user.password,
+         email : user.email,
+         githubAccount : user.githubAccount
+       },httpOptions);
+
+
+
+}
 
 
     //return this.http.post<Student>(this.userUrl, std);
