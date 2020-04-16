@@ -51,21 +51,14 @@ Github is required
     <div class="form-group">
 
       <div class="row">
-        <select [(ngModel)]="sections.name" (ngModelChange)="onChangeObj($event)">
+        <select [(ngModel)]="sections">
           <option *ngFor="let section of sections" >
             {{section.name}}
           </option>
       </select>
    
      </div>
-
-     <div>
-      </div>
         </div>
-      
-    
-    
-
       <div>
    <button [value]="actionButton" (click)= "createTeacher()"   [disabled]="!teacherForm.form.valid" type="submit" class="btn btn-success">Submit</button>
     </div>
