@@ -27,6 +27,7 @@ import {SectionDetailComponent} from './section-details/section-detail.component
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {CreateSectionComponent} from './createSection/createSection.component';
 import {SectionComponent} from "./section/section.component";
+import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
+  { path: 'oauth2/redirect', component: Oauth2RedirectHandlerComponent },
   { path: 'projet', component: ProjectComponent },
   { path: 'section', component: SectionComponent },
   { path: 'section-detail/id', component: SectionDetailComponent },

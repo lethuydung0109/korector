@@ -1,6 +1,7 @@
 package com.projet.korector.controller;
 
 
+import com.projet.korector.model.AuthProvider;
 import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
@@ -119,6 +120,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
+        user.setProvider(AuthProvider.local);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

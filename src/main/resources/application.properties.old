@@ -26,3 +26,4 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 # App Properties
 korector.app.jwtSecret= korectorLTDSecretKey
 korector.app.jwtExpirationMs= 86400000
+
