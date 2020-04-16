@@ -25,7 +25,7 @@ import {ProfsStatsComponent} from './profs-stats/profs-stats.component';
 import {ClassesStatsComponent} from './classes-stats/classes-stats.component';
 import {ProjectComponent} from './project/project.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
-import {SectionDetailComponent} from './section-details/section-detail.component';
+import {SectionDetailComponent} from './section-details/section-details.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {CreateSectionComponent} from './createSection/createSection.component';
 import {SectionComponent} from './section/section.component';

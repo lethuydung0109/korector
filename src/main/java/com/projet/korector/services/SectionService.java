@@ -13,8 +13,8 @@ public class SectionService {
     @Autowired
     private SectionRepository repository;
 
-    public void createSection(Section section) {
-        repository.save(section);
+    public Section createSection(Section section) {
+        return null;
     }
 
     public List<Section> getAllSections() { return repository.findAll(); }
@@ -30,8 +30,8 @@ public class SectionService {
     public Section getSectionById(Long id) {
         return repository.findSectionById(id);
     }
-
     public boolean existByName(String name) {
         return repository.existsByName(name);
     }
+
 }

@@ -33,11 +33,11 @@ export class CreateSessionComponent implements OnInit {
   ngOnInit(): void {
 
     let listProjects: Array<Project>=[];
-    this.projectService.getProjectList().subscribe(data => {
+    /*this.projectService.getProjectList().subscribe(data => {
       data.forEach(p => {
         listProjects.push(p);
       })
-    });
+    }); */
     console.log("projects :", listProjects)
     this.projects=listProjects;
 

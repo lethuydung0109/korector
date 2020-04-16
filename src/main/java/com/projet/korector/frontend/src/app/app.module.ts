@@ -33,7 +33,7 @@ import {BoardModeratorComponent} from './board-moderator/board-moderator.compone
 import {ProfileComponent} from './profile/profile.component';
 import {ProjectComponent} from './project/project.component';
 import {SectionComponent} from './section/section.component';
-import {SectionDetailComponent} from './section-details/section-detail.component';
+import {SectionDetailComponent} from './section-details/section-details.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
@@ -83,7 +83,7 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     SectionDetailComponent,
     CreateProjetComponent,
     ProjetDetailComponent,
-    CreateSectionComponent
+    CreateSectionComponent,
     CreateCriteriaComponent,
     SearchCriteriaComponent,
     CriteriaListComponent,

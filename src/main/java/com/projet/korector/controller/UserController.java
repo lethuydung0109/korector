@@ -1,12 +1,11 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.entity.Section;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
-import com.projet.korector.model.UserDTO;
 import com.projet.korector.payload.response.MessageResponse;
-import com.projet.korector.payload.response.StatistiqueResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
 import com.projet.korector.security.services.UserDetailsImpl;
@@ -18,20 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import org.modelmapper.ModelMapper;
-
 
 import java.util.*;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,24 +48,24 @@ public class UserController {
 
     /**
      * Ajoute un nouveau utilisateur dans la base de donnée. Si le client existe déjà, on retourne un code indiquant que la création n'a pas abouti.
-     * @param userDTORequest
+     * @param user
      * @return
      */
 
    // @GetMapping("/all")
     @PostMapping("/saveTeacher")
-    @ApiOperation(value = "Add a new Customer in the Library", response = UserDTO.class)
+    @ApiOperation(value = "Add a new Customer in the Library", response = User.class)
     @ApiResponses(value = { @ApiResponse(code = 409, message = "Conflict: the user already exist"),
             @ApiResponse(code = 201, message = "Created: the user is successfully inserted"),
             @ApiResponse(code = 304, message = "Not Modified: the customer is unsuccessfully inserted") })
-    public ResponseEntity<?> saveTeacher(@RequestBody User userDTORequest) {
-       if (userRepository.existsByUsername(userDTORequest.getUsername())) {
+    public ResponseEntity<?> saveTeacher(@RequestBody User user , Section section) {
+       if (userRepository.existsByUsername(user.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(userDTORequest.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
@@ -82,8 +75,13 @@ public class UserController {
         Role enseignantRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(enseignantRole);
-        userDTORequest.setRoles(roles);
-        service.saveUser(userDTORequest);
+        user.setRoles(roles);
+        Set <Section> sections = new HashSet<>();
+        section = new Section(section.getName());
+        sections.add(section);
+        user.setSections(sections);
+
+        service.saveUser(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 
 
@@ -166,23 +164,7 @@ public class UserController {
 
     }
 
-    private UserDTO mapUserToUserDTO(User user) {
-        ModelMapper mapper = new ModelMapper();
-        UserDTO userDTO = mapper.map(user, UserDTO.class);
-        return userDTO;
-    }
 
-    /**
-     * Transforme un POJO CustomerDTO en en entity Customer
-     *
-     * @param customerDTO
-     * @return
-     */
-    private User mapUserDTOToUser(UserDTO customerDTO) {
-        ModelMapper mapper = new ModelMapper();
-        User customer = mapper.map(customerDTO, User.class);
-        return customer;
-    }
 
 
 
