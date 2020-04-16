@@ -5,7 +5,7 @@ import { NgForm } from "@angular/forms";
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import {User} from '../classes/user';
-import {Section} from '../classes/section';
+import {SectionName} from '../classes/section-name';
 
 import { UserService } from '../services/user.service';
 import { AdminService } from '../services/admin.service';
@@ -21,8 +21,8 @@ export class AddTeacherComponent implements OnInit {
 
    submitted = false;
    public actionButton: string = 'Save';
-   public sections: Array <Section> = [];
-   sectionSelected : Section;
+   public sections: Array <SectionName> = [];
+   sectionSelected : SectionName;
   
 
 
@@ -34,7 +34,7 @@ export class AddTeacherComponent implements OnInit {
    }
    ngOnInit(): void {
 
-    let letSections: Array <Section> = [];
+    let letSections: Array <SectionName> = [];
     this.adminService.getAllSections().subscribe(sections =>{
       sections.forEach(element => {
 
