@@ -52,7 +52,12 @@ public class GithubOAuth2UserInfo extends OAuth2UserInfo {
         return (String) attributes.get("avatar_url");
     }
 
-//    public List<Object> getUserEmails(final String accessToken) {
+    @Override
+    public String getHtmlURL() {
+        return (String) attributes.get("html_url");
+    }
+
+    //    public List<Object> getUserEmails(final String accessToken) {
     public List<Object> getUserEmails(final String accessToken) {
         HttpHeaders headers = new HttpHeaders();
 //        headers.set("Authorization", "token " + accessToken);

@@ -54,11 +54,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         System.out.println(oAuth2UserInfo);
         System.out.println(oAuth2UserInfo.getAttributes());
-        if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
-            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
+//        if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+//            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
+//        }
+        if(StringUtils.isEmpty(oAuth2UserInfo.getUserName())) {
+            throw new OAuth2AuthenticationProcessingException("Username not found from OAuth2 provider");
         }
 
-        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+//        Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
+        Optional<User> userOptional = userRepository.findByUsername(oAuth2UserInfo.getUserName());
         User user;
         if(userOptional.isPresent()) {
             user = userOptional.get();
@@ -84,6 +88,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setUsername(oAuth2UserInfo.getUserName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user.setGithubAccount(oAuth2UserInfo.getHtmlURL());
         Set<Role> roles = new HashSet<>();
         Role etudiantRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -95,6 +100,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setName(oAuth2UserInfo.getName());
         existingUser.setImageUrl(oAuth2UserInfo.getImageUrl());
+        existingUser.setGithubAccount(oAuth2UserInfo.getHtmlURL());
         return userRepository.save(existingUser);
     }
 
