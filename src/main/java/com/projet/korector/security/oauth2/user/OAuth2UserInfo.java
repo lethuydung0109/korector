@@ -23,6 +23,8 @@ public abstract class OAuth2UserInfo {
 
     public abstract String getImageUrl();
 
+    public abstract String getHtmlURL();
+
 
     @Override
     public String toString() {
