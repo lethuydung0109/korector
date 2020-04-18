@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SectionRepository  extends JpaRepository<Section,Long> {
 
 
-    Section getSectionByName(Long name);
+    Section getSectionByName(String name);
 
     Section findSectionById(Long id);
     boolean existsByName(String name);

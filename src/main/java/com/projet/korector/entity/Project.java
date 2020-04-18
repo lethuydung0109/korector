@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Entity
-@Table(name = "projects", uniqueConstraints = {
+@Table(name = "projectsKorector", uniqueConstraints = {
         @UniqueConstraint(columnNames = "url")
 }
 )

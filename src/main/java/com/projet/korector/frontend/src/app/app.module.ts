@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
@@ -105,7 +106,8 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    ReactiveFormsModule
    ],
   providers: [
     authInterceptorProviders,

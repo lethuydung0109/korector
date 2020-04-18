@@ -1,4 +1,6 @@
 import {NgModule} from '@angular/core';
+import {MatSelectModule} from '@angular/material/select';
+
 import {RouterModule, Routes} from '@angular/router';
 import {SessionComponent} from './session/session.component';
 import {HomeComponent} from './home/home.component';

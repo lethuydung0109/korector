@@ -23,7 +23,7 @@ public class SectionService {
         repository.deleteById(sectionId);
     }
 
-    public Section getSectionByName(Long name) {
+    public Section getSectionByName(String name) {
         return repository.getSectionByName(name);
     }
 

@@ -1,18 +1,16 @@
 package com.projet.korector.controller;
-
 import com.projet.korector.entity.Section;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.ERole;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
+import com.projet.korector.payload.request.UserRequest;
 import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.repository.RoleRepository;
+import com.projet.korector.repository.SectionRepository;
 import com.projet.korector.repository.UserRepository;
 import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.UserService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,51 +40,61 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
 
+
+    @Autowired
+    SectionRepository sectionRepository;
+
     @Autowired
     PasswordEncoder encoder;
     private AuthenticationManager authenticationManager;
 
-    /**
-     * Ajoute un nouveau utilisateur dans la base de donnée. Si le client existe déjà, on retourne un code indiquant que la création n'a pas abouti.
-     * @param user
-     * @return
-     */
 
-   // @GetMapping("/all")
-    @PostMapping("/saveTeacher")
-    @ApiOperation(value = "Add a new Customer in the Library", response = User.class)
-    @ApiResponses(value = { @ApiResponse(code = 409, message = "Conflict: the user already exist"),
-            @ApiResponse(code = 201, message = "Created: the user is successfully inserted"),
-            @ApiResponse(code = 304, message = "Not Modified: the customer is unsuccessfully inserted") })
-    public ResponseEntity<?> saveTeacher(@RequestBody User user , Section section) {
-       if (userRepository.existsByUsername(user.getUsername())) {
+    @RequestMapping(value = "/saveUser/{userRoleId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> saveTeacher(@RequestBody UserRequest userRequest , @PathVariable ("userRoleId") Long userRoleId) {
+       if (userRepository.existsByUsername(userRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+        // Create new user's account
+        User user = new User(userRequest.getUsername(),
+                userRequest.getEmail(),
+                encoder.encode(userRequest.getPassword()),userRequest.getGithubAccount());
 
         Set<Role> roles = new HashSet<>();
-        Role enseignantRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(enseignantRole);
-        user.setRoles(roles);
-        Set <Section> sections = new HashSet<>();
-        section = new Section(section.getName());
-        sections.add(section);
-        user.setSections(sections);
+        Role userRole;
+        if ( userRoleId == 1) {
 
+
+            userRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        }
+      else {
+            userRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        }
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        // Create new section
+        List <String> sectionsName = userRequest.getSectionName();
+        Set <Section> sections = new HashSet<>();
+        for (int i =0;i<sectionsName.size();i++) {
+            Section section = sectionRepository.getSectionByName(sectionsName.get(i));
+            sections.add(section);
+        }
+        user.setSections(sections);
         service.saveUser(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 
 
     }
-
 
 
     @PostMapping(value = "/updateUser")

@@ -43,7 +43,7 @@ public class SectionController {
     }
 
     @RequestMapping(value = "/SectionByName/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Section getSectionByName(@PathVariable Long name)
+    public Section getSectionByName(@PathVariable String name)
     {
         return service.getSectionByName(name);
     }
