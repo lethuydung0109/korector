@@ -29,12 +29,12 @@
           <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/section" >Sections</a>
         </li>
 
-        <!-- Right nav items  -->
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
+        </li>      
       </ul>
 
-      <li class="nav-item">
-        <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
-      </li>
+
 
       <!-- Right nav items  -->
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">

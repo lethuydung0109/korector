@@ -32,8 +32,8 @@ user : User ;
     return this.http.get<User[]>(API_URL  + 'user/findAllProf',httpOptions);
   
   }
-  getAllSections(): Observable <Section[]> {
-    return this.http.get<Section[]>(API_URL  + 'ressource/allSections',httpOptions);
+  getAllSections(): Observable <String[]> {
+    return this.http.get<String[]>(API_URL  + 'ressource/allSections',httpOptions);
   
   }
 

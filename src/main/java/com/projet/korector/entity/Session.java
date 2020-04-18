@@ -64,7 +64,7 @@ public class Session implements Serializable {
     }
 
     public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+        this.projects= projects;
     }
 
     public Set<Run> getRuns() {

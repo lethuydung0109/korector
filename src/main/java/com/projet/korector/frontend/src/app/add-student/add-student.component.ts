@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { NgForm } from "@angular/forms";
 import { NgxSpinnerService } from 'ngx-spinner';
-
 import {User} from '../classes/user';
 import { UserService } from '../services/user.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-add-student',
@@ -13,23 +11,35 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./add-student.component.scss']
 })
 export class AddStudentComponent implements OnInit {
-   std : User;
+
    model = new User(); 
 
    submitted = false;
-
-
+   public sections: String [];
    public actionButton: string = 'Save';
 
 
 
    constructor(private route: ActivatedRoute, 
-          private router: Router,private userService: UserService, private spinner: NgxSpinnerService) { 
+          private router: Router,private userService: UserService,private adminService : AdminService, private spinner: NgxSpinnerService) { 
 
-   this.std = new User();
  
    }
    ngOnInit(): void {
+    let letSections: Array <String> = [];
+    this.adminService.getAllSections().subscribe(sections =>{
+      sections.forEach(element => {
+        letSections.push(element["name"]);
+       // return;
+
+      console.log(element["name"]);
+    });
+
+  });
+
+  this.sections = letSections;
+  console.log("Element de obj section" );
+  console.log(this.sections);
   }
 
    /**
@@ -42,7 +52,7 @@ export class AddStudentComponent implements OnInit {
 
 
    createStudent() : void {
-    this.userService.saveUser(this.model)
+    this.userService.saveUser(this.model,1)
       .subscribe( data => {
         console.log(data);
         alert("User created successfully.");
