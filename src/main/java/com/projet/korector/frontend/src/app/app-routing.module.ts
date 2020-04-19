@@ -49,7 +49,8 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'projet', component: ProjectComponent },
   { path: 'section', component: SectionComponent },
-  //{ path: 'section-detail/id', component: SectionDetailComponent },
+
+  //{ path: 'section-detail/:id', component: SectionDetailComponent },
   { path: 'projet-detail/:id', component: ProjetDetailComponent },
   { path: 'createProjet', component: CreateProjetComponent },
   { path: 'createSection', component: CreateSectionComponent },
