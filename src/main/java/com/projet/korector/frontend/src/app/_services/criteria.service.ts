@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-
-const AUTH_API = 'http://localhost:8080/api/Criteria';
+import {Criteria} from "../classes/criteria";
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,18 +15,30 @@ export class CriteriaService {
   constructor(private http: HttpClient) { }
 
   public  createCriteria (criteria: Object): Observable<Object> {
-    return  this.http.post(`${this.baseUrl}`+`/createCriteria`, criteria);
+    return  this.http.post(`${this.baseUrl }/Criteria/createCriteria`, criteria);
   }
   public  updateCriteria(id: number, value: any) : Observable<Object>{
-    return this.http.put(`${this.baseUrl}/updateCriteria/${id}`,value);
+    return this.http.put(`${this.baseUrl}/Criteria/updateCriteria/${id}`,value);
   }
   public  deleteCriteria(id:number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deleteCriteria/${id}`,{responseType: 'text'});
-  }
-  public searchCriteria(id: number): Observable<Object> {
-    return this.http.get(`${this.baseUrl}/researchCriteria/${id}`)
+    return this.http.delete(`${this.baseUrl}/Criteria/deleteCriteria/${id}`,{responseType: 'text'});
   }
   public getCriteriaList(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+    return this.http.get(`${this.baseUrl}/Criteria/allCriteria`);
+  }
+  public searchCriteria(name: string, type: string): Observable<Object> {
+    return this.http.get(`${this.baseUrl}/Criteria/researchCriteria/${name}&${type}`);
+  }
+
+  getCriteriaById(id: number) {
+    return this.http.get(`${this.baseUrl}/Criteria/id=${id}`);
+  }
+
+  searchCriteriaByType(type: string) {
+    return this.http.get(`${this.baseUrl}/Criteria/researchCriteria/type=${type}`);
+  }
+
+  searchCriteriaByName(name: string) {
+    return this.http.get(`${this.baseUrl}/Criteria/researchCriteria/name=${name}`);
   }
 }

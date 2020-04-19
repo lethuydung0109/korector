@@ -34,7 +34,7 @@ import {BoardModeratorComponent} from './board-moderator/board-moderator.compone
 import {ProfileComponent} from './profile/profile.component';
 import {ProjectComponent} from './project/project.component';
 import {SectionComponent} from './section/section.component';
-import {SectionDetailComponent} from './section-details/section-details.component';
+//import {SectionDetailComponent} from './section-details/section-details.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
@@ -55,6 +55,7 @@ import { CreateCriteriaGroupComponent } from './create-criteria-group/create-cri
 import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
 
 
 @NgModule({
@@ -81,7 +82,7 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     ClassesStatsComponent,
     ProjectComponent,
     SectionComponent,
-    SectionDetailComponent,
+    //SectionDetailComponent,
     CreateProjetComponent,
     ProjetDetailComponent,
     CreateSectionComponent,
@@ -92,7 +93,8 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     CreateCriteriaGroupComponent,
     CriteriaGroupDetailsComponent,
     CriteriaGroupListComponent,
-    UpdateCriteriaGroupComponent
+    UpdateCriteriaGroupComponent,
+    UpdateCriteriaComponent
   ],
   imports: [
     BrowserModule,

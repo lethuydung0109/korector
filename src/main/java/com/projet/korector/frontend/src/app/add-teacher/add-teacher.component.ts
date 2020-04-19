@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router } from '@angular/router';
 import { NgForm } from "@angular/forms";
 import {User} from '../classes/user';
+//import {SectionName} from '../classes/section-name';
+
 import { UserService } from '../services/user.service';
 import { AdminService } from '../services/admin.service';
 
@@ -18,8 +20,8 @@ export class AddTeacherComponent implements OnInit {
    public sections: String [];
 
 
-   constructor( private router: Router,private teacherService : UserService,private adminService : AdminService) { 
- 
+   constructor( private router: Router,private teacherService : UserService,private adminService : AdminService) {
+
    }
 
    ngOnInit(): void {
@@ -31,24 +33,24 @@ export class AddTeacherComponent implements OnInit {
        // return;
 
       console.log(element["name"]);
+      });
+
     });
 
-  });
-
-  this.sections = letSections;
-  console.log("Element de obj section" );
-  console.log(this.sections);
-
+    this.sections = letSections;
+    console.log("Element de obj section" );
+    console.log(this.sections);
   }
 
    createTeacher() : void {
-    this.teacherService.saveUser(this.model,2)
-      .subscribe( data => {
-        console.log(data);
-        alert("User created successfully.");
-      });
-          this.submitted = true; }
-  
+      this.teacherService.saveUser(this.model,2)
+        .subscribe( data => {
+          console.log(data);
+          alert("User created successfully.");
+        });
+      this.submitted = true;
+   }
+
     // TODO: Remove this when we're done
     get diagnostic() { return JSON.stringify(this.model); }
 

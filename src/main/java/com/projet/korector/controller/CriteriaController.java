@@ -1,5 +1,6 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.Exceptions.ResourceNotFoundException;
 import com.projet.korector.entity.Criteria;
 import com.projet.korector.model.CriteriaImpl;
 
@@ -22,14 +23,9 @@ public class CriteriaController {
     private CriteriaService service;
 
     @PostMapping("/createCriteria")
-    public Criteria createCriteria(CriteriaImpl criteriaImp)
+    public Criteria createCriteria(@RequestBody Criteria criteria)
     {
-        if(criteriaImp instanceof StaticCriteriaImpl){
-            return service.createCriteria((StaticCriteriaImpl)criteriaImp);
-        }else {
-            return service.createCriteria((DynamicCriteriaImpl)criteriaImp);
-        }
-
+        return service.createCriteria(criteria);
     }
 
     @PutMapping("/updateCriteria/{id}")
@@ -43,6 +39,10 @@ public class CriteriaController {
     {
         return service.getAllCriteria();
     }
+    @GetMapping("/id={id}")
+    public ResponseEntity<Criteria> getCriteriaById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+            return service.getCriteriaById(id);
+    }
 
     @DeleteMapping("/deleteCriteria/{id}")
     public void deleteCriteria(@PathVariable Long id)
@@ -50,10 +50,20 @@ public class CriteriaController {
         service.deleteCriteria(id);
     }
 
-    @GetMapping("/researchCriteria/{id}")
-    public ResponseEntity<Criteria> researchCriteria(@PathVariable Long id)
+    @GetMapping("/researchCriteria/{name}&{type}")
+    public List<Criteria> researchCriteria(@PathVariable String name,@PathVariable String type )
     {
-       return service.researchCriteria(id);
+       return service.researchCriteria(name, type);
+    }
+    @GetMapping("/researchCriteria/name={name}")
+    public List <Criteria> researchCriteriaByName(@PathVariable String name )
+    {
+        return service.researchCriteriaByName(name);
+    }
+    @GetMapping("/researchCriteria/type={type}")
+    public List <Criteria> researchCriteriaByType(@PathVariable String type )
+    {
+        return service.researchCriteriaByType(type);
     }
 
 }

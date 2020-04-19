@@ -3,7 +3,7 @@
 {{diagnostic}}
 
 <div class="container">
-    <form  #teacherForm="ngForm"  > 
+    <form  #teacherForm="ngForm"  >
 
       <div class="form-group">
         <label for="username">Username</label>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-   
+
 
     <div class="form-group">
       <label for="email">E-mail</label>
@@ -48,6 +48,7 @@ Github is required
       </div>
     </div>
 
+
 <div>
   <mat-form-field>
 
@@ -58,14 +59,13 @@ Github is required
       </mat-select>
     </mat-form-field>
 </div>
-
       <div>
 
    <button [value]="actionButton" (click)= "createTeacher()"   [disabled]="!teacherForm.form.valid" type="submit" class="btn btn-success">Submit</button>
     </div>
 
     </form>
-  
+
 </div>
 
 
