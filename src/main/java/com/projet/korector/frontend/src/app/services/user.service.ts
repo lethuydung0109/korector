@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from '../classes/user';
-import { SectionName } from '../classes/section-name';
+//import { SectionName } from '../classes/section-name';
 
 import { Observable } from 'rxjs';
 import {  retry, catchError } from 'rxjs/operators'
@@ -16,7 +16,7 @@ const API_URL = 'http://localhost:8080/api/user/';
 allStudent : User   ;
 const httpOptions = {
   headers: new HttpHeaders(
-  { 
+  {
      'Content-Type': 'application/json'
   })
 }
@@ -26,7 +26,7 @@ const httpOptions = {
 })
 export class UserService {
   //public url =environment.api_url;
-   constructor(private http: HttpClient) { 
+   constructor(private http: HttpClient) {
 
 
    }
@@ -37,7 +37,7 @@ export class UserService {
 
      console.log("User dans sservice " +  JSON.stringify(user) );
 
-    
+
         return this.http.post<User>( API_URL + 'saveUser/' + userRoleId, {
           username: user.username,
           password: user.password,
@@ -54,8 +54,8 @@ public saveUser(user : User ) : Observable <User> {
   // const routeQuery=this.url+"/user/saveUser";
 
     console.log("User dans sservice " +  JSON.stringify(user) );
-    
-   
+
+
        return this.http.post<User>( API_URL + 'saveTeacher', {
          username: user.username,
          password: user.password,
@@ -74,9 +74,9 @@ public saveUser(user : User ) : Observable <User> {
 
     //return this.http.post<Customer>('/library/rest/customer/api/addCustomer', customer);
 
-   
+
    //}
-  
-  
+
+
 
 }

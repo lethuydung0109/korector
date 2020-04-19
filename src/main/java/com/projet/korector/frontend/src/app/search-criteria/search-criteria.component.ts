@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-search-criteria',
@@ -9,19 +11,45 @@ import {CriteriaService} from "../_services/criteria.service";
 })
 export class SearchCriteriaComponent implements OnInit {
 
-  id: number;
-  criteria: Criteria;
-  constructor(private  dataService: CriteriaService) { }
+  name: string;
+  type: string;
+  criteriaList: any;
+  submitted: boolean =false;
+
+  constructor(private route: ActivatedRoute,private router: Router, private service: CriteriaService ) { }
 
   ngOnInit(): void {
-    this.id = null;
   }
-  private  searchCriteria(){
-    this.dataService.searchCriteria(this.id).subscribe(
-      criteria => this.criteria
-    );
+  private  searchCriteria() {
+    this.name = (document.getElementById("name") as HTMLInputElement).value;
+    this.type = (document.getElementById("type") as HTMLInputElement).value;
+
+    if (this.type != ""  && this.name!= ""){
+      this.service.searchCriteria(this.name,this.type).subscribe(
+        data => {
+          console.log(data)
+          this.criteriaList = data;
+        }, error => console.log(error)
+      );
+    }else if(this.type!= "" ) {
+      this.service.searchCriteriaByType(this.type).subscribe(
+        data => {
+          console.log(data)
+          this.criteriaList =data;
+          }, error => console.log(error)
+      );
+    }else if(this.name!= "") {
+      this.service.searchCriteriaByName(this.name).subscribe(
+        data => {
+          console.log(data)
+          this.criteriaList =data;
+        }, error => console.log(error)
+      );
+    }
+
   }
   onSubmit() {
+    this.submitted = true;
     this.searchCriteria();
   }
 
