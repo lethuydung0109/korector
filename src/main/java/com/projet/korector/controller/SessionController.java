@@ -3,7 +3,10 @@ package com.projet.korector.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.entity.Project;
+import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.SessionImp;
 import com.projet.korector.model.User;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +43,7 @@ public class SessionController {
     @Autowired
     private UserController userController;
 
-    @GetMapping("/all")
+    @PostMapping("/all")
     @RequestMapping(value = "/createSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Session createSession(@RequestBody Session session)
     {
@@ -46,6 +51,13 @@ public class SessionController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User currentUser = this.userController.findById(userDetails.getId());
         return service.createSession(session,currentUser);
+    }
+
+    @PutMapping("/all")
+    @RequestMapping(value = "/updateSession", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateSession(@RequestBody Session session)
+    {
+        service.updateSession(session);
     }
 
     @GetMapping("/all")
@@ -87,31 +99,45 @@ public class SessionController {
         return service.getSessionProjects(sessionId);
     }
 
-    @GetMapping("/all")
+    @PutMapping("/all")
     @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
         service.addProjectToSession(sessionId,projectId);
     }
 
-    @GetMapping("/all")
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteProjectFromSession/{sessionId}/{projectId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteProjectFromSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
         service.deleteProjectFromSession(sessionId,projectId);
     }
 
-    @GetMapping("/all")
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteSession/{sessionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteSession(@PathVariable("sessionId") Long sessionId)
     {
         service.deleteSession(sessionId);
     }
 
-    @GetMapping("/all")
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteAllSessions", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteAllSessions()
     {
         service.deleteAllSessions();
     }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/getSessionRuns/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Run> getSessionRuns(@PathVariable("sessionId") Long sessionId)
+    {
+        return service.getSessionRuns(sessionId);
+    }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+        service.exportCSV(runId,response);
+    }
+
 }

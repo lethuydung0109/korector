@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Session } from '../classes/session';
 import { Project } from '../classes/project';
+import { Run } from '../classes/run';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,14 @@ export class SessionService {
 
     console.log("session dans service : ", session)
     return this.http.post<Session>(routeQuery,session);
+  }
+
+  public updateSession(session: Session) : Observable<any>
+  {
+    const routeQuery=this.url+"/updateSession";
+    console.log("updateSession", session)
+
+    return this.http.put<Session>(routeQuery,session);
   }
 
   public getSessionById(sessionId : Number) : Observable<Session>
@@ -61,8 +70,6 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  
-
   public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
   {
     const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
@@ -75,16 +82,18 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
+  public getSessionRuns(sessionId : number) : Observable<Array<Run>>
+  {
+    const routeQuery=this.url+"/getSessionRuns/"+sessionId;
+    return this.http.get<Array<Run>>(routeQuery);
+  }
 
-  /**
-   * Récupérer les sessions par user
-   * Ajouter projet dans session
-   * delete projet d'un session
-   * update session
-   * ajouter bouton lancer dans session-detail
-   * mettre des checkbox dans la liste des projets
-   * bouton lancer, crée un objet run
-   * générer un fichier excel avec détails session, projets et notes
-   * 
-   */
+  public exportCSV(runId : number) : Observable<any>
+  {
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/csv');
+    let routeQuery=this.url+"/exportCSV/"+runId;
+    return this.http.get<any>(routeQuery,{headers: headers});
+  }
+
 }

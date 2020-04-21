@@ -54,12 +54,7 @@
           Projects
         </div>
         <div class="card-body">
-          <div class="row" >
-            <!-- <select >
-              <option *ngFor="let project of projects" (click)="addProjetToSelectedProject(project)">{{project.name}}</option>
-            </select> -->
-
-
+          <div class="row" >            
             <mat-form-field >
               <mat-label>Selectionnez un projet</mat-label>
               <mat-select >
@@ -83,6 +78,16 @@
           Critères statiques
         </div>
         <div class="card-body">
+          <!-- <div class="row">
+            <mat-form-field>
+              <mat-label>Type Critère</mat-label>
+              <mat-select>
+                <mat-option (click)="changeCritereType('static')" value="static"> Static </mat-option>
+                <mat-option (click)="changeCritereType('dynamic')" value="dynamic"> Dynamic </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
           <div class="row">
             <mat-form-field >
               <mat-label>Selectionnez un critère</mat-label>
@@ -93,13 +98,44 @@
               </mat-select>
             </mat-form-field>
           </div> <br><br>
+
+          <div #critereValue id="critereStatic">
+            nom critere : <input type="text" placeholder="valeur">
+          </div>
+
           <div class="row">
             <ul style="list-style-type: none;" >
               <li *ngFor="let critere of selectedCriteria"><i class="fa fa-minus"></i> {{critere.name}}</li>
             </ul>
-          </div>
+          </div>         
         </div>
       </div>
+
+      <!-- <div class="card">
+        <div class="card-header">
+          Critères dynamiques
+        </div>
+        <div class="card-body">
+          <div id="critereStatic">
+            <button (click)="addRow()">Ajoutez un nouveau critère <i class="fa fa-plus"></i></button><br><br>
+            <-- <input type="text" placeholder="Nom critère"> : <input type="text" placeholder="valeur"> ->
+            <table id="tabCriteria" class="table table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="rowCriteria">
+                  <td><input type="text"></td>
+                  <td><input type="text" value=""></td>
+                </tr>            
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> -->
 
     </div>
   </div> <br><br>

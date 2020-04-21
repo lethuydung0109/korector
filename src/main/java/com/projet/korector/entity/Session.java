@@ -38,7 +38,8 @@ public class Session implements Serializable {
     private Set<User> users = new HashSet<>();
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Run> runs;
 

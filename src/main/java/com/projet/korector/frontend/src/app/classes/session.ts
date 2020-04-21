@@ -10,6 +10,7 @@ export class Session {
     public runs : Array<Run>;
    // public criteria : Array<Criteria>
 
+   
 
     constructor(name : string, date : string)
     {
@@ -21,5 +22,19 @@ export class Session {
         //this.projects=projects;
        // this.criteria=[];
     }
+
+    public setSession(newSession : Session) 
+    {
+        this.id=newSession.id;
+        this.name=newSession.name;
+        this.dateDepot=newSession.dateDepot;
+        this.projects=newSession.projects;
+        this.runs=newSession.runs;
+    }
+
+    public getId() : number
+    { return this.id}
+
+
 
 }

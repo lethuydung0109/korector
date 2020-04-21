@@ -1,8 +1,11 @@
 package com.projet.korector.services;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.controller.SessionController;
 import com.projet.korector.controller.UserController;
 import com.projet.korector.entity.Project;
+import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.User;
 import com.projet.korector.repository.ProjectRepository;
@@ -13,15 +16,22 @@ import com.projet.korector.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class SessionService {
@@ -60,6 +70,14 @@ public class SessionService {
         return this.sessionRepository.saveAndFlush(createdSession);
     }
 
+    public void updateSession(Session session)
+    {
+        if(this.sessionRepository.findById(session.getId()).isPresent())
+        {
+            this.sessionRepository.save(session);
+        }
+    }
+
     public List<Session> getAllSessions()
     {
         System.out.println(" Toute la bdd : "+sessionRepository.findAll());
@@ -89,7 +107,6 @@ public class SessionService {
         putProject.getSessions().add(putSession);
         this.projectRepository.saveAndFlush(putProject);
         this.sessionRepository.saveAndFlush(putSession);
-
     }
 
     public void deleteProjectFromSession(Long sessionId,Long projectId)
@@ -114,5 +131,40 @@ public class SessionService {
 
     public Session getSessionById(Long sessionId) {
         return this.sessionRepository.findById(sessionId).orElse(null);
+    }
+
+    public Set<Run> getSessionRuns(Long sessionId)
+    {
+        Set<Run> runs = new HashSet<Run>();
+        runs.addAll(this.sessionRepository.findById(sessionId).get().getRuns());
+        return runs;
+    }
+
+    public void exportCSV(Long runId, HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+
+        //set file name and content type
+        String filename = "run_"+date+".csv";
+
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + filename + "\"");
+
+        //create a csv writer
+        Run run = this.runRepository.findById(runId).get();
+
+        StatefulBeanToCsv<Project> writer = new StatefulBeanToCsvBuilder<Project>(response.getWriter())
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .withOrderedResults(false)
+                .build();
+
+
+        //write all users to csv file
+//        String r = "rien";
+        List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
+        writer.write(sessionsProject);
     }
 }

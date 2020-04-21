@@ -23,10 +23,13 @@ export class CreateSessionComponent implements OnInit {
   //public criterias : Array<Criteria> =[new Criteria("c1"), new Criteria("c2"), new Criteria("c3"), new Criteria("c4")];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
-  public typeSession : string;
+  public typeSession : string; 
+  public typeCritere : string;
+  public listStaticCriteria: Array<Criteria> =[];
 
   constructor(private sessionService : SessionService, private projectService : ProjectService) {
     this.typeSession='normal';
+    this.typeCritere='static';
   }
 
   ngOnInit(): void {
@@ -58,14 +61,19 @@ export class CreateSessionComponent implements OnInit {
     this.typeSession=type;
   }
 
+  public changeCritereType(type : string) : void
+  {
+    this.typeCritere=type;
+  }
+
   public createSession(): void{
     let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
     let dateDepot :string = document.getElementsByName("date")[0]["value"];
 
     //var someString: string = "your JSON String here";
-    let jsonDate : any = JSON.parse(dateDepot);
+    //let jsonDate : any = JSON.parse(dateDepot);
 
-    let createSession = new Session(nameSession, jsonDate);
+    let createSession = new Session(nameSession, dateDepot);
     createSession.projects=this.selectedProjects;
     //createSession.criteria=this.selectedCriteria;
     console.log("session à créer  : ", createSession);
@@ -82,5 +90,22 @@ export class CreateSessionComponent implements OnInit {
   public retrieveProjectToselected(project : Project) : void
   {
     this.selectedProjects.splice(this.selectedProjects.indexOf(project),1);
+  }
+
+  public addRow() : void
+  {
+    var tab:any = document.getElementById('tabCriteria');
+    //var row:any=document.getElementById('rowCriteria');
+    var tr = document.createElement('tr');
+    tab.appendChild(tr);
+    //tr.appendChild(row);
+    var tdName = document.createElement('td');
+    var tdValue = document.createElement('td');
+    var tdInput1=document.createElement('input');
+    var tdInput2=document.createElement('input');
+    tdName.appendChild(tdInput1);
+    tdValue.appendChild(tdInput2);
+    tr.appendChild(tdName);
+    tr.appendChild(tdValue);
   }
 }

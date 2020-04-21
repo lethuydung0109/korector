@@ -100,7 +100,7 @@ public class Project implements Serializable {
         final StringBuilder sb = new StringBuilder("Project{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", note=").append(note);
+       // sb.append(", note=").append(note);
 //        sb.append(", sessions=").append(sessions);
         sb.append('}');
         return sb.toString();

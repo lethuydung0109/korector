@@ -52,6 +52,7 @@ import { CreateCriteriaGroupComponent } from './create-criteria-group/create-cri
 import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -111,7 +112,8 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     MatDatepickerModule,
     MatCardModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DatePipe
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

@@ -3,17 +3,6 @@
     <h1>{{sessionName}}</h1>
   </div> <br>
 
-  <!-- <div class="row">
-
-      <div class="col-md-6">
-          Nom session : {{sessionId}} <br>
-      </div>
-      <-- Type session <input type="text" class="form-control" id="usr"> <br> ->
-      <div class="col-md-6">
-          Date depot : null <br>
-      </div>
-  </div> <br> -->
-
   <div class="row">
     <div class="col-md-6">
       <div class="card " style="text-align:left;">
@@ -21,8 +10,9 @@
           Session {{sessionId}}
         </div>
         <div class="card-body">
-          Nom session : {{sessionName}} <br>
-          Date depot : {{sessionDateDepot}} <br>
+          Nom session : <input type="text" name="nameSession" value="{{sessionName}}"><br><br>
+          Date depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br>
+          <!-- Heure depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br> -->
           Critères Statiques : <br><br>
           <table class="table table-bordered table-sm">
             <thead>
@@ -34,12 +24,29 @@
             <tbody>
             <tr>
               <td>Critère 1 </td>
-              <td>10 %</td>
+              <td><input type="text" value="10"> %</td>
             </tr>
             <tr>
               <td>Critère 2</td>
-              <td>20 %</td>
+              <td><input type="text" value="20"> %</td>
             </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card " style="text-align:left;">
+        <div class="card-header bg-info text-white">
+          Historique
+        </div>
+        <div class="card-body">
+          <table class="table table-hover">
+            <tbody *ngFor="let run of sessionRuns">
+              <tr>
+                <td>{{run.id}}</td>
+                <td><button class="btn" (click)="exportCSV(run.id)"><i class="fa fa-download"></i></button></td>                           
+              </tr>
             </tbody>
           </table>
         </div>
@@ -47,16 +54,22 @@
     </div>
   </div> <br><br>
 
-  <div class="col-md-6">
-    <mat-form-field >
-      <mat-label>Ajouter un projet</mat-label>
-      <mat-select >
-        <mat-option *ngFor="let project of allProjects" [value]="project.name" (click)="addProjectToSession(project)">
-          {{project.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div><br><br>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field >
+        <mat-label>Ajouter un projet</mat-label>
+        <mat-select >
+          <mat-option *ngFor="let project of allProjects" [value]="project.name" (click)="addProjectToSession(project)">
+            {{project.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-primary" (click)="createRun()">Run</button>
+    </div>
+  </div>
+  <br><br>
 
   <div class="row">
     <table class="table table-hover">
@@ -74,10 +87,14 @@
         <td>{{project.url}}</td>
         <!-- <td><input type="checkbox" id="" name="select"></td> -->
         <td><button class="btn"><a><i class="fa fa-refresh"></i></a></button></td>
-        <td><button class="btn" (click)="deleteProjectFromSession(project)"><i class="fa fa-trash"></i></button></td>
-                
+        <td><button class="btn" (click)="deleteProjectFromSession(project)"><i class="fa fa-trash"></i></button></td>                
       </tr>
       </tbody>
     </table>
+  </div> <br><br>
+
+  <div class="row">
+    <button class="btn btn-primary" (click)="updateSession()">Enregistrer</button>
   </div>
+
 </div>

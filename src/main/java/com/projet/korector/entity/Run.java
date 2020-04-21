@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "run")
 public class Run implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
@@ -12,9 +13,11 @@ public class Run implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "session_id", nullable = false)
     private Session session;
 
+    public Run () {};
 
     public Run(Session session) {
         this.session = session;
