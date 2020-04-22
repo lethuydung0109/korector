@@ -1,15 +1,22 @@
-<div *ngIf="criteria">
-  <div>
-    <label>Name: </label>{{criteria.name}}
+<div>
+  <div class="card text-center">
+    <div class="card-header">
+      <h1>Criteria Details</h1>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"><span>Criteria name :</span> {{criteria.name}} </h5>
+      <p class="card-text"></p>
+      <h5 class="card-title"><span>Criteria type :</span> {{criteria.type}}</h5>
+      <p class="card-text"></p>
+      <h5 class="card-title"><span>Value(%)  :</span>{{criteria.value}}  </h5>
+      <p class="card-text"></p>
+      <h5 class="card-title"><span>URL  :</span>{{criteria.url}}  </h5>
+      <p class="card-text"></p>
+      <div class="button-criteria">
+        <button (click)="list()" class="btn btn-primary">Back to Criteria List</button>
+      </div>
+    </div>
   </div>
-  <div>
-    <label>Type: </label> {{criteria.type}}
-  </div>
-  <div>
-    <label>Value: </label>{{criteria.url}}
-  </div>
-  <div>
-    <label>Url: </label> {{criteria.url}}
-  </div>
-  <hr/>
 </div>
+
+

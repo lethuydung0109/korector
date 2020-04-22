@@ -7,10 +7,12 @@ import com.projet.korector.model.User;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
-@Table(name = "projects", uniqueConstraints = {
+@Table(name = "projectsKorector", uniqueConstraints = {
         @UniqueConstraint(columnNames = "url")
 }
 )
@@ -39,6 +41,7 @@ public class Project implements Serializable {
     public Project() {
 
     }
+
 
     public Project(Long id, String name, String description, String url, String date) {
         this.id = id;
@@ -95,6 +98,11 @@ public class Project implements Serializable {
     public void setDateDepot(String dateDepot) {
         this.dateDepot = dateDepot;
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Project{");
@@ -125,5 +133,25 @@ public class Project implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return Objects.equals(getId(), project.getId()) &&
+                Objects.equals(getName(), project.getName()) &&
+                Objects.equals(getDescription(), project.getDescription()) &&
+                Objects.equals(getUrl(), project.getUrl()) &&
+                Objects.equals(getNote(), project.getNote()) &&
+                Objects.equals(getDateDepot(), project.getDateDepot()) &&
+                Objects.equals(getSessions(), project.getSessions()) &&
+                Objects.equals(getUser(), project.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getDescription(), getUrl(), getNote(), getDateDepot(), getSessions(), getUser());
     }
 }

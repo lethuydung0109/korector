@@ -1,6 +1,7 @@
 package com.projet.korector.model;
 
 
+import com.projet.korector.entity.Section;
 import com.projet.korector.entity.Session;
 
 import java.util.HashSet;
@@ -49,6 +50,19 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "session_id"))
     private Set<Session> sessions = new HashSet<>();
+
+
+    /******** For user section ********/
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "section_users",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "section_id", referencedColumnName = "id")})
+    private Set<Section> sections= new HashSet<>();
+
+
+
 
     public User() {
     }
@@ -120,5 +134,12 @@ public class User {
 
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
+    }
+    public Set<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(Set<Section> sections) {
+        this.sections = sections;
     }
 }

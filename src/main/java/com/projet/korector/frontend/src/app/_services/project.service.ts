@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {User} from "../classes/user";
 
 const AUTH_API = 'http://localhost:8080/api/ressource';
 
@@ -20,21 +21,12 @@ export class ProjectService {
     return this.http.get(`${AUTH_API}/project/${id}`);
   }
 
-  getProject(id: string): Observable<any> {
+  getProject(id: number): Observable<any> {
     return this.http.get(`${AUTH_API}/getProject/${id}`);
   }
 
-  // tslint:disable-next-line:ban-types
-  updateProject(id: number, value: any): Observable<Object> {
-    return this.http.put(`${AUTH_API}/${id}`, value);
-  }
 
   deleteProject(id: number): Observable<any> {
     return this.http.delete(`${AUTH_API}/deleteProject/${id}`, { responseType: 'text' });
   }
-
-  getProjectList(): Observable<any> {
-    return this.http.get(`${AUTH_API}/allProjects`);
-  }
-
 }

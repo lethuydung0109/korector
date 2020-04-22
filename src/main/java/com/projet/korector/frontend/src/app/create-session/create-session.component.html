@@ -10,7 +10,7 @@
 				  Informations Session
 				</div>
 				<div class="card-body">
-					<div class="row">        
+					<div class="row">
 						<div class="col-md-6">
 						   <input type="text" name="nameSession" placeholder="Nom session" >
             </div>
@@ -29,7 +29,7 @@
 							  <mat-option (click)="changeSessionType('depot')" value="Depot"> Depot </mat-option>
 							</mat-select>
 						  </mat-form-field>
-						</div>           
+						</div>
 					</div>
 
 					<div class="row">
@@ -46,14 +46,14 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-md-3">
 			<div class="card " style="text-align:left;">
 				<div class="card-header bg-info text-white">
 					Projects
 				</div>
 				<div class="card-body">
-					<div class="row" >            
+					<div class="row" >
 						<mat-form-field >
 						  <mat-label>Selectionnez un projet</mat-label>
 						  <mat-select >
@@ -67,17 +67,17 @@
 						<ul style="list-style-type: none;" >
 						  <li *ngFor="let project of selectedProjects" (click)="retrieveProjectToselected(project)"><i class="fa fa-minus"></i> {{project.name}}</li>
 						</ul>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-md-3">
 			<div class="card " style="text-align:left;">
 				<div class="card-header bg-info text-white">
 					Critères
 				</div>
-				<div class="card-body">	
+				<div class="card-body">
 					<div class="row">
 						<mat-form-field>
 						  <mat-label>Type Critère</mat-label>
@@ -86,8 +86,8 @@
 							<mat-option (click)="changeCritereType('dynamic')" value="dynamic"> Dynamic </mat-option>
 						  </mat-select>
 						</mat-form-field>
-					</div>	
-					
+					</div>
+
 					<div class="row">
 						<mat-form-field *ngIf="this.typeCritere=='static'">
 						  <mat-label>Selectionnez un critère</mat-label>
@@ -95,7 +95,7 @@
 							  <mat-option> critere </mat-option>
 						  </mat-select>
             </mat-form-field>
-            
+
             <mat-form-field *ngIf="this.typeCritere=='dynamic'">
               <mat-label>Nom critère</mat-label>
               <input matInput [(ngModel)]="nameCritere">
@@ -106,41 +106,41 @@
               <input matInput [(ngModel)]="valueCritere">
             </mat-form-field>
           </div> <br><br>
-          
+
           <div class="row">
             <div class="col-md-6">
               <button class="btn btn-primary" (click)="addCriteria()">Ajouter</button>
             </div>
           </div>
-					
+
 					<div class="row">
 						<ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
               <li *ngFor="let critere of selectedCriteria">
-                <i class="fa fa-minus"></i> {{critere.name}} : {{valueCritere}}              
+                <i class="fa fa-minus"></i> {{critere.name}} : {{valueCritere}}
               </li>
             </ul>
             <ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
               <li *ngFor="let critere of selectedCriteria">
-                <i class="fa fa-minus"></i> {{nameCritere}} : {{valueCritere}}              
+                <i class="fa fa-minus"></i> {{nameCritere}} : {{valueCritere}}
               </li>
 						</ul>
-          </div> 
-          
+          </div>
+
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- <div class="col-md-3">
 			<div class="card">
 				<div class="card-header bg-info text-white">
 					Critères dynamiques
 				</div>
-				<div class="card-body">					
+				<div class="card-body">
 					<div id="critereStatic">
             <button (click)="addRow()">Ajoutez un nouveau critère <i class="fa fa-plus"></i></button><br><br>
             <ul style="list-style-type: none;"  id="dynamicCriteriaList">
               <li>
-                <i class="fa fa-minus"></i> 
+                <i class="fa fa-minus"></i>
                 <input type="text" size="10"> : <input type="text" placeholder="val" minlength="1" maxlength="2" size="2">
               </li>
 						</ul>
@@ -156,15 +156,15 @@
 							<tr id="rowCriteria">
 							  <td><input type="text"></td>
 							  <td><input type="text" value="" minlength="1" maxlength="2" size="2"></td>
-							</tr>            
+							</tr>
 						  </tbody>
 						</table>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div> -->
 	</div>
-	
+
 	<div class="row">
 		<div class="col-md-6">
 		  <button class="btn btn-primary" (click)="createSession()">Creer Session </button>

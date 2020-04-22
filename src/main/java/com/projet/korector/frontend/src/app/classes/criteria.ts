@@ -5,4 +5,11 @@ export class Criteria {
   url: string;
   value: number;
 
+  constructor() {
+    this.id = null;
+    this.name ="";
+    this.type="";
+    this.url="";
+    this.value=0;
+  }
 }

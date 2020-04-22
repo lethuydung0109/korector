@@ -17,18 +17,21 @@ public class SectionService {
         return null;
     }
 
-    public List<Project> getAllSections() { return repository.findAll(); }
+    public List<Section> getAllSections() { return repository.findAll(); }
 
     public void deleteSection(Long sectionId) {
         repository.deleteById(sectionId);
     }
 
-    public Section getSectionByName(Long name) {
+    public Section getSectionByName(String name) {
         return repository.getSectionByName(name);
     }
 
     public Section getSectionById(Long id) {
         return repository.findSectionById(id);
+    }
+    public boolean existByName(String name) {
+        return repository.existsByName(name);
     }
 
 }

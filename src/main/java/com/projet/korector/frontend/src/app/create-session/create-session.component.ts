@@ -23,7 +23,7 @@ export class CreateSessionComponent implements OnInit {
   public criterias : Array<Criteria> =[new Criteria(), new Criteria(), new Criteria(), new Criteria()];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
-  public typeSession : string; 
+  public typeSession : string;
   public typeCritere : string;
   public listStaticCriteria: Array<Criteria> =[];
 
@@ -120,6 +120,6 @@ export class CreateSessionComponent implements OnInit {
     tr.appendChild(tdName);
     tr.appendChild(tdValue);
 
-   
+
   }
 }
