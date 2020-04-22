@@ -55,7 +55,6 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
 import { DatePipe } from '@angular/common';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +90,6 @@ import { DatePipe } from '@angular/common';
     CriteriaGroupDetailsComponent,
     CriteriaGroupListComponent,
     UpdateCriteriaGroupComponent
-
   ],
   imports: [
     BrowserModule,

@@ -20,12 +20,16 @@ export class CreateSessionComponent implements OnInit {
 
   //public projects : Array<Project>=[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
   public projects : Array<Project>=[];
-  //public criterias : Array<Criteria> =[new Criteria("c1"), new Criteria("c2"), new Criteria("c3"), new Criteria("c4")];
+  public criterias : Array<Criteria> =[new Criteria(), new Criteria(), new Criteria(), new Criteria()];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
   public typeSession : string; 
   public typeCritere : string;
   public listStaticCriteria: Array<Criteria> =[];
+
+  nameSession: string;
+  nameCritere : string;
+  valueCritere: string;
 
   constructor(private sessionService : SessionService, private projectService : ProjectService) {
     this.typeSession='normal';
@@ -56,6 +60,12 @@ export class CreateSessionComponent implements OnInit {
     else console.log("déjà sélectionné");
   }
 
+  addCriteria() : void
+  {
+    console.log("name", this.nameCritere);
+    console.log("value", this.valueCritere);
+  }
+
   public changeSessionType(type : string) : void
   {
     this.typeSession=type;
@@ -67,7 +77,9 @@ export class CreateSessionComponent implements OnInit {
   }
 
   public createSession(): void{
-    let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
+    let nameSession : string = document.getElementsByName("nameSession")[0]["value"];
+    //let nameSession : string = this.nameSession;
+    console.log("nameSession", nameSession);
     let dateDepot :string = document.getElementsByName("date")[0]["value"];
 
     //var someString: string = "your JSON String here";
@@ -107,5 +119,7 @@ export class CreateSessionComponent implements OnInit {
     tdValue.appendChild(tdInput2);
     tr.appendChild(tdName);
     tr.appendChild(tdValue);
+
+   
   }
 }
