@@ -89,43 +89,46 @@
 					</div>
 
 					<div class="row">
-						<mat-form-field *ngIf="this.typeCritere=='static'">
+						<mat-form-field *ngIf="this.typeCritere=='static'"> 
 						  <mat-label>Selectionnez un critère</mat-label>
-						  <mat-select >
-							  <mat-option> critere </mat-option>
+						  <mat-select [(value)]="nameCritere">
+							  <mat-option *ngFor="let critere of statiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
 						  </mat-select>
-            </mat-form-field>
+            			</mat-form-field>
 
-            <mat-form-field *ngIf="this.typeCritere=='dynamic'">
-              <mat-label>Nom critère</mat-label>
-              <input matInput [(ngModel)]="nameCritere">
-            </mat-form-field>
+						<mat-form-field *ngIf="this.typeCritere=='dynamic'">
+							<!-- <mat-label>Nom critère</mat-label>
+							<input matInput [(ngModel)]="nameCritere"> -->
+							<mat-label>Selectionnez un critère</mat-label>
+							<mat-select [(value)]="nameCritere"> 
+								<mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
+							</mat-select> 
+						</mat-form-field>
 
-            <mat-form-field>
-              <mat-label>Valeur du critère</mat-label>
-              <input matInput [(ngModel)]="valueCritere">
-            </mat-form-field>
-          </div> <br><br>
-
-          <div class="row">
-            <div class="col-md-6">
-              <button class="btn btn-primary" (click)="addCriteria()">Ajouter</button>
-            </div>
-          </div>
+						<mat-form-field>
+							<mat-label>Valeur du critère</mat-label>
+							<input matInput [(ngModel)]="valueCritere">
+						</mat-form-field>
+					</div> <br>
 
 					<div class="row">
-						<ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
-              <li *ngFor="let critere of selectedCriteria">
-                <i class="fa fa-minus"></i> {{critere.name}} : {{valueCritere}}
-              </li>
-            </ul>
-            <ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
-              <li *ngFor="let critere of selectedCriteria">
-                <i class="fa fa-minus"></i> {{nameCritere}} : {{valueCritere}}
-              </li>
-						</ul>
-          </div>
+						<div class="col-md-6">
+						<button class="btn btn-primary" (click)="addCriteria()">Ajouter</button>
+						</div>
+					</div> <br>
 
+					<div class="row">
+						<ul style="list-style-type: none;">
+							<li *ngFor="let critere of selectedCriteria" (click)="retrieveCriteriaToSelected(critere)">
+								<i class="fa fa-minus"></i> {{critere.name}} : {{critere.value}}
+							</li>
+						</ul>
+						<!-- <ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
+							<li *ngFor="let critere of selectedStaticCriteria">
+								<i class="fa fa-minus"></i> {{critere.name}} : {{critere.value}}
+							</li>
+						</ul> -->
+          			</div>
 				</div>
 			</div>
 		</div>

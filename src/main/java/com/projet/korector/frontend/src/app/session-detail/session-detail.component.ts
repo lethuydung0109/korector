@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { RunService } from '../services/run.service';
 import { Run } from '../classes/run';
 import { DatePipe } from '@angular/common';
+import { Criteria } from '../classes/criteria';
 //import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
@@ -22,7 +23,8 @@ export class SessionDetailComponent implements OnInit {
   //public sessionDateDepot : string="";
   public sessionDateDepot : any;
 
-  public sessionProjects : Array<Project>=[];
+  public sessionProjects : Array<Project>=[]; 
+  public sessionCriterias : Array<Criteria>=[];
   public allProjects : Array<Project>=[];
   public sessionRuns : Array<Run>=[];
   public tab : Array<Session>=[];
@@ -47,10 +49,10 @@ export class SessionDetailComponent implements OnInit {
       console.log("data ", data);
       this.sessionId=data.id;
       this.sessionName=data.name.valueOf();
-      //this.sessionDateDepot=data.dateDepot.valueOf();
+      this.sessionDateDepot=data.date_depot.valueOf();
       
     });
-    this.sessionDateDepot = "16/04/2020";
+    //this.sessionDateDepot = "16/04/2020";
   
      let listProjects : Array<Project> =[];
      this.sessionService.getSessionProjects(this.sessionId).subscribe(data => {
@@ -60,6 +62,15 @@ export class SessionDetailComponent implements OnInit {
        })
      });
      this.sessionProjects=listProjects;
+
+     let listCriterias : Array<Criteria> =[];
+     this.sessionService.getSessionCriterias(this.sessionId).subscribe(data => {
+       console.log("sessionCriterias",data)
+       data.forEach(c => {
+        listCriterias.push(c);
+       })
+     });
+     this.sessionCriterias=listCriterias;
 
     let projectList: Array<Project>=[];
     this.projectService.getProjectList().subscribe(data => {

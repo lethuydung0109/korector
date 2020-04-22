@@ -43,7 +43,7 @@ public class Run implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Run{");
         sb.append("id=").append(id);
-        sb.append(", session=").append(session);
+        //sb.append(", session=").append(session);
         sb.append('}');
         return sb.toString();
     }

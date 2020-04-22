@@ -5,10 +5,10 @@ import { Criteria } from './criteria';
 export class Session {
     public id : number;
     public name:string;
-    public dateDepot : string;
+    public date_depot : string;
     public projects : Array<Project>;
     public runs : Array<Run>;
-   // public criteria : Array<Criteria>
+    public criterias : Array<Criteria>;
 
    
 
@@ -16,19 +16,20 @@ export class Session {
     {
         this.id=null;
         this.name=name;
-        this.dateDepot=date;
+        this.date_depot=date;
         this.projects=[];
+        this.criterias=[];
         this.runs=[];
-        //this.projects=projects;
-       // this.criteria=[];
+        
     }
 
     public setSession(newSession : Session) 
     {
         this.id=newSession.id;
         this.name=newSession.name;
-        this.dateDepot=newSession.dateDepot;
+        this.date_depot=newSession.date_depot;
         this.projects=newSession.projects;
+        this.criterias=newSession.criterias;
         this.runs=newSession.runs;
     }
 

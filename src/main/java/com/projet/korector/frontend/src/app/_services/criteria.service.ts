@@ -34,8 +34,8 @@ export class CriteriaService {
     return this.http.get(`${this.baseUrl}/Criteria/id=${id}`);
   }
 
-  searchCriteriaByType(type: string) {
-    return this.http.get(`${this.baseUrl}/Criteria/researchCriteria/type=${type}`);
+  searchCriteriaByType(type: string) : Observable<Array<Criteria>> {
+    return this.http.get<Array<Criteria>>(`${this.baseUrl}/Criteria/researchCriteria/type=${type}`);
   }
 
   searchCriteriaByName(name: string) {

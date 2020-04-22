@@ -13,23 +13,21 @@
           Nom session : <input type="text" name="nameSession" value="{{sessionName}}"><br><br>
           Date depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br>
           <!-- Heure depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br> -->
-          Critères Statiques : <br><br>
+          Critères : <br><br>
           <table class="table table-bordered table-sm">
             <thead>
             <tr>
               <th>Nom</th>
-              <th>Value</th>
+              <th>Type</th>
+              <th>Value</th>          
             </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let criteria of sessionCriterias">
             <tr>
-              <td>Critère 1 </td>
-              <td><input type="text" value="10"> %</td>
-            </tr>
-            <tr>
-              <td>Critère 2</td>
-              <td><input type="text" value="20"> %</td>
-            </tr>
+              <td>{{criteria.name}}</td>
+              <td>{{criteria.type}}</td>
+              <td><input type="text" value="{{criteria.value}}" size="2">%</td>
+            </tr>          
             </tbody>
           </table>
         </div>

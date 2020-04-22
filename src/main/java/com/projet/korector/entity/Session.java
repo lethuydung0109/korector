@@ -33,32 +33,31 @@ public class Session implements Serializable {
 
     private Set<Project> projects = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name="sessions_criterias",
+            joinColumns = {
+                    @JoinColumn(name = "session_id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "criteria_id",
+                            nullable = false, updatable = false)})
+    private Set<Criteria> criterias = new HashSet<>();
+
     @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
-
     @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Run> runs;
+    private Set<Run> runs = new HashSet<>();
 
     public Session() { }
 
     public Session(String n, String date) {
         this.name = n;
         this.date_depot=date;
-        this.runs = new HashSet<>();
-
     }
-
-//    public Session(String n, String date, Set<Project> projects) {
-//        this.name = n;
-//        this.projects= projects;
-//        this.projects= new HashSet<>();
-//        this.runs = new HashSet<>();
-//        this.date_depot=date;
-//    }
 
     public Long getId() {
         return id;
@@ -108,6 +107,14 @@ public class Session implements Serializable {
         this.users = users;
     }
 
+    public Set<Criteria> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(Set<Criteria> criterias) {
+        this.criterias = criterias;
+    }
+
     @Override
     public String toString() {
         return "Session{" +
@@ -115,6 +122,7 @@ public class Session implements Serializable {
                 ", name='" + name + '\'' +
                 ", date_depot='" + date_depot + '\'' +
                 ", projects=" + projects +
+                ", criterias=" + criterias +
                 ", runs=" + runs +
                 '}';
     }

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Session } from '../classes/session';
 import { Project } from '../classes/project';
 import { Run } from '../classes/run';
+import { Criteria } from '../classes/criteria';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,6 @@ export class SessionService {
   public getSessionById(sessionId : Number) : Observable<Session>
   {
     const routeQuery=this.url+"/sessionById/"+sessionId;
-    
     return this.http.get<Session>(routeQuery);
   }
   // by user
@@ -51,11 +51,16 @@ export class SessionService {
     return this.http.get<Array<Session>>(routeQuery);
   }
 
-
   public getSessionProjects(sessionId : Number) : Observable<Array<Project>>
   {
     let routeQuery=this.url+"/sessionProjects/"+sessionId;
     return this.http.get<Array<Project>>(routeQuery);
+  }
+
+  public getSessionCriterias(sessionId : Number) : Observable<Array<Criteria>>
+  {
+    let routeQuery=this.url+"/sessionCriterias/"+sessionId;
+    return this.http.get<Array<Criteria>>(routeQuery);
   }
 
   public deleteSession (sessionId :Number) : Observable<any>

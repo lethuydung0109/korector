@@ -4,6 +4,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.controller.SessionController;
 import com.projet.korector.controller.UserController;
+import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
@@ -13,6 +14,8 @@ import com.projet.korector.repository.ProjectRepository;
 import com.projet.korector.repository.RunRepository;
 import com.projet.korector.repository.SessionRepository;
 import com.projet.korector.security.services.UserDetailsImpl;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +33,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SessionService {
@@ -50,20 +55,21 @@ public class SessionService {
     @Autowired
     private UserController userController;
 
-//    @PersistenceContext
-//    private EntityManager em;
-
-
     public Session createSession(Session session,User currentUser)
     {
         log.info("objet angular reçu pour création :"+session.toString());
         Set<Project> projects = session.getProjects();
-        log.info("liste des projets de la session : "+projects);
-        session.setProjects(new HashSet<>());
-        Session createdSession = this.sessionRepository.save(session);
-        log.info("createdSession - Etape 1 : "+createdSession);
-        createdSession.getProjects().addAll(projects);
+        Set<Criteria> criterias = session.getCriterias();
 
+        session.setProjects(new HashSet<>());
+        session.setCriterias(new HashSet<>());
+        Session createdSession = this.sessionRepository.save(session);
+
+        //log.info("createdSession - Etape 1 : "+createdSession);
+        createdSession.getProjects().addAll(projects);
+        createdSession.getCriterias().addAll(criterias);
+
+        log.info("createdSession : "+createdSession);
         currentUser.getSessions().add(createdSession);
         createdSession.getUsers().add(currentUser);
 
@@ -84,18 +90,20 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public List<Session> getSessionByUser(Long userId)
+    public Set<Session> getSessionWithDateDepotNotNull()
     {
-        //sessionRepository.findAll().stream().filter(session -> { session.getUser().getId().equals(userId)});
-        return null;
+        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> session.getDate_depot() != null).collect(Collectors.toSet());
+        log.info("Session- date depot not null : "+sessions);
+        return sessions;
     }
-
-
     public Set<Project> getSessionProjects(Long sessionId)
     {
-        Set<Project> projects = new HashSet<Project>();
-        projects.addAll(this.sessionRepository.findById(sessionId).get().getProjects());
-        return projects;
+        return new HashSet<Project>(this.sessionRepository.findById(sessionId).get().getProjects());
+    }
+
+    public Set<Criteria> getSessionCriterias(Long sessionId)
+    {
+        return new HashSet<Criteria>(this.sessionRepository.findById(sessionId).get().getCriterias());
     }
 
     public void addProjectToSession(Long sessionId,Long projectId)
@@ -140,7 +148,7 @@ public class SessionService {
         return runs;
     }
 
-    public void exportCSV(Long runId, HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public void exportCSV(Long runId, HttpServletResponse response) {
 
         SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
@@ -155,16 +163,26 @@ public class SessionService {
         //create a csv writer
         Run run = this.runRepository.findById(runId).get();
 
-        StatefulBeanToCsv<Project> writer = new StatefulBeanToCsvBuilder<Project>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .withOrderedResults(false)
-                .build();
-
-
-        //write all users to csv file
-//        String r = "rien";
         List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
-        writer.write(sessionsProject);
+
+
+        try (
+                CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT
+                        .withHeader("ID", "FirstName", "LastName"));
+        ) {
+            for (Project project : sessionsProject) {
+                List<? extends Serializable> data = Arrays.asList(
+                        project.getId(),
+                        project.getName(),
+                        project.getNote(),
+                        project.getUrl()
+                );
+                csvPrinter.printRecord(data);
+            }
+            csvPrinter.flush();
+        } catch (Exception e) {
+            System.out.println("Writing CSV error!");
+            e.printStackTrace();
+        }
     }
 }

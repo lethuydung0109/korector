@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
@@ -83,20 +84,25 @@ public class SessionController {
         return service.getSessionById(sessionId);
     }
 
-
     @GetMapping("/all")
-    @RequestMapping(value = "/allSessionByUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Session> getSessionByUser(@PathVariable("userId") Long userId)
+    @RequestMapping(value = "/getSessionsDepot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Session> getSessionWithDateDepotNotNull()
     {
-       return service.getSessionByUser(userId);
+        return service.getSessionWithDateDepotNotNull();
     }
-
 
     @GetMapping("/all")
     @RequestMapping(value = "/sessionProjects/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<Project> getSessionProjects(@PathVariable("sessionId") Long sessionId)
     {
         return service.getSessionProjects(sessionId);
+    }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
+    {
+        return service.getSessionCriterias(sessionId);
     }
 
     @PutMapping("/all")
@@ -136,7 +142,7 @@ public class SessionController {
 
     @GetMapping("/all")
     @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
         service.exportCSV(runId,response);
     }
 

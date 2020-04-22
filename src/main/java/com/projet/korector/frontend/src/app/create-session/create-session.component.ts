@@ -9,6 +9,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import { ProjectService } from '../_services/project.service';
+import { CriteriaService } from '../_services/criteria.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,20 +22,23 @@ export class CreateSessionComponent implements OnInit {
 
   //public projects : Array<Project>=[new Project("p1"), new Project("p2"), new Project("p3"), new Project("p4")];
   public projects : Array<Project>=[];
-  public criterias : Array<Criteria> =[new Criteria(), new Criteria(), new Criteria(), new Criteria()];
+  public statiqueCiterias : Array<Criteria> =[];
+  public dynamiqueCiterias : Array<Criteria> =[];
   public selectedProjects : Array<Project> = [];
   public selectedCriteria : Array<Criteria> = [];
+  //public selectedDynamicCriteria : Array<Criteria> = [];
   public typeSession : string;
   public typeCritere : string;
   public listStaticCriteria: Array<Criteria> =[];
 
   nameSession: string;
   nameCritere : string;
-  valueCritere: string;
+  valueCritere: number;
 
-  constructor(private sessionService : SessionService, private projectService : ProjectService) {
+  constructor(private router :Router,private sessionService : SessionService, private projectService : ProjectService, private criteriaService : CriteriaService) {
     this.typeSession='normal';
     this.typeCritere='static';
+    this.nameCritere="critere";
   }
 
   ngOnInit(): void {
@@ -47,10 +52,51 @@ export class CreateSessionComponent implements OnInit {
     console.log("projects :", listProjects)
     this.projects=listProjects;
 
+    let listStaticCriteria: Array<Criteria>=[];
+    this.criteriaService.searchCriteriaByType('Statique').subscribe(data => {
+      data.forEach(c => {
+        listStaticCriteria.push(c);
+      })
+    });
+    console.log("critere :", listStaticCriteria)
+    this.statiqueCiterias=listStaticCriteria;
+
+    let listDynamicCriteria: Array<Criteria>=[];
+    this.criteriaService.searchCriteriaByType('Dynamique').subscribe(data => {
+      data.forEach(c => {
+        listDynamicCriteria.push(c);
+      })
+    });
+    console.log("critere :", listDynamicCriteria)
+    this.dynamiqueCiterias=listDynamicCriteria;
+
+  }
+
+  public createSession(): void
+  {
+    let nameSession : string = document.getElementsByName("nameSession")[0]["value"];
+    let dateDepot:string="";
+    if(this.typeSession=="depot") dateDepot  = document.getElementsByName("date")[0]["value"];
+
+    //var someString: string = "your JSON String here";
+    //let jsonDate : any = JSON.parse(dateDepot);
+
+    let createSession = new Session(nameSession, dateDepot);
+    createSession.projects=this.selectedProjects;
+    createSession.criterias=this.selectedCriteria;
+    console.log("session à créer  : ", createSession);
+
+    if(this.selectedCriteria.length == 0)
+    {
+      alert("Aucun critère sélectionné. Impossible de créer une session");
+    }
+    else{
+      this.sessionService.createSession(createSession).subscribe(data =>{});
+      this.router.navigate(['session']);
+    }    
   }
 
   public addProjetToSelectedProject(p : Project) : void{
-
     if(!this.selectedProjects.includes(p)) this.selectedProjects.push(p);
     else console.log("déjà sélectionné");
   }
@@ -60,10 +106,27 @@ export class CreateSessionComponent implements OnInit {
     else console.log("déjà sélectionné");
   }
 
+  changeNameCritere(name : string) : void
+  {
+    this.nameCritere=name;
+  }
+
   addCriteria() : void
   {
-    console.log("name", this.nameCritere);
-    console.log("value", this.valueCritere);
+    let criteria : Criteria;
+    if(this.typeCritere=="static")
+    {
+      criteria = this.statiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
+      criteria.value=this.valueCritere;
+      this.addCriteriaToSelectedCriteria(criteria);
+    }
+    else if (this.typeCritere=="dynamic")
+    {
+      criteria = this.dynamiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
+      criteria.value=this.valueCritere;
+      console.log("criteria",criteria);
+      this.addCriteriaToSelectedCriteria(criteria);
+    }
   }
 
   public changeSessionType(type : string) : void
@@ -76,32 +139,14 @@ export class CreateSessionComponent implements OnInit {
     this.typeCritere=type;
   }
 
-  public createSession(): void{
-    let nameSession : string = document.getElementsByName("nameSession")[0]["value"];
-    //let nameSession : string = this.nameSession;
-    console.log("nameSession", nameSession);
-    let dateDepot :string = document.getElementsByName("date")[0]["value"];
-
-    //var someString: string = "your JSON String here";
-    //let jsonDate : any = JSON.parse(dateDepot);
-
-    let createSession = new Session(nameSession, dateDepot);
-    createSession.projects=this.selectedProjects;
-    //createSession.criteria=this.selectedCriteria;
-    console.log("session à créer  : ", createSession);
-
-    this.sessionService.createSession(createSession).subscribe(
-      data =>{
-      alert("Session created successfully. see your list of sessions in tab Session");
-      console.log("data", data);
-
-    });
-
-      }
-
   public retrieveProjectToselected(project : Project) : void
   {
     this.selectedProjects.splice(this.selectedProjects.indexOf(project),1);
+  }
+
+  public retrieveCriteriaToSelected(criteria : Criteria) : void
+  {
+    this.selectedCriteria.splice(this.selectedCriteria.indexOf(criteria),1);
   }
 
   public addRow() : void
