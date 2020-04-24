@@ -1,14 +1,14 @@
 package com.projet.korector.controller;
 
 import com.projet.korector.entity.Session;
-import com.projet.korector.model.ERole;
+import com.projet.korector.exception.ResourceNotFoundException;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
 import com.projet.korector.model.UserDTO;
 import com.projet.korector.payload.response.MessageResponse;
-import com.projet.korector.payload.response.StatistiqueResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
+import com.projet.korector.security.CurrentUser;
 import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +29,6 @@ import org.modelmapper.ModelMapper;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
-import javax.validation.Valid;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -76,7 +73,7 @@ public class UserController {
         // Create new user's account
         User user = new User(userRequest.getUsername(),
                 userDTORequest.getEmail(),
-                encoder.encode(userRequest.getPassword()),userRequest.getGithubAccount());
+                encoder.encode(userRequest.getPassword()));
 
         User userResponse = service.saveUser(userRequest);
         if (userResponse != null) {
@@ -164,6 +161,8 @@ public class UserController {
         return new ResponseEntity<Set<Session>>(sessions, HttpStatus.OK);
 
     }
+
+
 
     private UserDTO mapUserToUserDTO(User user) {
         ModelMapper mapper = new ModelMapper();

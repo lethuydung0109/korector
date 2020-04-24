@@ -52,6 +52,8 @@ import { CreateCriteriaGroupComponent } from './create-criteria-group/create-cri
 import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
+
 
 
 
@@ -89,7 +91,9 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
     CreateCriteriaGroupComponent,
     CriteriaGroupDetailsComponent,
     CriteriaGroupListComponent,
-    UpdateCriteriaGroupComponent
+    UpdateCriteriaGroupComponent,
+    Oauth2RedirectHandlerComponent,
+
 
   ],
   imports: [

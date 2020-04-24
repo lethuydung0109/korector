@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import {environment} from "../../environments/environment";
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  githubURL = environment.github_auth_uri;
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
 

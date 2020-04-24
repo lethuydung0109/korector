@@ -3,9 +3,11 @@ package com.projet.korector.security.jwt;
 
 import java.util.Date;
 
+import com.projet.korector.config.AppProperties;
 import com.projet.korector.security.services.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,18 @@ import io.jsonwebtoken.*;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${korector.app.jwtSecret}")
-    private String jwtSecret;
+    @Autowired
+    AppProperties appProperties;
 
-    @Value("${korector.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
+
+    private String jwtSecret ;
+    private int jwtExpirationMs ;
+
+    public JwtUtils(AppProperties appProperties){
+        this.appProperties = appProperties;
+        this.jwtSecret = appProperties.getAuth().getjwtSecret();
+        this.jwtExpirationMs = appProperties.getAuth().getjwtExpirationMs();
+    }
 
     public String generateJwtToken(Authentication authentication) {
 
@@ -37,6 +46,15 @@ public class JwtUtils {
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Long getUserIdFromJwtToken(String token){
+        return Long.parseLong(
+                Jwts.parser()
+                        .setSigningKey(jwtSecret)
+                        .parseClaimsJws(token)
+                        .getBody().getSubject()
+        );
     }
 
     public boolean validateJwtToken(String authToken) {
