@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
 import { NavComponent } from './nav/nav.component';
 import { FooterComponent } from './footer/footer.component';
-
 
 import {NoPageFoundComponent} from './no-page-found/no-page-found.component';
 import {SessionDetailComponent} from './session-detail/session-detail.component';
@@ -34,7 +34,7 @@ import {BoardModeratorComponent} from './board-moderator/board-moderator.compone
 import {ProfileComponent} from './profile/profile.component';
 import {ProjectComponent} from './project/project.component';
 import {SectionComponent} from './section/section.component';
-import {SectionDetailComponent} from './section-details/section-detail.component';
+//import {SectionDetailComponent} from './section-details/section-details.component';
 import {CreateProjetComponent} from './createProjet/createProjet.component';
 import {ProjetDetailComponent} from './projet-details/projet-detail.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
@@ -48,6 +48,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+
+import {CreateSectionComponent} from './createSection/createSection.component';
+
 import { CreateCriteriaGroupComponent } from './create-criteria-group/create-criteria-group.component';
 import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
@@ -55,6 +58,7 @@ import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-cri
 import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
 
 
+import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
 
 
 @NgModule({
@@ -81,9 +85,10 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
     ClassesStatsComponent,
     ProjectComponent,
     SectionComponent,
-    SectionDetailComponent,
+    //SectionDetailComponent,
     CreateProjetComponent,
     ProjetDetailComponent,
+    CreateSectionComponent,
     CreateCriteriaComponent,
     SearchCriteriaComponent,
     CriteriaListComponent,
@@ -95,6 +100,8 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
     Oauth2RedirectHandlerComponent,
 
 
+    UpdateCriteriaGroupComponent,
+    UpdateCriteriaComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +115,8 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    ReactiveFormsModule
    ],
   providers: [
     authInterceptorProviders,
@@ -118,7 +126,7 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
     BrowserAnimationsModule
   ],
   bootstrap: [AppComponent],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AppModule { }

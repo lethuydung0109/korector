@@ -4,27 +4,27 @@
     <div class="card-header">
       <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Projet</a>
+          <a class="nav-link active" href="#">Project</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">lien du projet</a>
+          <a class="nav-link" href="{{projet.url}}" target = "_blank">Github repository</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Modifier</a>
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Update</a>
         </li>
       </ul>
     </div>
     <div class="card-body">
-      <h5 class="card-title">Nom du projet : {{projet.name}} </h5>
+      <h5 class="card-title">Projet name: {{projet.name}} </h5>
       <p class="card-text"></p>
-      <h5 class="card-title">Description : {{projet.descripion}}</h5>
+      <h5 class="card-title">Description : {{projet.description}}</h5>
       <p class="card-text"></p>
-      <h5 class="card-title">Note du projet: {{projet.note}}  </h5>
+      <h5 class="card-title">Note of projet: {{projet.note}}  </h5>
       <p class="card-text"></p>
-      <h5 class="card-title">Créé le : {{projet.dateDepot}}  </h5>
+      <h5 class="card-title">Date of creation : {{projet.dateDepot}}  </h5>
       <p class="card-text"></p>
 
-      <a href="#" class="btn btn-primary">Retour</a>
+      <a href="home" class="btn btn-primary">Cancel</a>
     </div>
   </div>
 </div>

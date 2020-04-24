@@ -33,6 +33,10 @@ public class Criteria implements Serializable {
         this.value = value;
     }
 
+    public Criteria() {
+
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,31 +1,27 @@
 package com.projet.korector.controller;
-
+import com.projet.korector.entity.Section;
 import com.projet.korector.entity.Session;
 import com.projet.korector.exception.ResourceNotFoundException;
 import com.projet.korector.model.Role;
+import com.projet.korector.model.ERole;
 import com.projet.korector.model.User;
-import com.projet.korector.model.UserDTO;
+import com.projet.korector.payload.request.UserRequest;
 import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.repository.RoleRepository;
+import com.projet.korector.repository.SectionRepository;
 import com.projet.korector.repository.UserRepository;
 import com.projet.korector.security.CurrentUser;
 import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.UserService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.modelmapper.ModelMapper;
 
 
 import java.util.*;
@@ -46,45 +42,63 @@ public class UserController {
     @Autowired
     RoleRepository roleRepository;
 
+
+    @Autowired
+    SectionRepository sectionRepository;
+
     @Autowired
     PasswordEncoder encoder;
     private AuthenticationManager authenticationManager;
 
-    /**
-     * Ajoute un nouveau utilisateur dans la base de donnée. Si le client existe déjà, on retourne un code indiquant que la création n'a pas abouti.
-     * @param userDTORequest
-     * @return
-     */
 
-   // @GetMapping("/all")
-    @PostMapping("/saveUser")
-    @ApiOperation(value = "Add a new Customer in the Library", response = UserDTO.class)
-    @ApiResponses(value = { @ApiResponse(code = 409, message = "Conflict: the user already exist"),
-            @ApiResponse(code = 201, message = "Created: the user is successfully inserted"),
-            @ApiResponse(code = 304, message = "Not Modified: the customer is unsuccessfully inserted") })
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTORequest) {
-        //, UriComponentsBuilder uriComponentBuilder
-        User existingCustomer = service.findUserByEmail(userDTORequest.getEmail());
-        if (existingCustomer != null) {
-            return new ResponseEntity<UserDTO>(HttpStatus.CONFLICT);
+    @RequestMapping(value = "/saveUser/{userRoleId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> saveTeacher(@RequestBody UserRequest userRequest , @PathVariable ("userRoleId") Long userRoleId) {
+       if (userRepository.existsByUsername(userRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
-        User userRequest = mapUserDTOToUser(userDTORequest);
 
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
         // Create new user's account
         User user = new User(userRequest.getUsername(),
-                userDTORequest.getEmail(),
+                userRequest.getEmail(),
                 encoder.encode(userRequest.getPassword()));
 
-        User userResponse = service.saveUser(userRequest);
-        if (userResponse != null) {
-            UserDTO UserDTO = mapUserToUserDTO(userResponse);
-            return new ResponseEntity<UserDTO>(UserDTO, HttpStatus.CREATED);
+        user.setGithubAccount(userRequest.getGithubAccount());
 
+        Set<Role> roles = new HashSet<>();
+        Role userRole;
+        if ( userRoleId == 1) {
+
+
+            userRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         }
-        return new ResponseEntity<UserDTO>(HttpStatus.NOT_MODIFIED);
+      else {
+            userRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        }
+        roles.add(userRole);
+        user.setRoles(roles);
+
+        // Create new section
+        List <String> sectionsName = userRequest.getSectionName();
+        Set <Section> sections = new HashSet<>();
+        for (int i =0;i<sectionsName.size();i++) {
+            Section section = sectionRepository.getSectionByName(sectionsName.get(i));
+            sections.add(section);
+        }
+        user.setSections(sections);
+        service.saveUser(user);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
 
     }
-
 
 
     @PostMapping(value = "/updateUser")
@@ -163,24 +177,6 @@ public class UserController {
     }
 
 
-
-    private UserDTO mapUserToUserDTO(User user) {
-        ModelMapper mapper = new ModelMapper();
-        UserDTO userDTO = mapper.map(user, UserDTO.class);
-        return userDTO;
-    }
-
-    /**
-     * Transforme un POJO CustomerDTO en en entity Customer
-     *
-     * @param customerDTO
-     * @return
-     */
-    private User mapUserDTOToUser(UserDTO customerDTO) {
-        ModelMapper mapper = new ModelMapper();
-        User customer = mapper.map(customerDTO, User.class);
-        return customer;
-    }
 
 
 

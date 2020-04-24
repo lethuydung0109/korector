@@ -1,6 +1,7 @@
 package com.projet.korector.model;
 
 
+import com.projet.korector.entity.Section;
 import com.projet.korector.entity.Session;
 
 import java.util.HashSet;
@@ -63,6 +64,19 @@ public class User {
 
     private String providerId;
 
+
+    /******** For user section ********/
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "section_users",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "section_id", referencedColumnName = "id")})
+    private Set<Section> sections= new HashSet<>();
+
+
+
+
     public User() {
     }
 
@@ -77,7 +91,6 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
-        this.githubAccount = githubAccount;
        this.imageUrl = imageUrl;
    }
 
@@ -167,5 +180,12 @@ public class User {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public Set<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(Set<Section> sections) {
+        this.sections = sections;
     }
 }

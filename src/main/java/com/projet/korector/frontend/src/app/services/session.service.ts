@@ -30,6 +30,13 @@ export class SessionService {
     return this.http.get<Array<Session>>(routeQuery);
   }
 
+  public getAllSessionsByUser() : Observable<Array<Session>>
+  {
+    const routeQuery=this.url+"/user/sessions";
+    return this.http.get<Array<Session>>(routeQuery);
+  }
+
+
   public getSessionProjects(sessionId : Number) : Observable<Array<Project>>
   {
     let routeQuery=this.url+"/sessionProjects/"+sessionId;

@@ -4,7 +4,7 @@ import com.projet.korector.entity.Session;
 import com.projet.korector.exception.ResourceNotFoundException;
 import com.projet.korector.model.Role;
 import com.projet.korector.model.User;
-import com.projet.korector.model.UserDTO;
+
 import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;

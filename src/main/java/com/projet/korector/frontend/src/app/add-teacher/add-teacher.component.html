@@ -3,7 +3,7 @@
 {{diagnostic}}
 
 <div class="container">
-    <form  #teacherForm="ngForm"  > 
+    <form  #teacherForm="ngForm"  >
 
       <div class="form-group">
         <label for="username">Username</label>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-   
+
 
     <div class="form-group">
       <label for="email">E-mail</label>
@@ -48,13 +48,24 @@ Github is required
       </div>
     </div>
 
-      
 
+<div>
+  <mat-form-field>
+
+        <mat-select  name="secSelected" [(ngModel)]="model.sectionName" placeholder="sections" multiple >
+          <mat-option *ngFor="let section of sections" [value]="section">
+            {{section}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
       <div>
-   <button [value]="actionButton" (click)= "createStudent()"   [disabled]="!teacherForm.form.valid" type="submit" class="btn btn-success">Submit</button>
+
+   <button [value]="actionButton" (click)= "createTeacher()"   [disabled]="!teacherForm.form.valid" type="submit" class="btn btn-success">Submit</button>
     </div>
 
     </form>
+
 </div>
 
 
@@ -75,6 +86,8 @@ Github is required
       <div class="col-xs-3">Github</div>
       <div class="col-xs-9">{{ model.githubAccount }}</div>
     </div>
+
+
 
     <br>
     <button class="btn btn-primary" (click)="submitted=false">Edit</button>

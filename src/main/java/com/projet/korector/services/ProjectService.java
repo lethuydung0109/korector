@@ -1,6 +1,7 @@
 package com.projet.korector.services;
 
 import com.projet.korector.entity.Project;
+import com.projet.korector.model.User;
 import com.projet.korector.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class ProjectService {
     private ProjectRepository repository;
 
     public Project createProject(Project project) {
-        return null;
+        return repository.save(project);
     }
 
     public List<Project> getAllProjects() {
@@ -23,9 +24,9 @@ public class ProjectService {
         return repository.findAll();
     }
 
-    public List<Project> getProjectByUser(Long userId) {
+    public List<Project> getProjectByUser(User user) {
 
-        return null;
+        return repository.findByUser(user);
     }
 
     public List<Project> getProjectBySession(Long sessionId) {
@@ -39,5 +40,9 @@ public class ProjectService {
 
     public Optional<Project> getProjectById(Long projectId) {
         return repository.findById(projectId);
+    }
+
+    public boolean existsByUrl(String html_url) {
+        return repository.existsByUrl(html_url);
     }
 }

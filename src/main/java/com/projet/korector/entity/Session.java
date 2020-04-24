@@ -17,7 +17,7 @@ public class Session implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private Date date_depot;
+    private String date_depot;
     //private User user;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable
@@ -32,12 +32,12 @@ public class Session implements Serializable {
         this.name = n;
         this.projects= new HashSet<>();
         this.runs = new HashSet<>();
-        this.date_depot=null;
+        this.date_depot="";
     }
 
-    public Session(String n, Date date) {
+    public Session(String n, String date, Set<Project> projects) {
         this.name = n;
-        //this.projects= projects;
+        this.projects= projects;
         this.projects= new HashSet<>();
         this.runs = new HashSet<>();
         this.date_depot=date;
@@ -64,7 +64,7 @@ public class Session implements Serializable {
     }
 
     public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+        this.projects= projects;
     }
 
     public Set<Run> getRuns() {
@@ -75,11 +75,11 @@ public class Session implements Serializable {
         this.runs = runs;
     }
 
-    public Date getDate_depot() {
+    public String getDate_depot() {
         return date_depot;
     }
 
-    public void setDate_depot(Date date_depot) {
+    public void setDate_depot(String date_depot) {
         this.date_depot = date_depot;
     }
 

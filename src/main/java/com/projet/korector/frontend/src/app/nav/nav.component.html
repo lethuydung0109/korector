@@ -1,38 +1,40 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">Korector</a>
-  <div class="collapse navbar-collapse">
-    <!-- Left nav items -->
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" routerLinkActive="active" routerLink="/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/session" *ngIf="isLoggedIn">Session</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn">Projets</a>
-      </li>
-      <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
-      </li>
-      <li class="nav-item" *ngIf="showModeratorBoard">
-        <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
-      </li>
-      <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
-      </li>
-
-
+    <a class="navbar-brand" href="#">Korector</a>
+    <div class="collapse navbar-collapse">
+      <!-- Left nav items -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLinkActive="active" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/criteria">Criteria</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/session" *ngIf="isLoggedIn">Session</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn">Projects</a>
+        </li>
+        <li class="nav-item" *ngIf="showAdminBoard">
+          <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
+        </li>
+        <li class="nav-item" *ngIf="showModeratorBoard">
+          <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
+        </li>
+        <li class="nav-item">
+          <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
         </li>
 
-        <!-- Right nav items  -->
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" *ngIf="isLoggedIn" routerLink="/Criteria">Criteria</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/section" >Sections</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
+        </li>      
       </ul>
 
-      <li class="nav-item">
-        <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
-      </li>
+
 
       <!-- Right nav items  -->
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
