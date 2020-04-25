@@ -1,5 +1,6 @@
 package com.projet.korector.security.services;
 
+import com.projet.korector.exception.ResourceNotFoundException;
 import com.projet.korector.model.User;
 import com.projet.korector.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return UserDetailsImpl.build(user);
     }
+
+    @Transactional
+    public UserDetails loadUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", id)
+        );
+
+        return UserDetailsImpl.build(user);
+    }
+
 
 
 

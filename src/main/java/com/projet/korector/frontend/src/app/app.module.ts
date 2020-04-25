@@ -55,6 +55,7 @@ import { CreateCriteriaGroupComponent } from './create-criteria-group/create-cri
 import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria-group-details.component';
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
+import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
 import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
 import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
@@ -95,6 +96,8 @@ import { ValidationModalComponent } from './validation-modal/validation-modal.co
     CreateCriteriaGroupComponent,
     CriteriaGroupDetailsComponent,
     CriteriaGroupListComponent,
+    UpdateCriteriaGroupComponent,
+    Oauth2RedirectHandlerComponent,
     UpdateCriteriaGroupComponent,
     UpdateCriteriaComponent,
     ValidationModalComponent

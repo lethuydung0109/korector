@@ -17,6 +17,10 @@ public class Role {
 
     }
 
+    public Role(String eRole){
+        this.name = ERole.valueOf(eRole);
+    }
+
     public Role(ERole name) {
         this.name = name;
     }
@@ -35,5 +39,9 @@ public class Role {
 
     public void setName(ERole name) {
         this.name = name;
+    }
+    @Override
+    public String toString(){
+        return name.toString();
     }
 }

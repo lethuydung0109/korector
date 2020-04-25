@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/korectordb?
+    username: postgres
+    password: 859857
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategt: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 0a2581ae8a726c0352a3
+            clientSecret: 9f7c85c8d1ff7bf15bf634a0b1a17cfa9af7e928
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user
+              - user:email
+app:
+  auth:
+      jwtSecret: korectorLTDSecretKey
+      jwtExpirationMs: 86400000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the frontend client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:4200/oauth2/redirect
+
+logging:
+  level:
+    org.springframework.security: DEBUG
