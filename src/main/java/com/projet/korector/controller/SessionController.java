@@ -44,6 +44,7 @@ public class SessionController {
     @Autowired
     private UserController userController;
 
+
     @PostMapping("/all")
     @RequestMapping(value = "/createSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Session createSession(@RequestBody Session session)
@@ -56,9 +57,9 @@ public class SessionController {
 
     @PutMapping("/all")
     @RequestMapping(value = "/updateSession", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void updateSession(@RequestBody Session session)
+    public Session updateSession(@RequestBody Session session)
     {
-        service.updateSession(session);
+        return service.updateSession(session);
     }
 
     @GetMapping("/all")
@@ -73,7 +74,6 @@ public class SessionController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return service.getAllSessions();
     }
 
@@ -119,18 +119,38 @@ public class SessionController {
         service.deleteProjectFromSession(sessionId,projectId);
     }
 
+    @PostMapping("/all")
+    @RequestMapping(value = "/setSessionProjects/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setSessionProjects(@PathVariable Long sessionId,@RequestBody Set<Project> projects)
+    {
+        service.setSessionProjects(sessionId,projects);
+    }
+
+    @PostMapping("/all")
+    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
+    {
+        service.setSessionCriterias(sessionId,criterias);
+    }
+
     @DeleteMapping("/all")
     @RequestMapping(value = "/deleteSession/{sessionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteSession(@PathVariable("sessionId") Long sessionId)
     {
-        service.deleteSession(sessionId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+        service.deleteSession(sessionId,currentUser);
     }
 
     @DeleteMapping("/all")
     @RequestMapping(value = "/deleteAllSessions", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteAllSessions()
     {
-        service.deleteAllSessions();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+        service.deleteAllSessions(currentUser);
     }
 
     @GetMapping("/all")

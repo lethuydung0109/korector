@@ -9,10 +9,8 @@ import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.User;
-import com.projet.korector.repository.ProjectRepository;
+import com.projet.korector.repository.*;
 
-import com.projet.korector.repository.RunRepository;
-import com.projet.korector.repository.SessionRepository;
 import com.projet.korector.security.services.UserDetailsImpl;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -53,6 +51,12 @@ public class SessionService {
     private ProjectRepository projectRepository;
 
     @Autowired
+    private CriteriaRepository criteriaRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserController userController;
 
     public Session createSession(Session session,User currentUser)
@@ -65,7 +69,6 @@ public class SessionService {
         session.setCriterias(new HashSet<>());
         Session createdSession = this.sessionRepository.save(session);
 
-        //log.info("createdSession - Etape 1 : "+createdSession);
         createdSession.getProjects().addAll(projects);
         createdSession.getCriterias().addAll(criterias);
 
@@ -76,17 +79,20 @@ public class SessionService {
         return this.sessionRepository.saveAndFlush(createdSession);
     }
 
-    public void updateSession(Session session)
+    public Session updateSession(Session session)
     {
+        Session newSession=null;
         if(this.sessionRepository.findById(session.getId()).isPresent())
         {
-            this.sessionRepository.save(session);
+            this.setSessionProjects(session.getId(),session.getProjects());
+            this.setSessionCriterias(session.getId(),session.getCriterias());
+            newSession=this.sessionRepository.save(session);
         }
+        return newSession;
     }
 
     public List<Session> getAllSessions()
     {
-        System.out.println(" Toute la bdd : "+sessionRepository.findAll());
         return sessionRepository.findAll();
     }
 
@@ -96,6 +102,7 @@ public class SessionService {
         log.info("Session- date depot not null : "+sessions);
         return sessions;
     }
+
     public Set<Project> getSessionProjects(Long sessionId)
     {
         return new HashSet<Project>(this.sessionRepository.findById(sessionId).get().getProjects());
@@ -117,6 +124,42 @@ public class SessionService {
         this.sessionRepository.saveAndFlush(putSession);
     }
 
+    public void setSessionProjects(Long sessionId,Set<Project> projects)
+    {
+        Set<Project> putProjects= new HashSet<>();
+        projects.forEach(project->{
+            putProjects.add(this.projectRepository.findById(project.getId()).get());
+        });
+
+        Session putSession=this.sessionRepository.findById(sessionId).get();
+        putSession.setProjects(putProjects);
+
+        putProjects.forEach(project -> {
+            project.getSessions().add(putSession);
+            this.projectRepository.saveAndFlush(project);
+        });
+
+        this.sessionRepository.saveAndFlush(putSession);
+    }
+
+    public void setSessionCriterias(Long sessionId,Set<Criteria> criterias)
+    {
+        Set<Criteria> putCriterias= new HashSet<>();
+        criterias.forEach(criteria->{
+            putCriterias.add(this.criteriaRepository.findById(criteria.getId()).get());
+        });
+
+        Session putSession=this.sessionRepository.findById(sessionId).get();
+        putSession.setCriterias(putCriterias);
+
+        putCriterias.forEach(criteria -> {
+            criteria.getSessions().add(putSession);
+            this.criteriaRepository.saveAndFlush(criteria);
+        });
+
+        this.sessionRepository.saveAndFlush(putSession);
+    }
+
     public void deleteProjectFromSession(Long sessionId,Long projectId)
     {
         Project deleteProject=this.projectRepository.findById(projectId).get();
@@ -128,13 +171,43 @@ public class SessionService {
         this.sessionRepository.saveAndFlush(putSession);
     }
 
-    public void deleteSession(Long id){
-        if(this.sessionRepository.findById(id).isPresent()) this.sessionRepository.deleteById(id);
+    public void deleteSession(Long id, User user){
+        Session deletedSession=this.sessionRepository.findById(id).get();
+        boolean isPresent = this.sessionRepository.findById(id).isPresent();
+        if(isPresent)
+        {
+            Set<Project> projects= deletedSession.getProjects();
+            Set<Criteria> criterias = deletedSession.getCriterias();
+            Set<Run> runs = deletedSession.getRuns();
+
+            projects.forEach(project -> {
+                this.projectRepository.findById(project.getId()).get().getSessions().remove(deletedSession);
+                this.projectRepository.saveAndFlush(project);
+            });
+
+            criterias.forEach(criteria -> {
+                this.criteriaRepository.findById(criteria.getId()).get().getSessions().remove(deletedSession);
+                this.criteriaRepository.saveAndFlush(criteria);
+            });
+
+            projects.clear();
+            criterias.clear();
+            runs.clear();
+
+            user.getSessions().remove(deletedSession);
+            this.userRepository.save(user);
+            deletedSession.getUsers().remove(user);
+
+            this.sessionRepository.saveAndFlush(deletedSession);
+            this.sessionRepository.deleteById(id);
+        }
     }
 
-    public void deleteAllSessions()
+    public void deleteAllSessions(User user)
     {
-        this.sessionRepository.deleteAll();
+        this.sessionRepository.findAll().forEach(session -> {
+            this.deleteSession(session.getId(), user);
+        });
     }
 
     public Session getSessionById(Long sessionId) {
@@ -164,7 +237,6 @@ public class SessionService {
         Run run = this.runRepository.findById(runId).get();
 
         List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
-
 
         try (
                 CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT

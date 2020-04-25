@@ -6,36 +6,21 @@ export class Session {
     public id : number;
     public name:string;
     public date_depot : string;
+    public heureDepot : string;
     public projects : Array<Project>;
     public runs : Array<Run>;
     public criterias : Array<Criteria>;
 
    
 
-    constructor(name : string, date : string)
+    constructor(name : string, date : string, heure:string)
     {
         this.id=null;
         this.name=name;
         this.date_depot=date;
+        this.heureDepot=heure;
         this.projects=[];
         this.criterias=[];
-        this.runs=[];
-        
+        this.runs=[];        
     }
-
-    public setSession(newSession : Session) 
-    {
-        this.id=newSession.id;
-        this.name=newSession.name;
-        this.date_depot=newSession.date_depot;
-        this.projects=newSession.projects;
-        this.criterias=newSession.criterias;
-        this.runs=newSession.runs;
-    }
-
-    public getId() : number
-    { return this.id}
-
-
-
 }

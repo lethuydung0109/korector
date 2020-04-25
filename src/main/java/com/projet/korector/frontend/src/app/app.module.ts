@@ -57,6 +57,7 @@ import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
 import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
 import { DatePipe } from '@angular/common';
+import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 
 
 @NgModule({
@@ -95,7 +96,8 @@ import { DatePipe } from '@angular/common';
     CriteriaGroupDetailsComponent,
     CriteriaGroupListComponent,
     UpdateCriteriaGroupComponent,
-    UpdateCriteriaComponent
+    UpdateCriteriaComponent,
+    ValidationModalComponent
   ],
   imports: [
     BrowserModule,

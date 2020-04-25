@@ -21,6 +21,7 @@ public class Session implements Serializable {
     private Long id;
     private String name;
     private String date_depot;
+    private String heureDepot;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name="sessions_projects",
@@ -54,9 +55,10 @@ public class Session implements Serializable {
 
     public Session() { }
 
-    public Session(String n, String date) {
+    public Session(String n, String date, String heure) {
         this.name = n;
         this.date_depot=date;
+        this.heureDepot=heure;
     }
 
     public Long getId() {
@@ -99,6 +101,14 @@ public class Session implements Serializable {
         this.date_depot = date_depot;
     }
 
+    public String getHeureDepot() {
+        return heureDepot;
+    }
+
+    public void setHeureDepot(String heureDepot) {
+        this.heureDepot = heureDepot;
+    }
+
     public Set<User> getUsers() {
         return users;
     }
@@ -121,6 +131,7 @@ public class Session implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", date_depot='" + date_depot + '\'' +
+                ", heureDepot='" + heureDepot + '\'' +
                 ", projects=" + projects +
                 ", criterias=" + criterias +
                 ", runs=" + runs +

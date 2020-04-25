@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Project} from '../classes/project';
 import {Criteria} from '../classes/criteria';
 import {Session} from '../classes/session';
-import {SessionService} from '../services/session.service';
+import {SessionService} from '../_services/session.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -11,6 +11,8 @@ import {MatCardModule} from '@angular/material/card';
 import { ProjectService } from '../_services/project.service';
 import { CriteriaService } from '../_services/criteria.service';
 import { Router } from '@angular/router';
+import { ValidationModalComponent } from '../validation-modal/validation-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -31,11 +33,16 @@ export class CreateSessionComponent implements OnInit {
   public typeCritere : string;
   public listStaticCriteria: Array<Criteria> =[];
 
-  nameSession: string;
-  nameCritere : string;
-  valueCritere: number;
+  public nameSession: string;
+  public nameCritere : string;
+  public valueCritere: number;
+  public heureDepot : string;
 
-  constructor(private router :Router,private sessionService : SessionService, private projectService : ProjectService, private criteriaService : CriteriaService) {
+  constructor(private router :Router,
+              private modalService: NgbModal,
+              private sessionService : SessionService, 
+              private projectService : ProjectService, 
+              private criteriaService : CriteriaService) {
     this.typeSession='normal';
     this.typeCritere='static';
     this.nameCritere="critere";
@@ -67,7 +74,7 @@ export class CreateSessionComponent implements OnInit {
         listDynamicCriteria.push(c);
       })
     });
-    console.log("critere :", listDynamicCriteria)
+    console.log("critere :", listDynamicCriteria);
     this.dynamiqueCiterias=listDynamicCriteria;
 
   }
@@ -78,21 +85,25 @@ export class CreateSessionComponent implements OnInit {
     let dateDepot:string="";
     if(this.typeSession=="depot") dateDepot  = document.getElementsByName("date")[0]["value"];
 
-    //var someString: string = "your JSON String here";
-    //let jsonDate : any = JSON.parse(dateDepot);
-
-    let createSession = new Session(nameSession, dateDepot);
+    let createSession = new Session(nameSession, dateDepot, this.heureDepot);
     createSession.projects=this.selectedProjects;
     createSession.criterias=this.selectedCriteria;
     console.log("session à créer  : ", createSession);
 
     if(this.selectedCriteria.length == 0)
     {
-      alert("Aucun critère sélectionné. Impossible de créer une session");
+      this.openValidationModal("Aucun critère sélectionné. Impossible de créer une session");
     }
     else{
-      this.sessionService.createSession(createSession).subscribe(data =>{});
-      this.router.navigate(['session']);
+      this.sessionService.createSession(createSession).subscribe(data =>{
+        if(data.id!=null) 
+        {
+          this.openValidationModal("La session a bien été créée");
+          this.router.navigate(['session']);
+        }
+        else this.openValidationModal("Une erreur est survenue. Veuillez contacter le support.");
+      });
+      
     }    
   }
 
@@ -106,38 +117,32 @@ export class CreateSessionComponent implements OnInit {
     else console.log("déjà sélectionné");
   }
 
-  changeNameCritere(name : string) : void
-  {
-    this.nameCritere=name;
-  }
+  public changeNameCritere(name : string) : void { this.nameCritere=name; }
 
-  addCriteria() : void
+  public addCriteria() : void
   {
     let criteria : Criteria;
     if(this.typeCritere=="static")
     {
       criteria = this.statiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
       criteria.value=this.valueCritere;
+
+      this.criteriaService.updateCriteria(criteria.id,criteria).subscribe(data=>{criteria=data});
       this.addCriteriaToSelectedCriteria(criteria);
     }
     else if (this.typeCritere=="dynamic")
     {
       criteria = this.dynamiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
       criteria.value=this.valueCritere;
+      this.criteriaService.updateCriteria(criteria.id,criteria).subscribe(data=>{criteria=data});
       console.log("criteria",criteria);
       this.addCriteriaToSelectedCriteria(criteria);
     }
   }
 
-  public changeSessionType(type : string) : void
-  {
-    this.typeSession=type;
-  }
+  public changeSessionType(type : string) : void { this.typeSession=type; }
 
-  public changeCritereType(type : string) : void
-  {
-    this.typeCritere=type;
-  }
+  public changeCritereType(type : string) : void { this.typeCritere=type; }
 
   public retrieveProjectToselected(project : Project) : void
   {
@@ -149,22 +154,8 @@ export class CreateSessionComponent implements OnInit {
     this.selectedCriteria.splice(this.selectedCriteria.indexOf(criteria),1);
   }
 
-  public addRow() : void
-  {
-    var tab:any = document.getElementById('tabCriteria');
-    //var row:any=document.getElementById('rowCriteria');
-    var tr = document.createElement('tr');
-    tab.appendChild(tr);
-    //tr.appendChild(row);
-    var tdName = document.createElement('td');
-    var tdValue = document.createElement('td');
-    var tdInput1=document.createElement('input');
-    var tdInput2=document.createElement('input');
-    tdName.appendChild(tdInput1);
-    tdValue.appendChild(tdInput2);
-    tr.appendChild(tdName);
-    tr.appendChild(tdValue);
-
-
+  public openValidationModal(message:string) : void {
+    const modalRef = this.modalService.open(ValidationModalComponent);
+    modalRef.componentInstance.message = message;
   }
 }

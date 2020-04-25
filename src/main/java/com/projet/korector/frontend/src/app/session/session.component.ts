@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Session } from '../classes/session';
-import { SessionService } from '../services/session.service';
+import { SessionService } from '../_services/session.service';
 
 @Component({
   selector: 'app-session',
@@ -14,10 +14,8 @@ export class SessionComponent implements OnInit {
   constructor(private sessionService : SessionService) { }
 
   ngOnInit(): void {
-    //affiche dans console le resultat de la requete
     let letSessions : Array<Session> =[];
     this.sessionService.getAllSessionsByUser().subscribe(data => {
-      console.log(data)
       data.forEach(s => {
         letSessions.push(s);
       })
@@ -27,7 +25,6 @@ export class SessionComponent implements OnInit {
 
   public deleteSessionById(session :Session) : void
   {
-    console.log("delete session : ",session.id)
     this.sessionService.deleteSession(session.id).subscribe();
     this.sessions.splice(this.sessions.indexOf(session),1);
   }

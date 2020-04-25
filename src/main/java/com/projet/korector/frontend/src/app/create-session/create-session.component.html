@@ -13,11 +13,7 @@
 					<div class="row">
 						<div class="col-md-6">
 						   <input type="text" name="nameSession" placeholder="Nom session" >
-            </div>
-            <!-- <mat-form-field>
-              <mat-label>Nom Session</mat-label>
-              <input matInput [(ngModel)]="nameSession">
-            </mat-form-field> -->
+            			</div>          
 					</div>
 
 					<div class="row">
@@ -35,11 +31,21 @@
 					<div class="row">
 						<div class="col-md-6">
 						  <mat-form-field *ngIf="this.typeSession=='depot'">
-							<mat-label>Choose a date</mat-label>
+							<mat-label>Date de depot (jj/mm/yyyy)</mat-label>
 							<input id="date" name="date" matInput [matDatepicker]="picker">
 							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 							<mat-datepicker #picker></mat-datepicker>
 						  </mat-form-field>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<mat-form-field *ngIf="this.typeSession=='depot'">
+								<mat-label>Heure de depot  (HH:mm)</mat-label>
+								<input matInput [(ngModel)]="heureDepot">
+							</mat-form-field>
 						</div>
 						<div class="col-md-4"></div>
 					</div>
@@ -96,9 +102,7 @@
 						  </mat-select>
             			</mat-form-field>
 
-						<mat-form-field *ngIf="this.typeCritere=='dynamic'">
-							<!-- <mat-label>Nom critère</mat-label>
-							<input matInput [(ngModel)]="nameCritere"> -->
+						<mat-form-field *ngIf="this.typeCritere=='dynamic'">							
 							<mat-label>Selectionnez un critère</mat-label>
 							<mat-select [(value)]="nameCritere"> 
 								<mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
@@ -122,50 +126,11 @@
 							<li *ngFor="let critere of selectedCriteria" (click)="retrieveCriteriaToSelected(critere)">
 								<i class="fa fa-minus"></i> {{critere.name}} : {{critere.value}}
 							</li>
-						</ul>
-						<!-- <ul style="list-style-type: none;" *ngIf="this.typeCritere=='static'">
-							<li *ngFor="let critere of selectedStaticCriteria">
-								<i class="fa fa-minus"></i> {{critere.name}} : {{critere.value}}
-							</li>
-						</ul> -->
+						</ul>						
           			</div>
 				</div>
 			</div>
 		</div>
-
-		<!-- <div class="col-md-3">
-			<div class="card">
-				<div class="card-header bg-info text-white">
-					Critères dynamiques
-				</div>
-				<div class="card-body">
-					<div id="critereStatic">
-            <button (click)="addRow()">Ajoutez un nouveau critère <i class="fa fa-plus"></i></button><br><br>
-            <ul style="list-style-type: none;"  id="dynamicCriteriaList">
-              <li>
-                <i class="fa fa-minus"></i>
-                <input type="text" size="10"> : <input type="text" placeholder="val" minlength="1" maxlength="2" size="2">
-              </li>
-						</ul>
-						<input type="text" placeholder="Nom critère"> : <input type="text" placeholder="valeur">
-						<table id="tabCriteria" class="table table-bordered table-sm">
-						  <thead>
-							<tr>
-							  <th>Nom</th>
-							  <th>Value</th>
-							</tr>
-						  </thead>
-						  <tbody>
-							<tr id="rowCriteria">
-							  <td><input type="text"></td>
-							  <td><input type="text" value="" minlength="1" maxlength="2" size="2"></td>
-							</tr>
-						  </tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div> -->
 	</div>
 
 	<div class="row">

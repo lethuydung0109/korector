@@ -7,29 +7,31 @@
     <div class="col-md-6">
       <div class="card " style="text-align:left;">
         <div class="card-header bg-info text-white">
-          Session {{sessionId}}
+          SessionId : {{sessionId}}
         </div>
         <div class="card-body">
           Nom session : <input type="text" name="nameSession" value="{{sessionName}}"><br><br>
           Date depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br>
-          <!-- Heure depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br> -->
-          Critères : <br><br>
+          Heure depot : <input type="text" name="heureDepotSession" value="{{sessionHeureDepot}}"><br><br>
+          Critères :   <button class="btn btn-primary" (click)="isHidden()">Ajouter critère</button><br><br>
           <table class="table table-bordered table-sm">
             <thead>
             <tr>
               <th>Nom</th>
               <th>Type</th>
-              <th>Value</th>          
+              <th>Valeur</th>
+              <th>Supprimé</th>          
             </tr>
             </thead>
             <tbody *ngFor="let criteria of sessionCriterias">
             <tr>
               <td>{{criteria.name}}</td>
               <td>{{criteria.type}}</td>
-              <td><input type="text" value="{{criteria.value}}" size="2">%</td>
+              <td><input name="criteriaValue_{{criteria.id}}" type="text" value="{{criteria.value}}" size="3">%</td>
+              <td><button class="btn" (click)="deleteCriteriaFromSelectedList(criteria)"><i class="fa fa-trash"></i></button></td>
             </tr>          
             </tbody>
-          </table>
+          </table>          
         </div>
       </div>
     </div>
@@ -52,12 +54,60 @@
     </div>
   </div> <br><br>
 
+  <div class="row" >
+    <div class="col-md-3" *ngIf="hideView==false">
+			<div class="card " style="text-align:left;">
+				<div class="card-header bg-info text-white">
+					Critères
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<mat-form-field>
+						  <mat-label>Type Critère</mat-label>
+						  <mat-select>
+                <mat-option (click)="changeCritereType('static')" value="static"> Static </mat-option>
+                <mat-option (click)="changeCritereType('dynamic')" value="dynamic"> Dynamic </mat-option>
+						  </mat-select>
+						</mat-form-field>
+					</div>
+
+					<div class="row">
+						<mat-form-field *ngIf="this.typeCritere=='static'"> 
+						  <mat-label>Selectionnez un critère</mat-label>
+						  <mat-select [(value)]="nameCritere">
+							  <mat-option *ngFor="let critere of statiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
+						  </mat-select>
+            </mat-form-field>
+
+						<mat-form-field *ngIf="this.typeCritere=='dynamic'">					
+							<mat-label>Selectionnez un critère</mat-label>
+							<mat-select [(value)]="nameCritere"> 
+								<mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
+							</mat-select> 
+						</mat-form-field>
+
+						<mat-form-field>
+							<mat-label>Valeur du critère</mat-label>
+							<input matInput [(ngModel)]="valueCritere">
+						</mat-form-field>
+					</div> <br>
+
+					<div class="row">
+						<div class="col-md-6">
+						<button class="btn btn-primary" (click)="addToCriteriaList()">Ajouter</button>
+						</div>
+					</div> <br>
+				</div>
+			</div>
+		</div>
+  </div> <br><br>
+
   <div class="row">
     <div class="col-md-6">
       <mat-form-field >
         <mat-label>Ajouter un projet</mat-label>
         <mat-select >
-          <mat-option *ngFor="let project of allProjects" [value]="project.name" (click)="addProjectToSession(project)">
+          <mat-option *ngFor="let project of allProjects" [value]="project.name" (click)="addToProjectList(project)">
             {{project.name}}
           </mat-option>
         </mat-select>
@@ -83,9 +133,8 @@
       <tr>
         <td>{{project.name}}</td>
         <td>{{project.url}}</td>
-        <!-- <td><input type="checkbox" id="" name="select"></td> -->
         <td><button class="btn"><a><i class="fa fa-refresh"></i></a></button></td>
-        <td><button class="btn" (click)="deleteProjectFromSession(project)"><i class="fa fa-trash"></i></button></td>                
+        <td><button class="btn" (click)="deleteToProjectList(project)"><i class="fa fa-trash"></i></button></td>                
       </tr>
       </tbody>
     </table>
