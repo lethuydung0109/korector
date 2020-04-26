@@ -1,5 +1,7 @@
 package com.projet.korector.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.projet.korector.model.User;
 
 import javax.persistence.*;
@@ -10,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Entity
-@Table(name = "projectsKorector", uniqueConstraints = {
+@Table(name = "projects", uniqueConstraints = {
         @UniqueConstraint(columnNames = "url")
 }
 )
@@ -26,8 +28,9 @@ public class Project implements Serializable {
     private String url;
     private Float note;
     private String dateDepot;
-    @ManyToMany(mappedBy = "projects")
-    private Set<Session> sessions;
+    @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Session> sessions = new HashSet<>();
 
     @OneToOne(cascade=CascadeType.ALL)
     @JoinTable(name="user_projects",
@@ -45,7 +48,6 @@ public class Project implements Serializable {
         this.name = name;
         this.description = description;
         this.url = url;
-        this.sessions= new HashSet<>();
         this.dateDepot = date;
     }
 
@@ -53,7 +55,6 @@ public class Project implements Serializable {
         this.name = name;
         this.description = description;
         this.url = url;
-        this.sessions= new HashSet<>();
         this.dateDepot = date;
     }
 
@@ -107,8 +108,8 @@ public class Project implements Serializable {
         final StringBuilder sb = new StringBuilder("Project{");
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", note=").append(note);
-        sb.append(", sessions=").append(sessions);
+       // sb.append(", note=").append(note);
+//        sb.append(", sessions=").append(sessions);
         sb.append('}');
         return sb.toString();
     }

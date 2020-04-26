@@ -32,4 +32,8 @@ export class ProjectService {
   deleteProject(id: number): Observable<any> {
     return this.http.delete(`${AUTH_API}/deleteProject/${id}`, { responseType: 'text' });
   }
+
+  getProjectList(): Observable<any> {
+    return this.http.get(`${AUTH_API}/allProjects`);
+  }
 }

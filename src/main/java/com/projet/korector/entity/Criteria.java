@@ -1,7 +1,11 @@
 package com.projet.korector.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -25,6 +29,10 @@ public class Criteria implements Serializable {
 
     @Column(name="value")
     private float value;
+
+    @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Session> sessions = new HashSet<>();
 
     public Criteria( String name, String type, String url, float value) {
         this.name = name;
@@ -76,6 +84,13 @@ public class Criteria implements Serializable {
         this.value = value;
     }
 
+    public Set<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
+    }
 
     @Override
     public String toString() {

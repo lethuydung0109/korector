@@ -1,5 +1,7 @@
 package com.projet.korector.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.projet.korector.model.User;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name="session")
 public class Session implements Serializable {
 
     private static final long serialVersionUID = -2054386655979281969L;
@@ -18,29 +21,44 @@ public class Session implements Serializable {
     private Long id;
     private String name;
     private String date_depot;
-    //private User user;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable
-    private Set<Project> projects;
+    private String heureDepot;
 
-    @OneToMany
-    private Set<Run> runs;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name="sessions_projects",
+            joinColumns = {
+                    @JoinColumn(name = "session_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "project_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+
+    private Set<Project> projects = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(name="sessions_criterias",
+            joinColumns = {
+                    @JoinColumn(name = "session_id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "criteria_id",
+                            nullable = false, updatable = false)})
+    private Set<Criteria> criterias = new HashSet<>();
+
+    @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Run> runs = new HashSet<>();
 
     public Session() { }
 
-    public Session(String n) {
+    public Session(String n, String date, String heure) {
         this.name = n;
-        this.projects= new HashSet<>();
-        this.runs = new HashSet<>();
-        this.date_depot="";
-    }
-
-    public Session(String n, String date, Set<Project> projects) {
-        this.name = n;
-        this.projects= projects;
-        this.projects= new HashSet<>();
-        this.runs = new HashSet<>();
         this.date_depot=date;
+        this.heureDepot=heure;
     }
 
     public Long getId() {
@@ -83,14 +101,40 @@ public class Session implements Serializable {
         this.date_depot = date_depot;
     }
 
+    public String getHeureDepot() {
+        return heureDepot;
+    }
+
+    public void setHeureDepot(String heureDepot) {
+        this.heureDepot = heureDepot;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Set<Criteria> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(Set<Criteria> criterias) {
+        this.criterias = criterias;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Session{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", projects=").append(projects);
-        sb.append(", runs=").append(runs);
-        sb.append('}');
-        return sb.toString();
+        return "Session{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date_depot='" + date_depot + '\'' +
+                ", heureDepot='" + heureDepot + '\'' +
+                ", projects=" + projects +
+                ", criterias=" + criterias +
+                ", runs=" + runs +
+                '}';
     }
 }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Session } from '../classes/session';
 import { Project } from '../classes/project';
+import { Run } from '../classes/run';
+import { Criteria } from '../classes/criteria';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,19 @@ export class SessionService {
     return this.http.post<Session>(routeQuery,session);
   }
 
+  public updateSession(session: Session) : Observable<any>
+  {
+    const routeQuery=this.url+"/updateSession";
+    console.log("updateSession", session)
+
+    return this.http.put<Session>(routeQuery,session);
+  }
+
+  public getSessionById(sessionId : Number) : Observable<Session>
+  {
+    const routeQuery=this.url+"/sessionById/"+sessionId;
+    return this.http.get<Session>(routeQuery);
+  }
   // by user
   public getAllSessions() : Observable<Array<Session>>
   {
@@ -36,11 +51,16 @@ export class SessionService {
     return this.http.get<Array<Session>>(routeQuery);
   }
 
-
   public getSessionProjects(sessionId : Number) : Observable<Array<Project>>
   {
     let routeQuery=this.url+"/sessionProjects/"+sessionId;
     return this.http.get<Array<Project>>(routeQuery);
+  }
+
+  public getSessionCriterias(sessionId : Number) : Observable<Array<Criteria>>
+  {
+    let routeQuery=this.url+"/sessionCriterias/"+sessionId;
+    return this.http.get<Array<Criteria>>(routeQuery);
   }
 
   public deleteSession (sessionId :Number) : Observable<any>
@@ -55,21 +75,30 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  public deleteProjectFromSession (sessionId :Number): Observable<any>
+  public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
   {
-    const routeQuery=this.url+"/deleteProjectFromSession/"+sessionId;
+    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
+    return this.http.put(routeQuery,project);
+  }
+
+  public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>
+  {
+    const routeQuery=this.url+"/deleteProjectFromSession/"+sessionId+"/"+projectId;
     return this.http.delete(routeQuery);
   }
 
-  /**
-   * Récupérer les sessions par user
-   * Ajouter projet dans session
-   * delete projet d'un session
-   * update session
-   * ajouter bouton lancer dans session-detail
-   * mettre des checkbox dans la liste des projets
-   * bouton lancer, crée un objet run
-   * générer un fichier excel avec détails session, projets et notes
-   * 
-   */
+  public getSessionRuns(sessionId : number) : Observable<Array<Run>>
+  {
+    const routeQuery=this.url+"/getSessionRuns/"+sessionId;
+    return this.http.get<Array<Run>>(routeQuery);
+  }
+
+  public exportCSV(runId : number) : Observable<any>
+  {
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/csv');
+    let routeQuery=this.url+"/exportCSV/"+runId;
+    return this.http.get<any>(routeQuery,{headers: headers});
+  }
+
 }
