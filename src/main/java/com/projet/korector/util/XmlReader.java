@@ -26,7 +26,7 @@ public class XmlReader {
 
     public String formatXML(){
         try{
-            String filePath= "./spring-social/src/main/java/fr/miage/korector/jenkins/job.xml";
+            String filePath= "src/main/java/com/projet/korector/jenkins/job.xml";
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filePath);

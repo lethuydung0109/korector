@@ -78,9 +78,14 @@ public class Jenkins implements JenkinsService {
     }
     //Création d'un job
     public String createJob(String name, String xml){
+        System.out.println("Job name return avant");
+
         String result = null;
         try {
-            jenkinsServer.createJob(name , xml);
+            System.out.println("Job name return juste avant");
+
+            jenkinsServer.createJob(null,name,xml,false);
+            System.out.println("Job name return");
             return jenkinsServer.getJob(name).getDisplayName();
         } catch (IOException e) {
              return e.getMessage();

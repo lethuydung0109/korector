@@ -6,7 +6,9 @@ import com.projet.korector.sonarqube.SonarQube;
 import com.projet.korector.sonarqube.SonarQubeImpl;
 import com.projet.korector.util.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
@@ -14,6 +16,7 @@ import java.util.Map;
 import static com.projet.korector.jenkins.constants.*;
 
 @RestController
+@RequestMapping(value = "/api/jenkins")
 
 public class jenkinsController {
 
@@ -22,7 +25,9 @@ public class jenkinsController {
     @Autowired
     private JenkinsService jenkinsService;
 
-/*
+    //@PostMapping("/result/{name}/{url}")
+    //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    /*
     private Analyse doAnalyse(String name, String url, Analyse analyse){
         System.out.println(analyse);
         Map<String,String> resutlSonar = this.build(name,url);
@@ -60,23 +65,31 @@ public class jenkinsController {
         return newAnalyse;
     } */
 
+    private String createJob( String name, String url){
+        System.out.println("Test Passed ");
 
-    private String createJob(String name, String url){
         url = url.replace(',', '/');
+        System.out.println("New Url " + url);
+
         XmlReader xmlReader = new XmlReader(url, "url");
         String xmlJob = xmlReader.formatXML();
         System.out.println(xmlJob);
-        String result = jenkinsService.createJob(name, xmlJob);
+        String result = jenkinsService.createJob(name, url);
         return result;
     }
 
-
-    private Map<String,String> build(String name, String url){
+    @RequestMapping(value = "/build/{name}/{url}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    private Map<String,String> build(@PathVariable String name, @PathVariable String url){
         jenkinsService = new Jenkins(USERNAME_JENKINS,PASSWORD_JENKINS,URL_JENKINS);
         boolean isCreation = false;
+String xmlJob = jenkinsService.getJobXml("sampleJob");
+System.out.println("XML Job");
+        System.out.println(xmlJob);
 
         if(!jenkinsService.isJobExist(name)) {
             String creation = createJob(name,url);
+            System.out.println("Job name : " + creation);
             isCreation = true;
             if (creation.equals(name))
                 System.out.println("La Création du job " + name + " est finie");
