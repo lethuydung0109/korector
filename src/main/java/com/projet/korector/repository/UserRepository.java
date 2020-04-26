@@ -2,7 +2,7 @@ package com.projet.korector.repository;
 
 import java.util.Optional;
 
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

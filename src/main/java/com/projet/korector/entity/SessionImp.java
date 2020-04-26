@@ -1,4 +1,4 @@
-package com.projet.korector.model;
+package com.projet.korector.entity;
 
 import com.projet.korector.entity.Project;
 

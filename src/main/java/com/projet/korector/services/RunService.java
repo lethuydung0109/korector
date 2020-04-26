@@ -8,8 +8,6 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
-import com.projet.korector.model.RunImp;
-import com.projet.korector.model.User;
 import com.projet.korector.repository.RunRepository;
 import com.projet.korector.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

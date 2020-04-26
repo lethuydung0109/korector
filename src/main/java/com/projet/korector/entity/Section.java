@@ -1,7 +1,5 @@
 package com.projet.korector.entity;
 
-import com.projet.korector.model.User;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;

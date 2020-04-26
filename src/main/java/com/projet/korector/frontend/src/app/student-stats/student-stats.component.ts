@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../services/admin.service';
+import { AdminService } from '../_services/admin.service';
 import {Router } from '@angular/router';
 import { User } from '../classes/user';
 

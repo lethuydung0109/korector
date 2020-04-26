@@ -1,10 +1,10 @@
 package com.projet.korector.controller;
 
 
-import com.projet.korector.model.AuthProvider;
-import com.projet.korector.model.ERole;
-import com.projet.korector.model.Role;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.AuthProvider;
+import com.projet.korector.entity.ERole;
+import com.projet.korector.entity.Role;
+import com.projet.korector.entity.User;
 import com.projet.korector.payload.request.LoginRequest;
 import com.projet.korector.payload.request.SignupRequest;
 import com.projet.korector.payload.response.JwtResponse;

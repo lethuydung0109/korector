@@ -1,8 +1,7 @@
 package com.projet.korector.services;
 
-import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.CriteriaGroup;
-import com.projet.korector.model.CriteriaGroupImpl;
+import com.projet.korector.entity.CriteriaGroupImpl;
 import com.projet.korector.repository.CriteriaGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

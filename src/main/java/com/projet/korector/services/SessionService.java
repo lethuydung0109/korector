@@ -1,36 +1,23 @@
 package com.projet.korector.services;
 
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.controller.SessionController;
 import com.projet.korector.controller.UserController;
 import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.Project;
 import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 import com.projet.korector.repository.*;
 
-import com.projet.korector.security.services.UserDetailsImpl;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;

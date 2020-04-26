@@ -2,10 +2,7 @@ package com.projet.korector.controller;
 
 import com.projet.korector.Exceptions.ResourceNotFoundException;
 import com.projet.korector.entity.Criteria;
-import com.projet.korector.model.CriteriaImpl;
 
-import com.projet.korector.model.DynamicCriteriaImpl;
-import com.projet.korector.model.StaticCriteriaImpl;
 import com.projet.korector.services.CriteriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,5 @@
-package com.projet.korector.model;
+package com.projet.korector.entity;
 
-
-import com.projet.korector.entity.Section;
-import com.projet.korector.entity.Session;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +7,6 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity

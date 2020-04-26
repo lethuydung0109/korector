@@ -4,8 +4,8 @@ import { NgForm } from "@angular/forms";
 import {User} from '../classes/user';
 //import {SectionName} from '../classes/section-name';
 
-import { UserService } from '../services/user.service';
-import { AdminService } from '../services/admin.service';
+import { UserService } from '../_services/user.service';
+import { AdminService } from '../_services/admin.service';
 
 
 @Component({
@@ -52,7 +52,9 @@ export class AddTeacherComponent implements OnInit {
    }
 
     // TODO: Remove this when we're done
-    get diagnostic() { return JSON.stringify(this.model); }
+   get diagnostic() { 
+      return JSON.stringify(this.model);
+     } 
 
 }
 

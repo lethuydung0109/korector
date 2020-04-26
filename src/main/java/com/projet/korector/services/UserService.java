@@ -1,6 +1,6 @@
 package com.projet.korector.services;
 
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 import com.projet.korector.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

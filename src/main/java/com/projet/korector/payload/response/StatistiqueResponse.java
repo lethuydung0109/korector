@@ -1,6 +1,6 @@
 package com.projet.korector.payload.response;
 
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 
 import java.util.List;
 
