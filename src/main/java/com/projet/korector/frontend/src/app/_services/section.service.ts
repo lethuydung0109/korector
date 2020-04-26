@@ -5,7 +5,7 @@ import {Section} from "../classes/section";
 import {Session} from "../classes/session";
 
 
-const AUTH_API = 'http://localhost:8080/api/ressource';
+const AUTH_API = 'http://localhost:8085/api/ressource';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

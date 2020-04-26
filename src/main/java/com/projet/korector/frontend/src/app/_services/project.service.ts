@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {User} from "../classes/user";
 
-const AUTH_API = 'http://localhost:8080/api/ressource';
+const AUTH_API = 'http://localhost:8085/api/ressource';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,10 +18,13 @@ export class ProjectService {
   constructor(private http: HttpClient) { }
 
   getProjectById(id: number): Observable<any> {
+    console.log("AUTH " + AUTH_API);
     return this.http.get(`${AUTH_API}/project/${id}`);
   }
 
   getProject(id: number): Observable<any> {
+    console.log("AUTH " + AUTH_API);
+
     return this.http.get(`${AUTH_API}/getProject/${id}`);
   }
 

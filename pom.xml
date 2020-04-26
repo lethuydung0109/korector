@@ -16,7 +16,7 @@
 
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.11</java.version>
 	</properties>
 
 
@@ -78,6 +78,25 @@
             <version>2.9.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.offbytwo.jenkins</groupId>
+            <artifactId>jenkins-client</artifactId>
+            <version>0.3.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
