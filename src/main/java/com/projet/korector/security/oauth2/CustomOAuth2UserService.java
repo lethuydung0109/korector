@@ -30,7 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
 
     @Override
@@ -85,7 +85,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setProviderId(oAuth2UserInfo.getId());
         user.setName(oAuth2UserInfo.getName());
         user.setUsername(oAuth2UserInfo.getUserName());
-        user.setEmail(oAuth2UserInfo.getEmail());
+//        user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
         user.setGithubAccount(oAuth2UserInfo.getHtmlURL());
         Set<Role> roles = new HashSet<>();
