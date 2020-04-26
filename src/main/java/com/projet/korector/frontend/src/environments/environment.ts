@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://localhost:8085/api'
+  api_url: 'http://localhost:8080/api',
+  api_base_url: 'http://localhost:8080',
+  oauth2_redirect_uri: 'http://localhost:4200/oauth2/redirect',
+  github_auth_uri: 'http://localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:4200/oauth2/redirect'
+
 };
 
 /*

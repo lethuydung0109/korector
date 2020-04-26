@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {environment} from "../../environments/environment";
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class RegisterComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  githubURL = environment.github_auth_uri;
 
   constructor(private authService: AuthService) { }
 

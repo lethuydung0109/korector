@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -27,29 +28,41 @@ public class User {
     @Size(max = 20)
     private String username;
 
-    @NotBlank
+//    @NotBlank
+    @Size(max = 20)
+    private String name;
+
+//    @NotBlank
     @Size(max = 50)
     @Email
     private String email;
 
-    @NotBlank
+//    @NotBlank
     @Size(max = 120)
     private String password;
 
     @Size(max = 100)
     private String githubAccount;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    private String imageUrl;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch =  FetchType.LAZY)
+    @ManyToMany(fetch =  FetchType.EAGER)
     @JoinTable(name = "user_sessions",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "session_id"))
     private Set<Session> sessions = new HashSet<>();
+
+//    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
 
     /******** For user section ********/
@@ -71,14 +84,15 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.githubAccount = githubAccount;
+
     }
-   public User(String username, String email, String password, String githubAccount) {
+   public User(String username, String email, String password, String name, String imageUrl) {
         this.username = username;
         this.email = email;
+        this.name = name;
         this.password = password;
-        this.githubAccount = githubAccount;
-    }
+       this.imageUrl = imageUrl;
+   }
 
     public void setGithubAccount(String github_account) {
         this.githubAccount = github_account;
@@ -102,6 +116,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -134,6 +156,30 @@ public class User {
 
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public AuthProvider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(AuthProvider provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
     public Set<Section> getSections() {
         return sections;
