@@ -5,10 +5,10 @@
     <table class="table table-hover">
         <thead>
           <tr>
+            <th scope="col">No.</th>
             <th scope="col">Username</th>
             <th scope="col">Github</th>
             <th scope="col">Email</th>
-
             <th scope="col"></th>
             <th scope="col"></th>
 
@@ -17,11 +17,9 @@
         </thead>
         <tbody  *ngFor="let prof of profs">
             <tr  > 
-            <td>{{ prof.username }}</td>
             <td>{{ prof.id }}</td>
-
             <td>{{ prof.username }}</td>
-            <td>{{ prof.github }}</td>
+            <td>{{ prof.githubAccount }}</td>
             <td>{{ prof.email}}</td>
 
 

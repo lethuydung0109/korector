@@ -93,10 +93,16 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role etudiantRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
+//            Role etudiantRole = roleRepository.findByName(ERole.ROLE_ETUDIANT)
+//
+//                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//            roles.add(etudiantRole);
 
+ // make Enseignant to be the default role when signing up with form 2020-04-26
+
+            Role enseignantRole = roleRepository.findByName(ERole.ROLE_ENSEIGNANT)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(etudiantRole);
+            roles.add(enseignantRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {

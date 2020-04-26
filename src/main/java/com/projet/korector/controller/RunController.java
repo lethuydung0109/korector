@@ -1,5 +1,7 @@
 package com.projet.korector.controller;
 
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.projet.korector.entity.Run;
 import com.projet.korector.model.RunImp;
 import com.projet.korector.services.RunService;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,24 +25,34 @@ public class RunController {
     @Autowired
     private RunService service;
 
-    @RequestMapping(value = "/createRun", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Run createRun(RunImp run)
+    @GetMapping("/all")
+    @RequestMapping(value = "/createRun/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Run createRun(@PathVariable Long sessionId)
     {
-        return service.createRun(run);
+        return service.createRun(sessionId);
     }
 
+//    @GetMapping("/all")
+//    @RequestMapping(value = "/exportCSV", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public void exportCSV(HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+//        service.exportCSV(response);
+//    }
+
+    @GetMapping("/all")
     @RequestMapping(value = "/allRuns", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Run> getAllRuns()
     {
         return service.getAllRuns();
     }
 
+    @GetMapping("/all")
     @RequestMapping(value = "/allRunByUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Run> getRunByUser(@PathVariable Long userId)
     {
         return service.getRunBySession(userId);
     }
 
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteRun/{RunId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteRun(@PathVariable Long RunId)
     {
