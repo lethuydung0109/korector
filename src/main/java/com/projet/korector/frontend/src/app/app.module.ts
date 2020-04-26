@@ -56,9 +56,9 @@ import { CriteriaGroupDetailsComponent } from './criteria-group-details/criteria
 import { CriteriaGroupListComponent } from './criteria-group-list/criteria-group-list.component';
 import { UpdateCriteriaGroupComponent } from './update-criteria-group/update-criteria-group.component';
 import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
-
-
 import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
+import { DatePipe } from '@angular/common';
+import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 
 
 @NgModule({
@@ -98,10 +98,9 @@ import { UpdateCriteriaComponent } from './update-criteria/update-criteria.compo
     CriteriaGroupListComponent,
     UpdateCriteriaGroupComponent,
     Oauth2RedirectHandlerComponent,
-
-
     UpdateCriteriaGroupComponent,
-    UpdateCriteriaComponent
+    UpdateCriteriaComponent,
+    ValidationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +122,8 @@ import { UpdateCriteriaComponent } from './update-criteria/update-criteria.compo
     MatDatepickerModule,
     MatCardModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DatePipe
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

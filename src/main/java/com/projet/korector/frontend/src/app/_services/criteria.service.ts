@@ -17,8 +17,8 @@ export class CriteriaService {
   public  createCriteria (criteria: Object): Observable<Object> {
     return  this.http.post(`${this.baseUrl }/Criteria/createCriteria`, criteria);
   }
-  public  updateCriteria(id: number, value: any) : Observable<Object>{
-    return this.http.put(`${this.baseUrl}/Criteria/updateCriteria/${id}`,value);
+  public  updateCriteria(id: number, value: Criteria) : Observable<Criteria>{
+    return this.http.put<Criteria>(`${this.baseUrl}/Criteria/updateCriteria/${id}`,value);
   }
   public  deleteCriteria(id:number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/Criteria/deleteCriteria/${id}`,{responseType: 'text'});
@@ -34,8 +34,8 @@ export class CriteriaService {
     return this.http.get(`${this.baseUrl}/Criteria/id=${id}`);
   }
 
-  searchCriteriaByType(type: string) {
-    return this.http.get(`${this.baseUrl}/Criteria/researchCriteria/type=${type}`);
+  searchCriteriaByType(type: string) : Observable<Array<Criteria>> {
+    return this.http.get<Array<Criteria>>(`${this.baseUrl}/Criteria/researchCriteria/type=${type}`);
   }
 
   searchCriteriaByName(name: string) {

@@ -1,16 +1,33 @@
 package com.projet.korector.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.Project;
+import com.projet.korector.entity.Run;
 import com.projet.korector.entity.Session;
 import com.projet.korector.model.SessionImp;
+import com.projet.korector.model.User;
+import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -24,25 +41,54 @@ public class SessionController {
     @Autowired
     private SessionService service;
 
-    @GetMapping("/all")
+    @Autowired
+    private UserController userController;
+
+
+    @PostMapping("/all")
     @RequestMapping(value = "/createSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Session createSession(@RequestBody Session session)
     {
-        return service.createSession(session);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+        return service.createSession(session,currentUser);
+    }
+
+    @PutMapping("/all")
+    @RequestMapping(value = "/updateSession", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Session updateSession(@RequestBody Session session)
+    {
+        return service.updateSession(session);
     }
 
     @GetMapping("/all")
     @RequestMapping(value = "/allSessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Session> getAllSessions()
     {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json="";
+        try {
+            json = mapper.writeValueAsString(service.getAllSessions());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return service.getAllSessions();
     }
 
     @GetMapping("/all")
-    @RequestMapping(value = "/allSessionByUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Session> getSessionByUser(@PathVariable("userId") Long userId)
+    @RequestMapping(value = "/sessionById/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Session getSessionById(@PathVariable("sessionId") Long sessionId)
     {
-       return service.getSessionByUser(userId);
+        return service.getSessionById(sessionId);
+    }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/getSessionsDepot", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Session> getSessionWithDateDepotNotNull()
+    {
+        return service.getSessionWithDateDepotNotNull();
     }
 
     @GetMapping("/all")
@@ -53,30 +99,71 @@ public class SessionController {
     }
 
     @GetMapping("/all")
-    @RequestMapping(value = "/addProjectToSession/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addProjectToSession(@PathVariable("projectId") Long projectId)
+    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
     {
-        service.addProjectToSession();
+        return service.getSessionCriterias(sessionId);
     }
 
-    @GetMapping("/all")
-    @RequestMapping(value = "/deleteProjectFromSession/{projectId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteProjectFromSession(@PathVariable("projectId") Long projectId)
+    @PutMapping("/all")
+    @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
-        service.deleteProjectFromSession(projectId);
+        service.addProjectToSession(sessionId,projectId);
     }
 
-    @GetMapping("/all")
+    @DeleteMapping("/all")
+    @RequestMapping(value = "/deleteProjectFromSession/{sessionId}/{projectId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteProjectFromSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
+    {
+        service.deleteProjectFromSession(sessionId,projectId);
+    }
+
+    @PostMapping("/all")
+    @RequestMapping(value = "/setSessionProjects/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setSessionProjects(@PathVariable Long sessionId,@RequestBody Set<Project> projects)
+    {
+        service.setSessionProjects(sessionId,projects);
+    }
+
+    @PostMapping("/all")
+    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
+    {
+        service.setSessionCriterias(sessionId,criterias);
+    }
+
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteSession/{sessionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteSession(@PathVariable("sessionId") Long sessionId)
     {
-        service.deleteSession(sessionId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+        service.deleteSession(sessionId,currentUser);
     }
 
-    @GetMapping("/all")
+    @DeleteMapping("/all")
     @RequestMapping(value = "/deleteAllSessions", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteAllSessions()
     {
-        service.deleteAllSessions();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+        service.deleteAllSessions(currentUser);
     }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/getSessionRuns/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Run> getSessionRuns(@PathVariable("sessionId") Long sessionId)
+    {
+        return service.getSessionRuns(sessionId);
+    }
+
+    @GetMapping("/all")
+    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
+        service.exportCSV(runId,response);
+    }
+
 }

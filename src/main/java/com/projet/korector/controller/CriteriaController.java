@@ -39,6 +39,7 @@ public class CriteriaController {
     {
         return service.getAllCriteria();
     }
+
     @GetMapping("/id={id}")
     public ResponseEntity<Criteria> getCriteriaById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
             return service.getCriteriaById(id);
@@ -60,6 +61,7 @@ public class CriteriaController {
     {
         return service.researchCriteriaByName(name);
     }
+
     @GetMapping("/researchCriteria/type={type}")
     public List <Criteria> researchCriteriaByType(@PathVariable String type )
     {
