@@ -53,7 +53,9 @@ export class ProjectComponent implements OnInit {
         error => console.log(error));
     this.reloadData();
   }
-
+submitTest(){
+  
+}
   projetDetails(id: number) {
     this.router.navigate(['projet-detail', id]);
   }

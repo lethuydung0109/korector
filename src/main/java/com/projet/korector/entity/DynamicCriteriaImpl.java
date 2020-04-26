@@ -1,4 +1,4 @@
-package com.projet.korector.model;
+package com.projet.korector.entity;
 
 public class DynamicCriteriaImpl extends CriteriaImpl {
 

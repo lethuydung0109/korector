@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CriteriaGroup} from "../classes/criteriaGroup";
-import {CriteriaGroupService} from "../services/criteria-group.service";
+import {CriteriaGroupService} from "../_services/criteria-group.service";
 import {Router} from "@angular/router";
 
 @Component({

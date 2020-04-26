@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
 import {CriteriaGroup} from "../classes/criteriaGroup";
-import {CriteriaGroupService} from "../services/criteria-group.service";
+import {CriteriaGroupService} from "../services.old/criteria-group.service";
 import {Router} from "@angular/router";
 
 @Component({

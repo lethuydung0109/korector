@@ -1,7 +1,7 @@
 package com.projet.korector.controller;
 
 import com.projet.korector.entity.Project;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 import com.projet.korector.services.ProjectService;
 import com.projet.korector.services.UserService;
 import org.slf4j.Logger;

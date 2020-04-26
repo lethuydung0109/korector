@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CriteriaGroup} from "../classes/criteriaGroup";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CriteriaGroupService} from "../services/criteria-group.service";
+import {CriteriaGroupService} from "../_services/criteria-group.service";
 
 @Component({
   selector: 'app-update-criteria-group',

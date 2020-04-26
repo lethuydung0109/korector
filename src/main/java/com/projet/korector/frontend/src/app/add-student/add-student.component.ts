@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {User} from '../classes/user';
-import { UserService } from '../services/user.service';
-import { AdminService } from '../services/admin.service';
+import { UserService } from '../_services/user.service';
+import { AdminService } from '../_services/admin.service';
 
 @Component({
   selector: 'app-add-student',

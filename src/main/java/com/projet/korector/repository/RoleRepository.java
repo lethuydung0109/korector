@@ -2,8 +2,8 @@ package com.projet.korector.repository;
 
 import java.util.Optional;
 
-import com.projet.korector.model.ERole;
-import com.projet.korector.model.Role;
+import com.projet.korector.entity.ERole;
+import com.projet.korector.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

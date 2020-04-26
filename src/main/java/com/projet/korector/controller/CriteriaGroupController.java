@@ -1,12 +1,9 @@
 package com.projet.korector.controller;
 
 
-import com.projet.korector.entity.Criteria;
 import com.projet.korector.entity.CriteriaGroup;
-import com.projet.korector.model.CriteriaGroupImpl;
-import com.projet.korector.model.CriteriaImpl;
+import com.projet.korector.entity.CriteriaGroupImpl;
 import com.projet.korector.services.CriteriaGroupService;
-import com.projet.korector.services.CriteriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

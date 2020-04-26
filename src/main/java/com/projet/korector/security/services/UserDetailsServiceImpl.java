@@ -1,7 +1,7 @@
 package com.projet.korector.security.services;
 
 import com.projet.korector.exception.ResourceNotFoundException;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.User;
 import com.projet.korector.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,9 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Service

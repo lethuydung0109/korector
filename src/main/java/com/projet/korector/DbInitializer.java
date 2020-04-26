@@ -1,9 +1,9 @@
 package com.projet.korector;
 
-import com.projet.korector.model.AuthProvider;
-import com.projet.korector.model.ERole;
-import com.projet.korector.model.Role;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.AuthProvider;
+import com.projet.korector.entity.ERole;
+import com.projet.korector.entity.Role;
+import com.projet.korector.entity.User;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

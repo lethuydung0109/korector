@@ -1,7 +1,7 @@
 package com.projet.korector.security.oauth2.user;
 
 import com.projet.korector.exception.OAuth2AuthenticationProcessingException;
-import com.projet.korector.model.AuthProvider;
+import com.projet.korector.entity.AuthProvider;
 
 import java.util.Map;
 

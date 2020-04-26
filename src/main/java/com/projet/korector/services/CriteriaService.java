@@ -2,9 +2,6 @@ package com.projet.korector.services;
 
 import com.projet.korector.Exceptions.ResourceNotFoundException;
 import com.projet.korector.entity.Criteria;
-import com.projet.korector.model.CriteriaImpl;
-import com.projet.korector.model.DynamicCriteriaImpl;
-import com.projet.korector.model.StaticCriteriaImpl;
 import com.projet.korector.repository.CriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
-import javax.servlet.Registration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

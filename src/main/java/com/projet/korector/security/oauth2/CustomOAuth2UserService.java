@@ -1,13 +1,12 @@
 package com.projet.korector.security.oauth2;
 
 import com.projet.korector.exception.OAuth2AuthenticationProcessingException;
-import com.projet.korector.model.AuthProvider;
-import com.projet.korector.model.ERole;
-import com.projet.korector.model.Role;
-import com.projet.korector.model.User;
+import com.projet.korector.entity.AuthProvider;
+import com.projet.korector.entity.ERole;
+import com.projet.korector.entity.Role;
+import com.projet.korector.entity.User;
 import com.projet.korector.repository.RoleRepository;
 import com.projet.korector.repository.UserRepository;
-import com.projet.korector.security.oauth2.user.GithubOAuth2UserInfo;
 import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.security.oauth2.user.OAuth2UserInfo;
 import com.projet.korector.security.oauth2.user.OAuth2UserInfoFactory;

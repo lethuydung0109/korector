@@ -1,6 +1,8 @@
-package com.projet.korector.model;
+package com.projet.korector.entity;
 
-public class StaticCriteriaImpl  extends CriteriaImpl{
+import com.projet.korector.entity.CriteriaImpl;
+
+public class StaticCriteriaImpl  extends CriteriaImpl {
     private String url;
 
     public StaticCriteriaImpl(String url) {
