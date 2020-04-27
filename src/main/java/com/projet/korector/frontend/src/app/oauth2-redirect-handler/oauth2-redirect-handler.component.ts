@@ -14,8 +14,6 @@ export class Oauth2RedirectHandlerComponent implements OnInit {
 
   token = '';
   
-
-
   constructor(private tokenStorage: TokenStorageService, 
     private router: Router, private http: HttpClient) { 
     
@@ -26,10 +24,9 @@ export class Oauth2RedirectHandlerComponent implements OnInit {
     
     if(this.token){
       this.tokenStorage.saveToken(this.token);
-      
-      console.log(this.token);
-      
+      this.tokenStorage.toggleFLAGREF();
       this.router.navigate(['/profile']);
+
     }else{
       this.router.navigate(['/login'])
     }

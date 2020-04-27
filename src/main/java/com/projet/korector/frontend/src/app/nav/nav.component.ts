@@ -7,7 +7,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  private roles: string;
+  private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
@@ -16,16 +16,14 @@ export class NavComponent implements OnInit {
 
   ngOnInit(){
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-
+    
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-      this.roles = user.roles.map(x => x.name).join(',');
-
-      this.showAdminBoard = this.roles.includes('ADMIN');
+      this.roles = user.roles;
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
-      this.showModeratorBoard = this.roles.includes('ENSEIGNANT');
-      console.log("Nav bar: roles = " + user.roles.map(x => x.name).join(','));
-      console.log("Nav bar: roles = " + JSON.stringify(this.roles));
+      this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
+      console.log("Nav bar: roles = " + this.roles);
 
       this.username = user.username;
   }

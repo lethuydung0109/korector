@@ -1,18 +1,14 @@
 <div class="col-md-12">
   <div class="card card-container">
     <h1 class="login-title">Login to Korector</h1>
-    <div class="social-login">
+    <div class="social-login" *ngIf="!isLoggedIn">
       <a class="btn btn-block social-btn github" href="{{githubURL}}">
        <img src= "../../assets/img/github-logo.png" alt="Github" /> Log in with Github</a>
     </div>
-    <div class="or-separator">
+    <div class="or-separator" *ngIf = "!isLoggedIn">
       <span class="or-text">OR</span>
     </div>
-    <!-- <img
-      id="profile-img"
-      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-      class="profile-img-card"
-    /> -->
+
     <form
       *ngIf="!isLoggedIn"
       name="form"
