@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from '../_services/token-storage.service';
-const AUTH_API = 'http://localhost:8080/';
+const AUTH_API = 'http://localhost:8085/';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
