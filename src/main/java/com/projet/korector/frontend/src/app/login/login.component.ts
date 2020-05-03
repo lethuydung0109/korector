@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   githubURL = environment.github_auth_uri;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService, 
+    private tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {

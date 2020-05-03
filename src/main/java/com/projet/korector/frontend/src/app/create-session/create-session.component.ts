@@ -83,9 +83,15 @@ export class CreateSessionComponent implements OnInit {
   {
     let nameSession : string = document.getElementsByName("nameSession")[0]["value"];
     let dateDepot:string="";
-    if(this.typeSession=="depot") dateDepot  = document.getElementsByName("date")[0]["value"];
+    let heureDepot:string="";
 
-    let createSession = new Session(nameSession, dateDepot, this.heureDepot);
+    if(this.typeSession=="depot") 
+    {
+      dateDepot  = document.getElementsByName("date")[0]["value"];
+      heureDepot  = document.getElementsByName("heure")[0]["value"];
+    }
+
+    let createSession = new Session(nameSession, dateDepot, heureDepot);
     createSession.projects=this.selectedProjects;
     createSession.criterias=this.selectedCriteria;
     console.log("session à créer  : ", createSession);

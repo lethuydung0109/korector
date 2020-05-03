@@ -44,8 +44,7 @@ export class ProfileComponent implements OnInit {
         this.email = this.tokenStorage.getUser().email;
         this.htmlURL = this.tokenStorage.getUser().githubAccount;
         console.log(data);
-        console.log(this.roles);
-        console.log(JSON.stringify(this.tokenStorage.getUser().roles));
+        console.log("Profile: roles = " + this.roles);
         if(this.name == ''){
           this.name = 'Name not provided';
         }
@@ -58,14 +57,19 @@ export class ProfileComponent implements OnInit {
         this.isLoginFailed = true;
       }
     )
-  //   if(window.location.search !== '?loaded' ) {
-  //     window.location.search = '?loaded';
-  //     window.location.reload();
-  // }
-  //   if(this.toReload){
-  //     window.location.reload();
-  //     this.toReload = false;
-  // }
+
+    //reload to update navBar
+    if(this.tokenStorage.getFLAGREF() == "true"){
+      console.log("Reload");
+        window.location.reload();
+        setTimeout(function () {
+          window.location.reload();
+          
+      }, 500);
+
+      this.tokenStorage.toggleFLAGREF();
+        
+    }
     
   }
 

@@ -1,7 +1,6 @@
 package com.projet.korector.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -79,14 +78,16 @@ public class Project implements Serializable {
         this.note = note;
     }
 
-
+    //@JsonIgnore
     public Set<Session> getSessions() {
         return sessions;
     }
 
+    //@JsonIgnore
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
     }
+
 
     public String getDateDepot() {
         return dateDepot;
