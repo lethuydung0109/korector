@@ -28,7 +28,7 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "project_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -39,6 +39,7 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "criteria_id",
                             nullable = false, updatable = false)})
+    @JsonIgnore
     private Set<Criteria> criterias = new HashSet<>();
 
     @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
@@ -74,22 +75,6 @@ public class Session implements Serializable {
         this.name = name;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(Set<Project> projects) {
-        this.projects= projects;
-    }
-
-    public Set<Run> getRuns() {
-        return runs;
-    }
-
-    public void setRuns(Set<Run> runs) {
-        this.runs = runs;
-    }
-
     public String getDate_depot() {
         return date_depot;
     }
@@ -106,18 +91,42 @@ public class Session implements Serializable {
         this.heureDepot = heureDepot;
     }
 
+    //@JsonIgnore
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+   // @JsonIgnore
+    public void setProjects(Set<Project> projects) {
+        this.projects= projects;
+    }
+
+    //@JsonIgnore
+    public Set<Run> getRuns() {
+        return runs;
+    }
+
+    //@JsonIgnore
+    public void setRuns(Set<Run> runs) {
+        this.runs = runs;
+    }
+
+    //@JsonIgnore
     public Set<User> getUsers() {
         return users;
     }
 
+    //@JsonIgnore
     public void setUsers(Set<User> users) {
         this.users = users;
     }
 
+    //@JsonIgnore
     public Set<Criteria> getCriterias() {
         return criterias;
     }
 
+    //@JsonIgnore
     public void setCriterias(Set<Criteria> criterias) {
         this.criterias = criterias;
     }

@@ -151,10 +151,10 @@ public class SessionController {
         return service.getSessionRuns(sessionId);
     }
 
-    @GetMapping("/all")
-    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
-        service.exportCSV(runId,response);
-    }
+//    @GetMapping("/all")
+//    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
+//        service.exportCSV(runId,response);
+//    }
 
 }
