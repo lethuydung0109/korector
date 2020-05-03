@@ -31,6 +31,7 @@ public class Jenkins implements JenkinsService {
         this.url = url;
         try {
             this.jenkinsServer = new JenkinsServer(new URI(url), login, password);
+            System.out.println("CONNECTED");
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -67,8 +68,13 @@ public class Jenkins implements JenkinsService {
         String result = null;
         try {
             job = jenkinsServer.getJob(name);
-            job.build();
-                if(this.waitForBuildToComplete(600000,name,getLastBuildNumber(name) + 1,isCreation))
+           System.out.println("Job name in buildJob" + job.getDisplayName());
+            System.out.println("Job name is buildable" + job.isBuildable());
+            job.build(true);
+            //job.build();
+            System.out.println("Job build avant");
+
+            if(this.waitForBuildToComplete(600000,name,getLastBuildNumber(name) + 1,isCreation))
                 return this.getResultLasBuild(name);
             else
                 return "Time OUT";
@@ -77,14 +83,24 @@ public class Jenkins implements JenkinsService {
         }
     }
     //Création d'un job
-    public String createJob(String name, String xml){
+    public String createJob(String name, String xml,boolean boo){
         System.out.println("Job name return avant");
 
         String result = null;
         try {
             System.out.println("Job name return juste avant");
+        if(isJobExist(name)){
+            deleteJob(name);
+            System.out.println("Job" + name +"existe");
 
-            jenkinsServer.createJob(null,name,xml,false);
+        }
+        else {
+            System.out.println("New job creation");
+
+            jenkinsServer.createJob(name,xml,boo);
+
+        }
+
             System.out.println("Job name return");
             return jenkinsServer.getJob(name).getDisplayName();
         } catch (IOException e) {

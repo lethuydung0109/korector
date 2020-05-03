@@ -1,5 +1,6 @@
 package com.projet.korector.controller.jenkins;
 
+import com.offbytwo.jenkins.JenkinsServer;
 import com.projet.korector.jenkins.Jenkins;
 import com.projet.korector.jenkins.JenkinsService;
 import com.projet.korector.sonarqube.SonarQube;
@@ -10,6 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
@@ -65,27 +71,42 @@ public class jenkinsController {
         return newAnalyse;
     } */
 
-    private String createJob( String name, String url){
+
+   // @RequestMapping(value = "/run/{name}/{url}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    private void run(@PathVariable String nomBuild, @PathVariable String url){
+        System.out.println("Lancement de l'analyse");
+
+        Map<String,String> sonarBuild= this.build(nomBuild,url,true);
+        double resultBug = 1 - Double.parseDouble(sonarBuild.get("nombre de bugs")) /100;
+        double resultVul = 1 -  Double.parseDouble(sonarBuild.get("vulnérabilités"))/100;
+        double resultDebt =1 - Double.parseDouble(sonarBuild.get("debt"))/100;
+        double resultSmell = Double.parseDouble(sonarBuild.get("code smells"))/100 ;
+        double resultCoverage = Double.parseDouble(sonarBuild.get("coverage"))/100;
+     //   double noteFinale = (resultBug) + res
+
+    }
+    private String createJob(String name, String url){
         System.out.println("Test Passed ");
+        System.out.println("Ancien  " + url);
 
         url = url.replace(',', '/');
         System.out.println("New Url " + url);
 
         XmlReader xmlReader = new XmlReader(url, "url");
-        String xmlJob = xmlReader.formatXML();
-        System.out.println(xmlJob);
-        String result = jenkinsService.createJob(name, url);
+        String xmlJob = xmlReader.formatXML();System.out.println("New Xml Job " + xmlJob);
+   ;
+    String result = jenkinsService.createJob(name, xmlJob,true);
+        System.out.println("Result  " + result);
+
         return result;
+
     }
 
     @RequestMapping(value = "/build/{name}/{url}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    private Map<String,String> build(@PathVariable String name, @PathVariable String url){
+    private Map<String,String> build(@PathVariable String name, @PathVariable String url, boolean boo){
         jenkinsService = new Jenkins(USERNAME_JENKINS,PASSWORD_JENKINS,URL_JENKINS);
         boolean isCreation = false;
-String xmlJob = jenkinsService.getJobXml("sampleJob");
-System.out.println("XML Job");
-        System.out.println(xmlJob);
 
         if(!jenkinsService.isJobExist(name)) {
             String creation = createJob(name,url);
@@ -105,6 +126,8 @@ System.out.println("XML Job");
             return Collections.singletonMap("ERROR", jenkinsService.getOutPut(name));
         } else {
             SonarQube sonarQube = new SonarQubeImpl();
+            System.out.println("Sonarqube metrics" + sonarQube.getMetrics(name));
+
             return sonarQube.getMetrics(name);
         }
     }
