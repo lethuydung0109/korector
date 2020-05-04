@@ -30,8 +30,8 @@ public class Criteria implements Serializable {
     @Column(name="value")
     private float value;
 
-    @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
     @JsonIgnore
+    @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
     private Set<Session> sessions = new HashSet<>();
 
     public Criteria( String name, String type, String url, float value) {
@@ -84,10 +84,12 @@ public class Criteria implements Serializable {
         this.value = value;
     }
 
+   // @JsonIgnore
     public Set<Session> getSessions() {
         return sessions;
     }
 
+   // @JsonIgnore
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
     }

@@ -1,6 +1,7 @@
 import { Project } from './project';
 import { Run } from './run';
 import { Criteria } from './criteria';
+import { User } from './user';
 
 export class Session {
     public id : number;
@@ -8,10 +9,9 @@ export class Session {
     public date_depot : string;
     public heureDepot : string;
     public projects : Array<Project>;
-    public runs : Array<Run>;
     public criterias : Array<Criteria>;
-
-   
+    public users : Array<User>;
+    public runs : Array<Run>;
 
     constructor(name : string, date : string, heure:string)
     {
@@ -21,6 +21,7 @@ export class Session {
         this.heureDepot=heure;
         this.projects=[];
         this.criterias=[];
+        this.users=[];
         this.runs=[];        
     }
 }

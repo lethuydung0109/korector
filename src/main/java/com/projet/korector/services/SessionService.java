@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +46,7 @@ public class SessionService {
     @Autowired
     private UserController userController;
 
-    public Session createSession(Session session,User currentUser)
+    public ResponseEntity<Session> createSession(Session session, User currentUser)
     {
         log.info("objet angular reçu pour création :"+session.toString());
         Set<Project> projects = session.getProjects();
@@ -61,7 +63,7 @@ public class SessionService {
         currentUser.getSessions().add(createdSession);
         createdSession.getUsers().add(currentUser);
 
-        return this.sessionRepository.saveAndFlush(createdSession);
+        return new ResponseEntity<Session>(this.sessionRepository.saveAndFlush(createdSession), HttpStatus.OK);
     }
 
     public Session updateSession(Session session)

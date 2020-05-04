@@ -20,6 +20,7 @@ public class Session implements Serializable {
     private String date_depot;
     private String heureDepot;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name="sessions_projects",
             joinColumns = {
@@ -28,9 +29,9 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "project_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name="sessions_criterias",
             joinColumns = {
@@ -39,16 +40,15 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "criteria_id",
                             nullable = false, updatable = false)})
-    @JsonIgnore
     private Set<Criteria> criterias = new HashSet<>();
 
-    @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
     @JsonIgnore
+    @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
     @JsonIgnore
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
     private Set<Run> runs = new HashSet<>();
 
     public Session() { }
@@ -96,17 +96,15 @@ public class Session implements Serializable {
         return projects;
     }
 
-   // @JsonIgnore
+    //@JsonIgnore
     public void setProjects(Set<Project> projects) {
         this.projects= projects;
     }
 
-    //@JsonIgnore
     public Set<Run> getRuns() {
         return runs;
     }
 
-    //@JsonIgnore
     public void setRuns(Set<Run> runs) {
         this.runs = runs;
     }
