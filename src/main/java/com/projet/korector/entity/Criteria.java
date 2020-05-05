@@ -31,7 +31,7 @@ public class Criteria implements Serializable {
     private float value;
 
     @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
-    @JsonIgnore
+  //  @JsonIgnore
     private Set<Session> sessions = new HashSet<>();
 
     public Criteria( String name, String type, String url, float value) {

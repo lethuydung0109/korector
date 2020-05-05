@@ -19,7 +19,7 @@ export class ProjectService {
 
   getProjectById(id: number): Observable<any> {
     console.log("AUTH " + AUTH_API);
-    return this.http.get(`${AUTH_API}/project/${id}`);
+    return this.http.get(`${AUTH_API}/project/${2}`);
   }
 
   getProject(id: number): Observable<any> {

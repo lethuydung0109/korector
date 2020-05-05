@@ -42,7 +42,7 @@ public class SessionController {
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User currentUser = this.userController.findById(userDetails.getId());
+       User currentUser = this.userController.findById(userDetails.getId());
         return service.createSession(session,currentUser);
     }
 

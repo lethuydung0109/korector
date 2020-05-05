@@ -25,7 +25,7 @@ public class Project implements Serializable {
     private Float note;
     private String dateDepot;
     @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
-    @JsonIgnore
+   // @JsonIgnore
     private Set<Session> sessions = new HashSet<>();
 
     @OneToOne(cascade=CascadeType.ALL)

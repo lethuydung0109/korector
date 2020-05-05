@@ -95,6 +95,8 @@ export class CreateSessionComponent implements OnInit {
     createSession.projects=this.selectedProjects;
     createSession.criterias=this.selectedCriteria;
     console.log("session à créer  : ", createSession);
+    console.log("Projets selectionnes : ", createSession.projects);
+    console.log("Criteres selectionnes : ",  createSession.criterias);
 
     if(this.selectedCriteria.length == 0)
     {
