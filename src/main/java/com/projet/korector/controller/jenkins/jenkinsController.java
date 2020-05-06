@@ -3,11 +3,13 @@ package com.projet.korector.controller.jenkins;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.projet.korector.jenkins.Jenkins;
 import com.projet.korector.jenkins.JenkinsService;
+import com.projet.korector.payload.response.MessageResponse;
 import com.projet.korector.sonarqube.SonarQube;
 import com.projet.korector.sonarqube.SonarQubeImpl;
 import com.projet.korector.util.XmlReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +75,7 @@ public class jenkinsController {
 
 
    // @RequestMapping(value = "/run/{name}/{url}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    private void run(@PathVariable String nomBuild, @PathVariable String url){
+    /*private void run(@PathVariable String nomBuild, @PathVariable String url){
         System.out.println("Lancement de l'analyse");
 
         Map<String,String> sonarBuild= this.build(nomBuild,url,true);
@@ -84,7 +86,7 @@ public class jenkinsController {
         double resultCoverage = Double.parseDouble(sonarBuild.get("coverage"))/100;
      //   double noteFinale = (resultBug) + res
 
-    }
+    } */
     private String createJob(String name, String url){
         System.out.println("Test Passed ");
         System.out.println("Ancien  " + url);
@@ -104,7 +106,7 @@ public class jenkinsController {
 
     @RequestMapping(value = "/build/{name}/{url}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    private Map<String,String> build(@PathVariable String name, @PathVariable String url, boolean boo){
+    private ResponseEntity<?> build(@PathVariable String name, @PathVariable String url, boolean boo){
         jenkinsService = new Jenkins(USERNAME_JENKINS,PASSWORD_JENKINS,URL_JENKINS);
         boolean isCreation = false;
 
@@ -115,7 +117,9 @@ public class jenkinsController {
             if (creation.equals(name))
                 System.out.println("La Création du job " + name + " est finie");
             else{
-                return Collections.singletonMap("ERROR",creation);
+                //return Collections.singletonMap("ERROR",creation);
+                return ResponseEntity.ok(new MessageResponse("Error"));
+
             }
         }
 
@@ -123,12 +127,15 @@ public class jenkinsController {
         System.out.println("Build Fini" + jenkinsService.buildJob(name,isCreation));
 
         if(!jenkinsService.getResultLasBuild(name).equals("SUCCESS")) {
-            return Collections.singletonMap("ERROR", jenkinsService.getOutPut(name));
+            return ResponseEntity.ok(new MessageResponse("Succes"));
+
+            // return Collections.singletonMap("ERROR", jenkinsService.getOutPut(name));
         } else {
             SonarQube sonarQube = new SonarQubeImpl();
             System.out.println("Sonarqube metrics" + sonarQube.getMetrics(name));
+            return ResponseEntity.ok(new MessageResponse("Metrics"));
 
-            return sonarQube.getMetrics(name);
+          //  return sonarQube.getMetrics(name);
         }
     }
 

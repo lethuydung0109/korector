@@ -30,8 +30,8 @@
         <hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.11">
             <project/>
             <properties>
-                sonar.projectKey = jobTest
-                sonar.projectName = jobTest
+                sonar.projectKey = kSession
+                sonar.projectName = kSession
                 sonar.java.binaries = src/main/java/
 
             </properties>

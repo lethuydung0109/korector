@@ -19,19 +19,19 @@ export class NavComponent implements OnInit {
     
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-      alert("Connected");
-      alert(user);
+     // alert("Connected");
+      //alert(user);
 
      // this.roles = user.roles;
     /*  this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
       this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
       console.log("Nav bar: roles = " + this.roles); */
-      alert("username avt");
+     // alert("username avt");
 
-     //this.username = user.username;
-       this.username = 'Awadiagne97';
-       alert("username");
+     this.username = user.username;
+      // this.username = 'Awadiagne97';
+      // alert("username");
 
       console.log("User name  = " + this.username);
 

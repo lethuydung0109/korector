@@ -40,6 +40,10 @@ export class SessionDetailComponent implements OnInit {
   public nameCritere : string;
   public valueCritere: number;
 
+
+  public buildName : string;
+  public buildUrl : string;
+
   constructor(private actRoute: ActivatedRoute, 
               private sessionService : SessionService, 
               private projectService : ProjectService,
@@ -171,9 +175,17 @@ export class SessionDetailComponent implements OnInit {
 
   public createRun() : void
   {
-    this.runService.createRun(this.sessionId).subscribe( data => {
+    /*this.runService.createRun(this.sessionId).subscribe( data => {
       this.sessionRuns.push(data);
-    });  
+    });  */
+    this.sessionProjects.forEach(project => {
+      this.buildName = project.name;
+      this.buildUrl = project.url.replace(/\//g , ",");
+      console.log("Name" + this.buildName);
+      console.log("Url" + this.buildUrl);
+      this.runService.sonarQubeRun(this.buildName,this.buildUrl);
+
+    });
   }
 
   public exportCSV(runId : number) : void

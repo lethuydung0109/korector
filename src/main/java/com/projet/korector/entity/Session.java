@@ -29,7 +29,7 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "project_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-  //  @JsonIgnore
+   @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -40,7 +40,7 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "criteria_id",
                             nullable = false, updatable = false)})
-   // @JsonIgnore
+    @JsonIgnore
     private Set<Criteria> criterias = new HashSet<>();
 
     @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
@@ -49,7 +49,7 @@ public class Session implements Serializable {
 
     @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-   // @JsonIgnore
+    @JsonIgnore
     private Set<Run> runs = new HashSet<>();
 
     public Session() { }
