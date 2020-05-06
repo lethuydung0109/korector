@@ -92,15 +92,30 @@ export class CreateSessionComponent implements OnInit {
     }
 
     let createSession = new Session(nameSession, dateDepot, heureDepot);
-    createSession.projects=this.selectedProjects;
-    createSession.criterias=this.selectedCriteria;
-    console.log("session à créer  : ", createSession);
 
+    let selectedProjectIds: Array<number>=[];
+    let selectedCriteriaIds: Array<number>=[];
+    let pourcentageTotal=0;
+
+    this.selectedProjects.forEach(p=>{ selectedProjectIds.push(p.id)});
+    this.selectedCriteria.forEach(c=>{ 
+      selectedCriteriaIds.push(c.id)
+      pourcentageTotal=pourcentageTotal+c.value;
+    });
+
+    createSession.projects=selectedProjectIds;
+    createSession.criterias=selectedCriteriaIds;
+    
     if(this.selectedCriteria.length == 0)
     {
       this.openValidationModal("Aucun critère sélectionné. Impossible de créer une session");
     }
+    else if(pourcentageTotal>100)
+    {
+      this.openValidationModal("La somme des pourcentages de vos critères dépasse 100");
+    }
     else{
+      console.log("session à créer  : ", createSession);
       this.sessionService.createSession(createSession).subscribe(data =>{
         if(data.id!=null) 
         {
@@ -140,6 +155,7 @@ export class CreateSessionComponent implements OnInit {
     {
       criteria = this.dynamiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
       criteria.value=this.valueCritere;
+      
       this.criteriaService.updateCriteria(criteria.id,criteria).subscribe(data=>{criteria=data});
       console.log("criteria",criteria);
       this.addCriteriaToSelectedCriteria(criteria);

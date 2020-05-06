@@ -2,11 +2,7 @@ package com.projet.korector.services;
 
 import com.projet.korector.controller.SessionController;
 import com.projet.korector.controller.UserController;
-import com.projet.korector.entity.Criteria;
-import com.projet.korector.entity.Project;
-import com.projet.korector.entity.Run;
-import com.projet.korector.entity.Session;
-import com.projet.korector.entity.User;
+import com.projet.korector.entity.*;
 import com.projet.korector.repository.*;
 
 import org.slf4j.Logger;
@@ -46,11 +42,23 @@ public class SessionService {
     @Autowired
     private UserController userController;
 
-    public ResponseEntity<Session> createSession(Session session, User currentUser)
+    public ResponseEntity<Session> createSession(SessionImp sessionImp, User currentUser)
     {
-        log.info("objet angular reçu pour création :"+session.toString());
-        Set<Project> projects = session.getProjects();
-        Set<Criteria> criterias = session.getCriterias();
+        log.info("objet angular reçu pour création :"+sessionImp.toString());
+
+        //        Set<Project> projects = session.getProjects();
+//        Set<Criteria> criterias = session.getCriterias();
+        Session session = new Session(sessionImp.getName(),sessionImp.getDate_depot(),sessionImp.getHeureDepot());
+
+        Set<Project> projects = new HashSet<>();
+        sessionImp.getProjects().forEach(projectId-> {
+            projects.add(this.projectRepository.findById(projectId).get());
+        });
+
+        Set<Criteria> criterias = new HashSet<>();
+        sessionImp.getCriterias().forEach(criteriatId-> {
+            criterias.add(this.criteriaRepository.findById(criteriatId).get());
+        });
 
         session.setProjects(new HashSet<>());
         session.setCriterias(new HashSet<>());
@@ -66,8 +74,18 @@ public class SessionService {
         return new ResponseEntity<Session>(this.sessionRepository.saveAndFlush(createdSession), HttpStatus.OK);
     }
 
-    public Session updateSession(Session session)
+    public Session updateSession(SessionImp sessionImp)
     {
+        log.info("Session à modifier : "+sessionImp);
+        Session session=new Session(sessionImp.getId(),sessionImp.getName(),sessionImp.getDate_depot(),sessionImp.getHeureDepot());
+        sessionImp.getProjects().forEach(projectId-> {
+            session.getProjects().add(this.projectRepository.findById(projectId).get());
+        });
+
+        sessionImp.getCriterias().forEach(criteriatId-> {
+            session.getCriterias().add(this.criteriaRepository.findById(criteriatId).get());
+        });
+
         Session newSession=null;
         if(this.sessionRepository.findById(session.getId()).isPresent())
         {

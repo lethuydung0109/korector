@@ -59,6 +59,13 @@ public class Session implements Serializable {
         this.heureDepot=heure;
     }
 
+    public Session(Long id, String n, String date, String heure) {
+        this.id=id;
+        this.name = n;
+        this.date_depot=date;
+        this.heureDepot=heure;
+    }
+
     public Long getId() {
         return id;
     }
@@ -91,20 +98,32 @@ public class Session implements Serializable {
         this.heureDepot = heureDepot;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public Set<Project> getProjects() {
         return projects;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public void setProjects(Set<Project> projects) {
         this.projects= projects;
     }
 
+    @JsonIgnore
+    public Set<Criteria> getCriterias() {
+        return criterias;
+    }
+
+    @JsonIgnore
+    public void setCriterias(Set<Criteria> criterias) {
+        this.criterias = criterias;
+    }
+
+    //@JsonIgnore
     public Set<Run> getRuns() {
         return runs;
     }
 
+    //@JsonIgnore
     public void setRuns(Set<Run> runs) {
         this.runs = runs;
     }
@@ -119,15 +138,6 @@ public class Session implements Serializable {
         this.users = users;
     }
 
-    //@JsonIgnore
-    public Set<Criteria> getCriterias() {
-        return criterias;
-    }
-
-    //@JsonIgnore
-    public void setCriterias(Set<Criteria> criterias) {
-        this.criterias = criterias;
-    }
 
     @Override
     public String toString() {

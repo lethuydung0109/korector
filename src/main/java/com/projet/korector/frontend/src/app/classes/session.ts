@@ -8,8 +8,8 @@ export class Session {
     public name:string;
     public date_depot : string;
     public heureDepot : string;
-    public projects : Array<Project>;
-    public criterias : Array<Criteria>;
+    public projects : Array<number>;
+    public criterias : Array<number>;
     public users : Array<User>;
     public runs : Array<Run>;
 

@@ -87,13 +87,16 @@ export class SessionDetailComponent implements OnInit {
 
     let listStaticCriteria: Array<Criteria>=[];
     this.criteriaService.searchCriteriaByType('Statique').subscribe(data => {
-      data.forEach(c => {
-        listStaticCriteria.push(c);
-      })
+      if(data!=null)
+      {
+        data.forEach(c => {
+          listStaticCriteria.push(c);
+        })
+      }
     });
     this.statiqueCiterias=listStaticCriteria;
 
-    let listDynamicCriteria: Array<Criteria>=[];
+    let listDynamicCriteria: Array<Criteria>=[]; 
     this.criteriaService.searchCriteriaByType('Dynamique').subscribe(data => {
       data.forEach(c => {
         listDynamicCriteria.push(c);
@@ -110,18 +113,38 @@ export class SessionDetailComponent implements OnInit {
     let heureDepotSession : string = document.getElementsByName("heureDepotSession")[0]["value"];
     let updateSession : Session = new Session(nameSession,dateDepotSession,heureDepotSession);
     updateSession.id=this.sessionId;
-    updateSession.projects=this.sessionProjects;
-    updateSession.criterias=this.sessionCriterias;
+
+    let sessionProjectIds: Array<number>=[];
+    let sessionCriteriaIds: Array<number>=[];
+    let pourcentageTotal=0;
+
+    this.sessionProjects.forEach(p=>{ sessionProjectIds.push(p.id)});
+
+    console.log("nb critères : ", this.sessionCriterias.length)
+    this.sessionCriterias.forEach(c=>{ 
+      sessionCriteriaIds.push(c.id)
+      pourcentageTotal=pourcentageTotal+c.value;
+    });
+
+    updateSession.projects=sessionProjectIds;
+    updateSession.criterias=sessionCriteriaIds;
 
     this.sessionCriterias.forEach(c => {
       if(!this.newCriteria.includes(c)) c.value=document.getElementsByName("criteriaValue_"+c.id)[0]["value"];      
       this.criteriaService.updateCriteria(c.id,c).subscribe(data=>{ c=data; });
     });
 
-    this.sessionService.updateSession(updateSession).subscribe(data => {
-      this.updateSessionId=data.id;
-      if(this.updateSessionId!=0) this.openValidationModal(); 
-    });
+    // if(pourcentageTotal>100)
+    // {
+    //   this.openValidationModal("La somme des pourcentages de vos critères dépasse 100");
+    // }
+    // else {
+      console.log("updated session : ",updateSession);
+      this.sessionService.updateSession(updateSession).subscribe(data => {
+        this.updateSessionId=data.id;
+        if(this.updateSessionId!=0) this.openValidationModal("Modifications sauvegardées"); 
+      });
+    // }
   }
 
   public addToCriteriaList() : void
@@ -189,9 +212,9 @@ export class SessionDetailComponent implements OnInit {
     });
   }
 
-  public openValidationModal() : void {
+  public openValidationModal(message:string) : void {
     const modalRef = this.modalService.open(ValidationModalComponent);
-    modalRef.componentInstance.message = 'Modifications sauvegardés !';
+    modalRef.componentInstance.message = message;
   }
 
 }
