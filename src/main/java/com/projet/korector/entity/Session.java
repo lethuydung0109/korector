@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -21,6 +20,7 @@ public class Session implements Serializable {
     private String date_depot;
     private String heureDepot;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name="sessions_projects",
             joinColumns = {
@@ -29,9 +29,9 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "project_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-   @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name="sessions_criterias",
             joinColumns = {
@@ -40,21 +40,27 @@ public class Session implements Serializable {
             inverseJoinColumns = {
                     @JoinColumn(name = "criteria_id",
                             nullable = false, updatable = false)})
-    @JsonIgnore
     private Set<Criteria> criterias = new HashSet<>();
 
-    @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY)
     @JsonIgnore
+    @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
     @JsonIgnore
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
     private Set<Run> runs = new HashSet<>();
 
     public Session() { }
 
     public Session(String n, String date, String heure) {
+        this.name = n;
+        this.date_depot=date;
+        this.heureDepot=heure;
+    }
+
+    public Session(Long id, String n, String date, String heure) {
+        this.id=id;
         this.name = n;
         this.date_depot=date;
         this.heureDepot=heure;
@@ -92,23 +98,24 @@ public class Session implements Serializable {
         this.heureDepot = heureDepot;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public Set<Project> getProjects() {
-        Iterator it = projects.iterator();
-        System.out.println("debut Projet" );
-
-
-
-        while(it.hasNext()){
-            System.out.println("Liste des projets " + it.next());
-
-        }
         return projects;
     }
 
-   // @JsonIgnore
+    @JsonIgnore
     public void setProjects(Set<Project> projects) {
         this.projects= projects;
+    }
+
+    @JsonIgnore
+    public Set<Criteria> getCriterias() {
+        return criterias;
+    }
+
+    @JsonIgnore
+    public void setCriterias(Set<Criteria> criterias) {
+        this.criterias = criterias;
     }
 
     //@JsonIgnore
@@ -131,25 +138,6 @@ public class Session implements Serializable {
         this.users = users;
     }
 
-    //@JsonIgnore
-    public Set<Criteria> getCriteria() {
-
-        Iterator it = criterias.iterator();
-        System.out.println("debut critere" );
-
-
-
-        while(it.hasNext()){
-            System.out.println("Liste des criteres " + it.next());
-
-        }
-        return criterias;
-    }
-
-    //@JsonIgnore
-    public void setCriteria(Set<Criteria> criteria) {
-        this.criterias = criteria;
-    }
 
     @Override
     public String toString() {

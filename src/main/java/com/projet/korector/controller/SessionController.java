@@ -3,17 +3,14 @@ package com.projet.korector.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.projet.korector.entity.Criteria;
-import com.projet.korector.entity.Project;
-import com.projet.korector.entity.Run;
-import com.projet.korector.entity.Session;
-import com.projet.korector.entity.User;
+import com.projet.korector.entity.*;
 import com.projet.korector.security.services.UserDetailsImpl;
 import com.projet.korector.services.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -37,21 +34,20 @@ public class SessionController {
 
 
     @PostMapping("/all")
-    @RequestMapping(value = "/createSession", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Session createSession(@RequestBody Session session)
+    @RequestMapping(value = "/createSession", method = RequestMethod.POST,consumes = "application/json",produces = "application/json")
+    public ResponseEntity<Session> createSession(@RequestBody SessionImp sessionImp)
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        long id = 3;
-       User currentUser = this.userController.findById(id);
-        return service.createSession(session,currentUser);
+        User currentUser = this.userController.findById(userDetails.getId());
+        return service.createSession(sessionImp,currentUser);
     }
 
     @PutMapping("/all")
-    @RequestMapping(value = "/updateSession", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Session updateSession(@RequestBody Session session)
+    @RequestMapping(value = "/updateSession", method = RequestMethod.PUT,consumes = "application/json",produces = "application/json")
+    public Session updateSession(@RequestBody SessionImp sessionImp)
     {
-        return service.updateSession(session);
+        return service.updateSession(sessionImp);
     }
 
     @GetMapping("/all")

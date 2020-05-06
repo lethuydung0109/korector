@@ -2,20 +2,28 @@ package com.projet.korector.entity;
 
 import com.projet.korector.entity.Project;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SessionImp {
 
     private Long id;
     private String name;
-    private Set<Project> projects;
-    //private User user;
+    private String date_depot;
+    private String heureDepot;
+    private List<Long> projects=new ArrayList<>();
+    private List<Long> criterias=new ArrayList<>();
+    private List<Long> runs = new ArrayList<>();
+    private List<Long> users = new ArrayList<>();
 
 
-    public SessionImp(String name) {
+    public SessionImp(Long id, String name, String date_depot, String heureDepot) {
+        this.id = id;
         this.name = name;
-        this.projects = new HashSet<>();
+        this.date_depot = date_depot;
+        this.heureDepot = heureDepot;
     }
 
     public String getName() {
@@ -34,21 +42,65 @@ public class SessionImp {
         this.id = id;
     }
 
-    public Set<Project> getProjects() {
+    public String getDate_depot() {
+        return date_depot;
+    }
+
+    public void setDate_depot(String date_depot) {
+        this.date_depot = date_depot;
+    }
+
+    public String getHeureDepot() {
+        return heureDepot;
+    }
+
+    public void setHeureDepot(String heureDepot) {
+        this.heureDepot = heureDepot;
+    }
+
+    public List<Long> getProjects() {
         return projects;
     }
 
-    public void setProjects(Set<Project> projects) {
+    public void setProjects(List<Long> projects) {
         this.projects = projects;
+    }
+
+    public List<Long> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(List<Long> criterias) {
+        this.criterias = criterias;
+    }
+
+    public List<Long> getRuns() {
+        return runs;
+    }
+
+    public void setRuns(List<Long> runs) {
+        this.runs = runs;
+    }
+
+    public List<Long> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Long> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("SessionImp{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", projects=").append(projects);
-        sb.append('}');
-        return sb.toString();
+        return "SessionImp{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date_depot='" + date_depot + '\'' +
+                ", heureDepot='" + heureDepot + '\'' +
+                ", projects=" + projects +
+                ", criterias=" + criterias +
+                ", runs=" + runs +
+                ", users=" + users +
+                '}';
     }
 }

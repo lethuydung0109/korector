@@ -14,8 +14,8 @@ export class CriteriaService {
   private  baseUrl = environment.api_url;
   constructor(private http: HttpClient) { }
 
-  public  createCriteria (criteria: Object): Observable<Object> {
-    return  this.http.post(`${this.baseUrl }/Criteria/createCriteria`, criteria);
+  public  createCriteria (criteria: Object): Observable<Criteria> {
+    return  this.http.post<Criteria>(`${this.baseUrl }/Criteria/createCriteria`, criteria);
   }
   public  updateCriteria(id: number, value: Criteria) : Observable<Criteria>{
     return this.http.put<Criteria>(`${this.baseUrl}/Criteria/updateCriteria/${id}`,value);

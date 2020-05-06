@@ -1,4 +1,5 @@
 import { Session } from './session';
+import { User } from './user';
 
 export class Project {
 
@@ -9,6 +10,7 @@ export class Project {
   note: number;
   dateDepot: string;
   session: Array<Session>;
+  user : User;
 
   constructor(name: string) {
     this.name = name;
@@ -18,6 +20,7 @@ export class Project {
     this.note= 0;
     this.dateDepot= null;
     this.session= [];
+    this.user=null;
   }
 
 

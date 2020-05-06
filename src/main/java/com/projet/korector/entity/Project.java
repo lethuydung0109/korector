@@ -24,8 +24,9 @@ public class Project implements Serializable {
     private String url;
     private Float note;
     private String dateDepot;
-    @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
+
     @JsonIgnore
+    @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
     private Set<Session> sessions = new HashSet<>();
 
     @OneToOne(cascade=CascadeType.ALL)
@@ -78,12 +79,12 @@ public class Project implements Serializable {
         this.note = note;
     }
 
-    //@JsonIgnore
+   // @JsonIgnore
     public Set<Session> getSessions() {
         return sessions;
     }
 
-    //@JsonIgnore
+   // @JsonIgnore
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
     }

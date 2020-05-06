@@ -52,31 +52,31 @@ public class RunService {
         this.runRepository.deleteById(runId);
     }
 
-    public void exportCSV(HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-
-        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = new Date();
-
-        //set file name and content type
-        String filename = "run_"+date+".csv";
-
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + filename + "\"");
-
-        //create a csv writer
-        Run run = this.runRepository.findById(1L).get();
-
-            StatefulBeanToCsv<Project> writer = new StatefulBeanToCsvBuilder<Project>(response.getWriter())
-                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                    .withOrderedResults(false)
-                    .build();
-
-
-        //write all users to csv file
-//        String r = "rien";
-        writer.write((List<Project>) this.sessionService.getSessionProjects(run.getSession().getId()));
-    }
+//    public void exportCSV(HttpServletResponse response) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+//
+//        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
+//        Date date = new Date();
+//
+//        //set file name and content type
+//        String filename = "run_"+date+".csv";
+//
+//        response.setContentType("text/csv");
+//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+//                "attachment; filename=\"" + filename + "\"");
+//
+//        //create a csv writer
+//        Run run = this.runRepository.findById(1L).get();
+//
+//            StatefulBeanToCsv<Project> writer = new StatefulBeanToCsvBuilder<Project>(response.getWriter())
+//                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+//                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+//                    .withOrderedResults(false)
+//                    .build();
+//
+//
+//        //write all users to csv file
+////        String r = "rien";
+//        writer.write((List<Long>) this.sessionService.getSessionProjects(run.getSession().getId()));
+//    }
 
 }
