@@ -125,16 +125,22 @@
       <tr>
         <th scope="col">Nom Projet</th>
         <th scope="col">Url</th>
-        <th scope="col">Relancé</th>
-        <th scope="col">Supprimé</th>        
+        <th scope="col">Supprimé</th>  
+        <th scope="col">Sonar Results</th>  
+
       </tr>
       </thead>
       <tbody *ngFor="let project of sessionProjects">
       <tr>
         <td>{{project.name}}</td>
         <td>{{project.url}}</td>
-        <td><button class="btn"><a><i class="fa fa-refresh"></i></a></button></td>
-        <td><button class="btn" (click)="deleteToProjectList(project)"><i class="fa fa-trash"></i></button></td>                
+        <td><button class="btn" (click)="deleteToProjectList(project)"><i class="fa fa-trash"></i></button></td> 
+        <td>{{project.sonarResults}}
+
+          <button class="btn"><a><i class="fa fa-refresh"></i></a></button>
+
+        </td>
+
       </tr>
       </tbody>
     </table>

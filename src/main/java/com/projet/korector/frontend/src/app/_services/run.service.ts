@@ -9,7 +9,7 @@ const httpOptions = {
   {
      'Content-Type': 'application/json'})
 }
-const API_URL_JENSON = 'http://localhost:8080/jenkins/build/';
+const API_URL_JENSON = 'http://localhost:8085/api/jenkins/build/';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,10 +24,11 @@ export class RunService {
     let routeQuery=this.url+"/createRun/"+sessionId;
     return this.http.get<Run>(routeQuery);
   }
-public sonarQubeRun(buildName : String , urlName : String) : Observable <Map<String,String>> {
+public sonarQubeRun(buildName : String , urlName : String) : Observable <any> {
   // s = API_URL_JENSON  + buildName + "/" +urlName
   console.log("Url" + API_URL_JENSON  + buildName + "/" +urlName);
-  return this.http.post<Map<String,String>  >( API_URL_JENSON  + buildName + "/" +urlName,  httpOptions);
+  console.log (this.http.post<any>( API_URL_JENSON  + buildName + "/" +urlName,  httpOptions));
+  return this.http.post<any> ( API_URL_JENSON  + buildName + "/" +urlName,  httpOptions);
 }
 
   // public exportCSV() : Observable<any>

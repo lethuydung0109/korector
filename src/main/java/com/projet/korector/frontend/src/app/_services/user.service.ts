@@ -44,7 +44,7 @@ export class UserService {
   public saveUser(user : User , userRoleId : Number  ) : Observable <User> {
     // const routeQuery=this.url+"/user/saveUser";
  
-      console.log("User dans sservice " +  JSON.stringify(user) );
+      console.log("User dans service " +  JSON.stringify(user) );
  
  
          return this.http.post<User>( API_URL + 'saveUser/' + userRoleId, {

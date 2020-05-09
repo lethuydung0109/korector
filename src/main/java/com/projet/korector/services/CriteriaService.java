@@ -65,8 +65,8 @@ public class CriteriaService {
 
     public ResponseEntity<Criteria> getCriteriaById(Long id) throws ResourceNotFoundException {
 
-            Criteria criteria = criteriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Criteria not found for this id :: " + id));
-            return ResponseEntity.ok().body(criteria);
+        Criteria criteria = criteriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Criteria not found for this id :: " + id));
+        return ResponseEntity.ok().body(criteria);
 
     }
 

@@ -1,3 +1,5 @@
+import { TokenStorageService } from '../_services/token-storage.service';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '../classes/project';
@@ -43,20 +45,25 @@ export class SessionDetailComponent implements OnInit {
 
   public buildName : string;
   public buildUrl : string;
+  public sonarQubeRun : Array<String,String>  = [];
 
+  public username: string;
   constructor(private actRoute: ActivatedRoute, 
               private sessionService : SessionService, 
               private projectService : ProjectService,
               private runService : RunService,
               public datepipe: DatePipe,
               private criteriaService : CriteriaService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,private tokenStorageService: TokenStorageService) {
     this.sessionId = this.actRoute.snapshot.params.id;
     this.typeCritere='static';
     this.nameCritere="critere";
   }
 
   ngOnInit(): void {
+    // Get the user connected
+    const user = this.tokenStorageService.getUser();
+    this.username = user.username;
 
     this.sessionService.getSessionById(this.sessionId).subscribe(data => {
       this.sessionId=data.id;
@@ -198,17 +205,36 @@ export class SessionDetailComponent implements OnInit {
 
   public createRun() : void
   {
+    this.openValidationModal("Run OK");
+
     /*this.runService.createRun(this.sessionId).subscribe( data => {
       this.sessionRuns.push(data);
     });  */
     this.sessionProjects.forEach(project => {
-      this.buildName = project.name;
+      this.buildName = project.name+"_"+ this.username +"_" + this.sessionId ;
       this.buildUrl = project.url.replace(/\//g , ",");
-      console.log("Name" + this.buildName);
-      console.log("Url" + this.buildUrl);
-      this.runService.sonarQubeRun(this.buildName,this.buildUrl);
+      console.log("Name " + this.buildName);
+      console.log("Url " + this.buildUrl);
+      this.runService.sonarQubeRun(this.buildName,this.buildUrl).subscribe(data => {
+
+      /*  .success(function(data) { 
+          done(data); 
+          $scope.dataLoaded = true;
+       })
+      .error(function(error) {
+          alert('An error occured');
+      }); */
+       // if(data!=null){
+        console.log("This is data" + data);
+       //   this.sonarQubeRun = data;
+
+       // project.sonarResults = this.sonarQubeRun;
+       
+      });;
+      this.openValidationModal("Run OK" + this.sonarQubeRun);
 
     });
+
   }
 
   public exportCSV(runId : number) : void

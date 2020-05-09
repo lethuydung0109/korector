@@ -23,10 +23,10 @@ export class NavComponent implements OnInit {
       //alert(user);
 
      // this.roles = user.roles;
-    /*  this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+     this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
       this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
-      console.log("Nav bar: roles = " + this.roles); */
+      console.log("Nav bar: roles = " + this.roles); 
      // alert("username avt");
 
      this.username = user.username;

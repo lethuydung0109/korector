@@ -11,7 +11,7 @@ export class Project {
   dateDepot: string;
   session: Array<Session>;
   user : User;
-
+  sonarResults : Map<String,String>;
   constructor(name: string) {
     this.name = name;
     this.id = null;
@@ -21,6 +21,8 @@ export class Project {
     this.dateDepot= null;
     this.session= [];
     this.user=null;
+    this.sonarResults=null;
+
   }
 
 

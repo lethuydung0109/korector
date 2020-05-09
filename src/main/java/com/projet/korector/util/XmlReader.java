@@ -18,10 +18,13 @@ public class XmlReader {
 
     String url;
     String key;
+    String keyProperties;
+    String properties;
 
-    public XmlReader( String url, String key){
+    public XmlReader( String url,String properties){
         this.url=url;
-        this.key = key;
+
+        this.properties = properties;
     }
 
     public String formatXML(){
@@ -31,8 +34,14 @@ public class XmlReader {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filePath);
 
-            Node url = doc.getElementsByTagName(key).item(0);
+            Node url = doc.getElementsByTagName("url").item(0);
             url.setTextContent(this.url);
+
+            Node properties = doc.getElementsByTagName("properties").item(1);
+            System.out.println("Text context of properties avnat " + properties.getTextContent());
+            properties.setTextContent(this.properties);
+            System.out.println("Text context of properties apres" + properties.getTextContent());
+
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
