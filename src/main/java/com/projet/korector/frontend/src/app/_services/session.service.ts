@@ -6,6 +6,7 @@ import { Session } from '../classes/session';
 import { Project } from '../classes/project';
 import { Run } from '../classes/run';
 import { Criteria } from '../classes/criteria';
+import { SessionCritere } from '../classes/session-critere';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class SessionService {
     const routeQuery=this.url+"/sessionById/"+sessionId;
     return this.http.get<Session>(routeQuery);
   }
-  // by user
+
   public getAllSessions() : Observable<Array<Session>>
   {
     const routeQuery=this.url+"/allSessions";
@@ -61,6 +62,12 @@ export class SessionService {
   {
     let routeQuery=this.url+"/sessionCriterias/"+sessionId;
     return this.http.get<Array<Criteria>>(routeQuery);
+  }
+
+  public getSessionCriteres(sessionId : number) : Observable<Array<SessionCritere>>
+  {
+    let routeQuery=this.url+"/getSessionCriteres/"+sessionId;
+    return this.http.get<Array<SessionCritere>>(routeQuery);
   }
 
   public deleteSession (sessionId :Number) : Observable<any>

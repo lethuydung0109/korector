@@ -51,6 +51,11 @@ public class Session implements Serializable {
             cascade = CascadeType.PERSIST)
     private Set<Run> runs = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "session", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
+    private Set<SessionCritere> sessionCriteres = new HashSet<>();
+
     public Session() { }
 
     public Session(String n, String date, String heure) {
@@ -118,26 +123,31 @@ public class Session implements Serializable {
         this.criterias = criterias;
     }
 
-    //@JsonIgnore
     public Set<Run> getRuns() {
         return runs;
     }
 
-    //@JsonIgnore
     public void setRuns(Set<Run> runs) {
         this.runs = runs;
     }
 
-    //@JsonIgnore
     public Set<User> getUsers() {
         return users;
     }
 
-    //@JsonIgnore
     public void setUsers(Set<User> users) {
         this.users = users;
     }
 
+    @JsonIgnore
+    public Set<SessionCritere> getSessionCriteres() {
+        return sessionCriteres;
+    }
+
+    @JsonIgnore
+    public void setSessionCriteres(Set<SessionCritere> sessionCriteres) {
+        this.sessionCriteres = sessionCriteres;
+    }
 
     @Override
     public String toString() {
@@ -147,7 +157,7 @@ public class Session implements Serializable {
                 ", date_depot='" + date_depot + '\'' +
                 ", heureDepot='" + heureDepot + '\'' +
                 ", projects=" + projects +
-                ", criterias=" + criterias +
+                ", sessionriteres=" + sessionCriteres +
                 ", runs=" + runs +
                 '}';
     }
