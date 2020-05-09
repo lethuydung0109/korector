@@ -59,6 +59,7 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
 import { UpdateCriteriaComponent } from './update-criteria/update-criteria.component';
 import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
+import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { ValidationModalComponent } from './validation-modal/validation-modal.co
     Oauth2RedirectHandlerComponent,
     UpdateCriteriaGroupComponent,
     UpdateCriteriaComponent,
-    ValidationModalComponent
+    ValidationModalComponent,
+    AjoutSessionCritereComponent
   ],
   imports: [
     BrowserModule,

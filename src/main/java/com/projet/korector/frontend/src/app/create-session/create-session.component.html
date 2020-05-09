@@ -1,141 +1,73 @@
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<h1>Creation d'une session</h1>
 	</div> <br>
 
 	<div class="row">
-		<div class="col-md-3">
-			<div class="card " style="text-align:left;">
-				<div class="card-header bg-info text-white">
-				  Informations Session
+		<div class="card " style="text-align:left;">
+			<div class="card-header bg-info text-white">
+				Informations Session
+			</div>
+			<div class="card-body">
+
+				<mat-form-field>
+					<mat-label>Nom de la Session</mat-label>
+					<input matInput [(ngModel)]="nameSession">                        
+				</mat-form-field><br>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<mat-form-field>
+						<mat-label>Type Session</mat-label>
+						<mat-select>
+							<mat-option (click)="changeSessionType('normal')" value="Normal"> Normal </mat-option>
+							<mat-option *ngIf="this.userRole!=='ETUDIANT'" (click)="changeSessionType('depot')" value="Depot"> Depot </mat-option>
+						</mat-select>
+						</mat-form-field>
+					</div>
 				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-6">
-						   <input type="text" name="nameSession" placeholder="Nom session" >
-            			</div>          
-					</div>
 
-					<div class="row">
-						<div class="col-md-6">
-						  <mat-form-field>
-							<mat-label>Type Session</mat-label>
-							<mat-select>
-							  <mat-option (click)="changeSessionType('normal')" value="Normal"> Normal </mat-option>
-							  <mat-option (click)="changeSessionType('depot')" value="Depot"> Depot </mat-option>
-							</mat-select>
-						  </mat-form-field>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
-						  <mat-form-field *ngIf="this.typeSession=='depot'">
-							<mat-label>Date de depot (jj/mm/yyyy)</mat-label>
-							<input id="date" name="date" matInput [matDatepicker]="picker">
-							<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-							<mat-datepicker #picker></mat-datepicker>
-						  </mat-form-field>
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6">
+				<table cellspacing="0">
+					<tr>
+						<td>
+							<mat-form-field *ngIf="this.typeSession=='depot'">
+								<mat-label>Date de depot (jj/mm/yyyy)</mat-label>
+								<input id="date" name="date" matInput [matDatepicker]="picker">
+								<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+								<mat-datepicker #picker></mat-datepicker>
+							</mat-form-field>
+						</td>
+						<td>
 							<mat-form-field *ngIf="this.typeSession=='depot'">
 								<mat-label>Heure de depot  (HH:mm)</mat-label>
 								<input id="heure" name="heure" matInput [(ngModel)]="heureDepot">
 							</mat-form-field>
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-				</div>
+						</td>
+					</tr>
+				</table>
+
+				<mat-form-field >
+					<mat-label>Selectionnez un projet</mat-label>
+					<mat-select >
+						<mat-option *ngFor="let project of projects" [value]="project.name" (click)="addProjetToSelectedProject(project)">
+						{{project.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<div class="row">
+					<ul style="list-style-type: none;" >
+						<li *ngFor="let project of selectedProjects" (click)="retrieveProjectToselected(project)"><i class="fa fa-minus"></i> {{project.name}}</li>
+					</ul>
+				</div>				
+
 			</div>
 		</div>
-
-		<div class="col-md-3">
-			<div class="card " style="text-align:left;">
-				<div class="card-header bg-info text-white">
-					Projects
-				</div>
-				<div class="card-body">
-					<div class="row" >
-						<mat-form-field >
-						  <mat-label>Selectionnez un projet</mat-label>
-						  <mat-select >
-							<mat-option *ngFor="let project of projects" [value]="project.name" (click)="addProjetToSelectedProject(project)">
-							  {{project.name}}
-							</mat-option>
-						  </mat-select>
-						</mat-form-field>
-					</div> <br><br>
-					<div class="row">
-						<ul style="list-style-type: none;" >
-						  <li *ngFor="let project of selectedProjects" (click)="retrieveProjectToselected(project)"><i class="fa fa-minus"></i> {{project.name}}</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-3">
-			<div class="card " style="text-align:left;">
-				<div class="card-header bg-info text-white">
-					Critères
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<mat-form-field>
-						  <mat-label>Type Critère</mat-label>
-						  <mat-select>
-							<mat-option (click)="changeCritereType('static')" value="static"> Static </mat-option>
-							<mat-option (click)="changeCritereType('dynamic')" value="dynamic"> Dynamic </mat-option>
-						  </mat-select>
-						</mat-form-field>
-					</div>
-
-					<div class="row">
-						<mat-form-field *ngIf="this.typeCritere=='static'"> 
-						  <mat-label>Selectionnez un critère</mat-label>
-						  <mat-select [(value)]="nameCritere">
-							  <mat-option *ngFor="let critere of statiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
-						  </mat-select>
-            			</mat-form-field>
-
-						<mat-form-field *ngIf="this.typeCritere=='dynamic'">							
-							<mat-label>Selectionnez un critère</mat-label>
-							<mat-select [(value)]="nameCritere"> 
-								<mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
-							</mat-select> 
-						</mat-form-field>
-
-						<mat-form-field>
-							<mat-label>Valeur du critère</mat-label>
-							<input matInput [(ngModel)]="valueCritere">
-						</mat-form-field>
-					</div> <br>
-
-					<div class="row">
-						<div class="col-md-6">
-						<button class="btn btn-primary" (click)="addCriteria()">Ajouter</button>
-						</div>
-					</div> <br>
-
-					<div class="row">
-						<ul style="list-style-type: none;">
-							<li *ngFor="let critere of selectedCriteria" (click)="retrieveCriteriaToSelected(critere)">
-								<i class="fa fa-minus"></i> {{critere.name}} : {{critere.value}}
-							</li>
-						</ul>						
-          			</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	</div><br><br>	
 
 	<div class="row">
 		<div class="col-md-6">
-		  <button class="btn btn-primary" (click)="createSession()">Creer Session </button>
+		  <button class="btn btn-primary" (click)="createSession()">Suivant</button>
 		</div>
 	</div> <br>
 </div>

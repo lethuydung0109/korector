@@ -32,6 +32,7 @@ import {SectionComponent} from "./section/section.component";
 import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2-redirect-handler.component';
 import {CriteriaDetailsComponent} from "./criteria-details/criteria-details.component";
 import {UpdateCriteriaComponent} from "./update-criteria/update-criteria.component";
+import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'session', component: SessionComponent },
   { path: 'session-detail/:id', component: SessionDetailComponent },
+  { path: 'ajout-sessionCritere/:id', component: AjoutSessionCritereComponent },
   { path: 'createSession', component: CreateSessionComponent },
   //{ path: '**', component: NoPageFoundComponent }
   // Dung's login part
