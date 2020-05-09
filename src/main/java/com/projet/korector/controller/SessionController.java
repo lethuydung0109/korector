@@ -93,6 +93,13 @@ public class SessionController {
         return service.getSessionCriterias(sessionId);
     }
 
+    @GetMapping("/all")
+    @RequestMapping(value = "/getSessionCriteres/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<SessionCritere> getSessionCriteres(@PathVariable("sessionId")Long sessionId)
+    {
+        return  service.getSessionCriteres(sessionId);
+    }
+
     @PutMapping("/all")
     @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)

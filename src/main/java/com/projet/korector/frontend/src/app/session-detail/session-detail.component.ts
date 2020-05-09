@@ -1,5 +1,3 @@
-import { TokenStorageService } from '../_services/token-storage.service';
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '../classes/project';
@@ -14,6 +12,11 @@ import { Criteria } from '../classes/criteria';
 import { CriteriaService } from '../_services/criteria.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValidationModalComponent } from '../validation-modal/validation-modal.component';
+import { SessionCritere } from '../classes/session-critere';
+import { SessionCritereService } from '../_services/session-critere.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-session-detail',
@@ -33,38 +36,48 @@ export class SessionDetailComponent implements OnInit {
   public statiqueCiterias : Array<Criteria> =[];
   public dynamiqueCiterias : Array<Criteria> =[];
   public sessionProjects : Array<Project>=[]; 
-  public sessionCriterias : Array<Criteria>=[];
+  public sessionCriteres : Array<SessionCritere>=[];
   public allProjects : Array<Project>=[];
   public sessionRuns : Array<Run>=[];
-  public newCriteria : Array<Criteria> =[];
+  public newCriteria : Array<SessionCritere> =[];
 
   public nameSession: string;
   public nameCritere : string;
   public valueCritere: number;
+  public poidsCritere: number;
+  public seuilCritere: number;
+  public userRole: string;
 
-
-  public buildName : string;
-  public buildUrl : string;
-  public sonarQubeRun : Array<String,String>  = [];
-
-  public username: string;
   constructor(private actRoute: ActivatedRoute, 
               private sessionService : SessionService, 
               private projectService : ProjectService,
               private runService : RunService,
               public datepipe: DatePipe,
               private criteriaService : CriteriaService,
-              private modalService: NgbModal,private tokenStorageService: TokenStorageService) {
+              private modalService: NgbModal,
+              private sessionCritereService: SessionCritereService,
+              private http: HttpClient, 
+              private tokenStorage: TokenStorageService) {
+
     this.sessionId = this.actRoute.snapshot.params.id;
-    this.typeCritere='static';
-    this.nameCritere="critere";
+    this.typeCritere='Statique';
+    this.seuilCritere=0;
   }
 
   ngOnInit(): void {
-    // Get the user connected
-    const user = this.tokenStorageService.getUser();
-    this.username = user.username;
 
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' , 
+      'Authorization' : 'Bearer ' + this.tokenStorage.getToken()})
+    };
+    this.http.get(environment.api_base_url + '/user/me', httpOptions).subscribe(
+      data => {
+        this.tokenStorage.saveUser(data);      
+        this.userRole = this.tokenStorage.getUser().roles.map(x => x.name).join(',');
+        this.userRole = this.userRole.replace("ROLE_", "");
+        console.log("profile",this.userRole)
+      });
+      
     this.sessionService.getSessionById(this.sessionId).subscribe(data => {
       this.sessionId=data.id;
       this.sessionName=data.name.valueOf();
@@ -78,11 +91,13 @@ export class SessionDetailComponent implements OnInit {
     });
     this.sessionProjects=listProjects;
 
-    let listCriterias : Array<Criteria> =[];
-    this.sessionService.getSessionCriterias(this.sessionId).subscribe(data => {
-      data.forEach(c => { listCriterias.push(c); })
+    let listSessionCriteres : Array<SessionCritere> =[];
+    this.sessionService.getSessionCriteres(this.sessionId).subscribe(data => {
+      data.forEach(sc => { listSessionCriteres.push(sc); })
     });
-    this.sessionCriterias=listCriterias;
+    this.sessionCriteres=listSessionCriteres;
+
+    console.log("sessionCriteres :", this.sessionCriteres)
 
     let projectList: Array<Project>=[];
     this.projectService.getProjectList().subscribe(data => {
@@ -120,73 +135,115 @@ export class SessionDetailComponent implements OnInit {
   {
     let nameSession : string =document.getElementsByName("nameSession")[0]["value"];
     this.sessionName=nameSession;
-    let dateDepotSession : string = document.getElementsByName("dateDepotSession")[0]["value"];
-    let heureDepotSession : string = document.getElementsByName("heureDepotSession")[0]["value"];
+    let dateDepotSession : string = "";
+    let heureDepotSession : string = "";
+
+    if(this.userRole!="ETUDIANT")
+    {
+      dateDepotSession = document.getElementsByName("dateDepotSession")[0]["value"];
+      heureDepotSession = document.getElementsByName("heureDepotSession")[0]["value"];
+    }
+    
     let updateSession : Session = new Session(nameSession,dateDepotSession,heureDepotSession);
     updateSession.id=this.sessionId;
 
     let sessionProjectIds: Array<number>=[];
-    let sessionCriteriaIds: Array<number>=[];
-    let pourcentageTotal=0;
+    let sessionCritereIds: Array<number>=[];
+    
+    this.sessionProjects.forEach(p=>{ sessionProjectIds.push(p.id) });
 
-    this.sessionProjects.forEach(p=>{ sessionProjectIds.push(p.id)});
+    let pourcentageTotal:number=0;
+    this.sessionCriteres.forEach(c => {
+      if(!this.newCriteria.includes(c))
+      {
+        c.height=parseInt(document.getElementsByName("sessionCritereHeight_"+c.id)[0]["value"]);
+        if(this.userRole!="ETUDIANT")
+        {
+          c.seuil=parseInt(document.getElementsByName("sessionCritereSeuil_"+c.id)[0]["value"]);
+        }
+        else c.seuil=0;
+        this.sessionCritereService.updateSessionCritere(c.id,c.height,c.seuil).subscribe(data=>{ 
+         console.log("data")
+         });
+      }         
+      pourcentageTotal=pourcentageTotal+c.height;
+    });
 
-    console.log("nb critères : ", this.sessionCriterias.length)
-    this.sessionCriterias.forEach(c=>{ 
-      sessionCriteriaIds.push(c.id)
-      pourcentageTotal=pourcentageTotal+c.value;
+    this.sessionCriteres.forEach(c=>{ 
+      sessionCritereIds.push(c.id)
+      console.log("SC : ",c)
     });
 
     updateSession.projects=sessionProjectIds;
-    updateSession.criterias=sessionCriteriaIds;
+    updateSession.sessionCritere=sessionCritereIds;
 
-    this.sessionCriterias.forEach(c => {
-      if(!this.newCriteria.includes(c)) c.value=document.getElementsByName("criteriaValue_"+c.id)[0]["value"];      
-      this.criteriaService.updateCriteria(c.id,c).subscribe(data=>{ c=data; });
-    });
-
-    // if(pourcentageTotal>100)
-    // {
-    //   this.openValidationModal("La somme des pourcentages de vos critères dépasse 100");
-    // }
-    // else {
+    if(pourcentageTotal===100)
+    {
       console.log("updated session : ",updateSession);
       this.sessionService.updateSession(updateSession).subscribe(data => {
         this.updateSessionId=data.id;
         if(this.updateSessionId!=0) this.openValidationModal("Modifications sauvegardées"); 
-      });
-    // }
+      });      
+    }
+    else {
+      this.openValidationModal("La somme des pourcentages de vos critères n'est pas égal à 100");
+    }
   }
 
   public addToCriteriaList() : void
   {
     let criteria : Criteria;
-    if(this.typeCritere=="static")
+    let sessionCritere : SessionCritere = new SessionCritere();
+    if(this.typeCritere=="Statique")
     {
       criteria = this.statiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
-      criteria.value=this.valueCritere;
-      if(!this.sessionCriterias.includes(criteria)) 
+      sessionCritere.critereId=criteria.id;
+      sessionCritere.name=criteria.name;
+      sessionCritere.sessionId=this.sessionId;
+      sessionCritere.height=this.poidsCritere;
+      sessionCritere.type=criteria.type;
+
+      if(this.userRole!="ETUDIANT")
       {
-        this.sessionCriterias.push(criteria);
-        this.newCriteria.push(criteria);
-      }
+        sessionCritere.seuil=this.seuilCritere;
+      }else sessionCritere.seuil=0;
+
+      this.sessionCritereService.createSessionCritere(sessionCritere).subscribe(data=>{
+        console.log(data)
+        this.sessionCriteres.push(data);
+        this.addCriteriaToList(data);
+      });
     }
-    else if (this.typeCritere=="dynamic")
+    else if (this.typeCritere=="Dynamique")
     {
       criteria = this.dynamiqueCiterias.filter(critere => critere.name==this.nameCritere)[0];
-      criteria.value=this.valueCritere;
-      if(!this.sessionCriterias.includes(criteria)) 
+      sessionCritere.critereId=criteria.id;
+      sessionCritere.name=criteria.name;
+      sessionCritere.sessionId=this.sessionId;
+      sessionCritere.height=this.poidsCritere;
+      sessionCritere.type=criteria.type;
+
+      if(this.userRole!="ETUDIANT")
       {
-        this.sessionCriterias.push(criteria);    
-        this.newCriteria.push(criteria);
-      }
+        sessionCritere.seuil=this.seuilCritere;
+      }else sessionCritere.seuil=0;
+      this.sessionCritereService.createSessionCritere(sessionCritere).subscribe(data=>{
+        this.sessionCriteres.push(data);
+        this.addCriteriaToList(data);
+      });
     }
   }
 
-  public deleteCriteriaFromSelectedList(criteria : Criteria) : void
+  public addCriteriaToList(c : SessionCritere) : void {
+    if(!this.newCriteria.includes(c)) this.newCriteria.push(c);
+    else this.openValidationModal("Ce critère est déjà dans la liste");
+  }
+
+  public deleteSessionCriteriaFromSelectedList(sessionCritere : SessionCritere) : void
   {
-    this.sessionCriterias.splice(this.sessionCriterias.indexOf(criteria),1);
-    if(!this.newCriteria.includes(criteria))  this.newCriteria.splice(this.sessionCriterias.indexOf(criteria),1);
+    this.sessionCriteres.splice(this.sessionCriteres.indexOf(sessionCritere),1);
+    if(!this.newCriteria.includes(sessionCritere))  this.newCriteria.splice(this.sessionCriteres.indexOf(sessionCritere),1);
+    this.sessionCritereService.deleteSessionCritere(this.sessionId,sessionCritere.id).subscribe(data=>{});
   }
 
   public addToProjectList(project :Project) : void
@@ -205,36 +262,9 @@ export class SessionDetailComponent implements OnInit {
 
   public createRun() : void
   {
-    this.openValidationModal("Run OK");
-
-    /*this.runService.createRun(this.sessionId).subscribe( data => {
+    this.runService.createRun(this.sessionId).subscribe( data => {
       this.sessionRuns.push(data);
-    });  */
-    this.sessionProjects.forEach(project => {
-      this.buildName = project.name+"_"+ this.username +"_" + this.sessionId ;
-      this.buildUrl = project.url.replace(/\//g , ",");
-      console.log("Name " + this.buildName);
-      console.log("Url " + this.buildUrl);
-      this.runService.sonarQubeRun(this.buildName,this.buildUrl).subscribe(data => {
-
-      /*  .success(function(data) { 
-          done(data); 
-          $scope.dataLoaded = true;
-       })
-      .error(function(error) {
-          alert('An error occured');
-      }); */
-       // if(data!=null){
-        console.log("This is data" + data);
-       //   this.sonarQubeRun = data;
-
-       // project.sonarResults = this.sonarQubeRun;
-       
-      });;
-      this.openValidationModal("Run OK" + this.sonarQubeRun);
-
-    });
-
+    });  
   }
 
   public exportCSV(runId : number) : void

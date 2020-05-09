@@ -10,25 +10,28 @@
           SessionId : {{sessionId}}
         </div>
         <div class="card-body">
-          Nom session : <input type="text" name="nameSession" value="{{sessionName}}"><br><br>
-          Date depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"><br><br>
-          Heure depot : <input type="text" name="heureDepotSession" value="{{sessionHeureDepot}}"><br><br>
-          Critères :   <button class="btn btn-primary" (click)="isHidden()">Ajouter critère</button><br><br>
+          <div class="row">Nom session : <input type="text" name="nameSession" value="{{sessionName}}"></div><br>          
+          <div class="row" *ngIf="this.userRole!=='ETUDIANT'">Date depot : <input type="text" name="dateDepotSession" value="{{sessionDateDepot}}"></div><br>
+          <div class="row" *ngIf="this.userRole!=='ETUDIANT'"> Heure depot : <input type="text" name="heureDepotSession" value="{{sessionHeureDepot}}"></div><br>
+          <div class="row">Critères :   <button class="btn btn-primary" (click)="isHidden()">Ajouter critère</button></div><br><br><br>          
           <table class="table table-bordered table-sm">
             <thead>
             <tr>
               <th>Nom</th>
-              <th>Type</th>
-              <th>Valeur</th>
+              <th>Poids</th>
+              <th *ngIf="this.userRole!=='ETUDIANT'">Seuil</th>
+              <th>Value</th>
               <th>Supprimé</th>          
             </tr>
             </thead>
-            <tbody *ngFor="let criteria of sessionCriterias">
+            <tbody *ngFor="let sessionCritere of sessionCriteres">
             <tr>
-              <td>{{criteria.name}}</td>
-              <td>{{criteria.type}}</td>
-              <td><input name="criteriaValue_{{criteria.id}}" type="text" value="{{criteria.value}}" size="3">%</td>
-              <td><button class="btn" (click)="deleteCriteriaFromSelectedList(criteria)"><i class="fa fa-trash"></i></button></td>
+              <td>{{sessionCritere.name}}</td>
+              <td><input name="sessionCritereHeight_{{sessionCritere.id}}" type="text" value="{{sessionCritere.height}}" size="3">%</td>
+              <td *ngIf="this.userRole!=='ETUDIANT'"><input name="sessionCritereSeuil_{{sessionCritere.id}}" type="text" value="{{sessionCritere.seuil}}" size="3">%</td>
+              <td *ngIf="sessionCritere.type=='Statique'">{{sessionCritere.value}}</td>
+              <td *ngIf="sessionCritere.type=='Dynamique'"><input name="sessionCritereValue_{{sessionCritere.id}}" type="text" value="{{sessionCritere.value}}" size="3">%</td>
+              <td><button class="btn" (click)="deleteSessionCriteriaFromSelectedList(sessionCritere)"><i class="fa fa-trash"></i></button></td>
             </tr>          
             </tbody>
           </table>          
@@ -65,32 +68,43 @@
 						<mat-form-field>
 						  <mat-label>Type Critère</mat-label>
 						  <mat-select>
-                <mat-option (click)="changeCritereType('static')" value="static"> Static </mat-option>
-                <mat-option (click)="changeCritereType('dynamic')" value="dynamic"> Dynamic </mat-option>
+                <mat-option (click)="changeCritereType('Statique')" value="static"> Statique </mat-option>
+                <mat-option (click)="changeCritereType('Dynamique')" value="dynamic"> Dynamique </mat-option>
 						  </mat-select>
 						</mat-form-field>
-					</div>
-
-					<div class="row">
-						<mat-form-field *ngIf="this.typeCritere=='static'"> 
-						  <mat-label>Selectionnez un critère</mat-label>
-						  <mat-select [(value)]="nameCritere">
-							  <mat-option *ngFor="let critere of statiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
-						  </mat-select>
+          </div>
+          
+          <div class="row">
+            <mat-form-field *ngIf="this.typeCritere=='Statique'"> 
+                <mat-label>Selectionnez un critère</mat-label>
+                <mat-select [(value)]="nameCritere">
+                    <mat-option *ngFor="let critere of statiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
+                </mat-select>
             </mat-form-field>
 
-						<mat-form-field *ngIf="this.typeCritere=='dynamic'">					
-							<mat-label>Selectionnez un critère</mat-label>
-							<mat-select [(value)]="nameCritere"> 
-								<mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
-							</mat-select> 
-						</mat-form-field>
+            <mat-form-field *ngIf="this.typeCritere=='Dynamique'">							
+                <mat-label>Selectionnez un critère</mat-label>
+                <mat-select [(value)]="nameCritere"> 
+                    <mat-option *ngFor="let critere of dynamiqueCiterias" value="{{critere.name}}"> {{critere.name}} </mat-option>
+                </mat-select> 
+            </mat-form-field>
+          </div>
 
-						<mat-form-field>
-							<mat-label>Valeur du critère</mat-label>
-							<input matInput [(ngModel)]="valueCritere">
-						</mat-form-field>
-					</div> <br>
+          <div class="row">
+              <mat-form-field>
+                  <mat-label>Poids du critère</mat-label>
+                  <input matInput [(ngModel)]="poidsCritere">
+                  <mat-hint><strong>Le pourcentage du critère dans la note</strong></mat-hint>
+              </mat-form-field>
+          </div><br>
+
+          <div class="row">
+              <mat-form-field *ngIf="this.userRole!=='ETUDIANT'">
+                  <mat-label>Seuil du critère</mat-label>
+                  <input matInput placeholder="Ex. Seuil Bugs=20" [(ngModel)]="seuilCritere">
+                  <mat-hint><strong>Seuil à partir duquel on a pas à évaluer le critère</strong></mat-hint>
+              </mat-form-field>
+          </div><br><br>
 
 					<div class="row">
 						<div class="col-md-6">

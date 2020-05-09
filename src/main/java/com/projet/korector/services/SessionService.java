@@ -42,6 +42,9 @@ public class SessionService {
     @Autowired
     private UserController userController;
 
+    @Autowired
+    private SessionCritereRepository sessionCritereRepository;
+
     public ResponseEntity<Session> createSession(SessionImp sessionImp, User currentUser)
     {
         log.info("objet angular reçu pour création :"+sessionImp.toString());
@@ -82,15 +85,21 @@ public class SessionService {
             session.getProjects().add(this.projectRepository.findById(projectId).get());
         });
 
-        sessionImp.getCriterias().forEach(criteriatId-> {
-            session.getCriterias().add(this.criteriaRepository.findById(criteriatId).get());
+//        sessionImp.getCriterias().forEach(criteriatId-> {
+//            session.getCriterias().add(this.criteriaRepository.findById(criteriatId).get());
+//        });
+
+        sessionImp.getSessionCritere().forEach(sessionCritereId-> {
+            session.getSessionCriteres().add(this.sessionCritereRepository.findById(sessionCritereId).get());
         });
 
         Session newSession=null;
         if(this.sessionRepository.findById(session.getId()).isPresent())
         {
             this.setSessionProjects(session.getId(),session.getProjects());
-            this.setSessionCriterias(session.getId(),session.getCriterias());
+//            this.setSessionCriterias(session.getId(),session.getCriterias());
+            this.setSessionCriteres(session.getId(),session.getSessionCriteres());
+
             newSession=this.sessionRepository.save(session);
         }
         log.info("UpdateSession : "+newSession);
@@ -117,6 +126,12 @@ public class SessionService {
     public Set<Criteria> getSessionCriterias(Long sessionId)
     {
         return new HashSet<Criteria>(this.sessionRepository.findById(sessionId).get().getCriterias());
+    }
+
+    public Set<SessionCritere> getSessionCriteres(Long sessionId)
+    {
+        log.info("SessionCriteres : "+this.sessionRepository.findById(sessionId).get().getSessionCriteres());
+        return  new HashSet<>(this.sessionRepository.findById(sessionId).get().getSessionCriteres());
     }
 
     public void addProjectToSession(Long sessionId,Long projectId)
@@ -161,6 +176,24 @@ public class SessionService {
         putCriterias.forEach(criteria -> {
             criteria.getSessions().add(putSession);
             this.criteriaRepository.saveAndFlush(criteria);
+        });
+
+        this.sessionRepository.saveAndFlush(putSession);
+    }
+
+    public void setSessionCriteres(Long sessionId,Set<SessionCritere> sessionCriteres)
+    {
+        Set<SessionCritere> putSessionCriteres= new HashSet<>();
+        sessionCriteres.forEach(sessionCritere->{
+            putSessionCriteres.add(this.sessionCritereRepository.findById(sessionCritere.getId()).get());
+        });
+
+        Session putSession=this.sessionRepository.findById(sessionId).get();
+        putSession.setSessionCriteres(putSessionCriteres);
+
+        putSessionCriteres.forEach(sessionCritere -> {
+            sessionCritere.setSession(putSession);
+            this.sessionCritereRepository.saveAndFlush(sessionCritere);
         });
 
         this.sessionRepository.saveAndFlush(putSession);
