@@ -27,7 +27,6 @@ export class CreateCriteriaComponent implements OnInit {
     this.criteria= new Criteria();
     this.criteria.name= (document.getElementById("name") as HTMLInputElement).value;
     this.criteria.type =(document.getElementById("type") as HTMLInputElement).value;
-    this.criteria.value =parseFloat((document.getElementById("value") as HTMLInputElement).value);
     this.criteria.url=(document.getElementById("url") as HTMLInputElement).value
 
     this.criteriaService.createCriteria(this.criteria).subscribe(
@@ -45,8 +44,7 @@ export class CreateCriteriaComponent implements OnInit {
   }
 
   verifyInput( url: string) {
-
-    if((document.getElementById("type") as HTMLInputElement).value = "Statique") {
+    if((document.getElementById("type") as HTMLInputElement).value == "Statique") {
       (document.getElementById(url) as HTMLInputElement).disabled = false;
     }else {
       (document.getElementById(url) as HTMLInputElement).disabled = true;

@@ -27,18 +27,14 @@ public class Criteria implements Serializable {
     @Column(name="url")
     private String url;
 
-    @Column(name="value")
-    private float value;
-
     @JsonIgnore
     @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
     private Set<Session> sessions = new HashSet<>();
 
-    public Criteria( String name, String type, String url, float value) {
+    public Criteria( String name, String type, String url) {
         this.name = name;
         this.type = type;
         this.url = url;
-        this.value = value;
     }
 
     public Criteria() {
@@ -76,13 +72,6 @@ public class Criteria implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    public float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
 
    // @JsonIgnore
     public Set<Session> getSessions() {
@@ -101,7 +90,6 @@ public class Criteria implements Serializable {
         sb.append(", name='").append(name).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", url='").append(url).append('\'');
-        sb.append(", value='").append(value).append('\'');
         sb.append('}');
         return sb.toString();
     }

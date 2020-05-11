@@ -5,7 +5,6 @@ export class Criteria {
   name: string;
   type: string;
   url: string;
-  value: number;
   session: Array<Session>;
 
 
@@ -14,7 +13,6 @@ export class Criteria {
     this.name ="";
     this.type="";
     this.url="";
-    this.value=0;
     this.session= [];
   }
 }
