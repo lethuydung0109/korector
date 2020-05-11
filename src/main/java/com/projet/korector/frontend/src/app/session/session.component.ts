@@ -21,9 +21,10 @@ export class SessionComponent implements OnInit {
       })
     });
     this.sessions=letSessions;
+    console.log("sessions : ",this.sessions);
   }
 
-  public deleteSessionById(session :Session) : void
+  public deleteSession(session :Session) : void
   {
     this.sessionService.deleteSession(session.id).subscribe();
     this.sessions.splice(this.sessions.indexOf(session),1);

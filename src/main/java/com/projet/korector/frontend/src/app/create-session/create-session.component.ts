@@ -69,8 +69,8 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession(): void
   {        
-    let dateDepot:string="";
-    let heureDepot:string="";
+    let dateDepot:string="null";
+    let heureDepot:string="null";
 
     if(this.typeSession=="depot") 
     {

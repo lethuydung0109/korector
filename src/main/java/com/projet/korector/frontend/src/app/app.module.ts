@@ -45,7 +45,7 @@ import { CriteriaDetailsComponent } from './criteria-details/criteria-details.co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 
@@ -60,6 +60,7 @@ import { UpdateCriteriaComponent } from './update-criteria/update-criteria.compo
 import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
+import { DepotProjetComponent } from './depot-projet/depot-projet.component';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-sess
     UpdateCriteriaGroupComponent,
     UpdateCriteriaComponent,
     ValidationModalComponent,
-    AjoutSessionCritereComponent
+    AjoutSessionCritereComponent,
+    DepotProjetComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +127,8 @@ import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-sess
     MatCardModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DatePipe
+    DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

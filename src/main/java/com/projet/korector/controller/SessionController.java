@@ -54,14 +54,14 @@ public class SessionController {
     @RequestMapping(value = "/allSessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Session> getAllSessions()
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String json="";
-        try {
-            json = mapper.writeValueAsString(service.getAllSessions());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+//        String json="";
+//        try {
+//            json = mapper.writeValueAsString(service.getAllSessions());
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
         return service.getAllSessions();
     }
 
@@ -94,14 +94,25 @@ public class SessionController {
     }
 
     @GetMapping("/all")
+    @RequestMapping(value = "/user/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Session> getAllSessionsByUser()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+
+        return service.getAllSessionsByUser(currentUser);
+    }
+
+    @GetMapping("/all")
     @RequestMapping(value = "/getSessionCriteres/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Set<SessionCritere> getSessionCriteres(@PathVariable("sessionId")Long sessionId)
     {
         return  service.getSessionCriteres(sessionId);
     }
 
-    @PutMapping("/all")
-    @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/all")
+    @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
         service.addProjectToSession(sessionId,projectId);

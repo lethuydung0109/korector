@@ -82,10 +82,10 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
+  public addProjectToSession(sessionId : number,projectId : number) : Observable<any>
   {
-    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
-    return this.http.put(routeQuery,project);
+    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
+    return this.http.get(routeQuery);
   }
 
   public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>
@@ -98,6 +98,12 @@ export class SessionService {
   {
     const routeQuery=this.url+"/getSessionRuns/"+sessionId;
     return this.http.get<Array<Run>>(routeQuery);
+  }
+
+  public getSessionsDepot() : Observable<Array<Session>>
+  {
+    const routeQuery=this.url+"/getSessionsDepot";
+    return this.http.get<Array<Session>>(routeQuery);
   }
 
   public exportCSV(runId : number) : Observable<any>

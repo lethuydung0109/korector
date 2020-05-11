@@ -114,7 +114,7 @@ public class SessionCritere implements Serializable {
                 "id=" + id +
                 ", critereId=" + critereId +
                 ", height=" + height +
-                ", seuil"+seuil+
+                ", seuil="+seuil+
                 ", value=" + value +
                 '}';
     }

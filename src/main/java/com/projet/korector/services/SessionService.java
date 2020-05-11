@@ -111,9 +111,14 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
+    public Set<Session> getAllSessionsByUser(User currentUser) {
+
+        return sessionRepository.findAll().stream().filter(session -> session.getUsers().contains(currentUser)).collect(Collectors.toSet());
+    }
+
     public Set<Session> getSessionWithDateDepotNotNull()
     {
-        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> session.getDate_depot() != null).collect(Collectors.toSet());
+        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> !session.getDate_depot().equals("null")).collect(Collectors.toSet());
         log.info("Session- date depot not null : "+sessions);
         return sessions;
     }
@@ -141,6 +146,7 @@ public class SessionService {
 
         putSession.getProjects().add(putProject);
         putProject.getSessions().add(putSession);
+
         this.projectRepository.saveAndFlush(putProject);
         this.sessionRepository.saveAndFlush(putSession);
     }
@@ -216,7 +222,7 @@ public class SessionService {
         if(isPresent)
         {
             Set<Project> projects= deletedSession.getProjects();
-            Set<Criteria> criterias = deletedSession.getCriterias();
+            Set<SessionCritere> criterias = deletedSession.getSessionCriteres();
             Set<Run> runs = deletedSession.getRuns();
 
             projects.forEach(project -> {
@@ -224,9 +230,8 @@ public class SessionService {
                 this.projectRepository.saveAndFlush(project);
             });
 
-            criterias.forEach(criteria -> {
-                this.criteriaRepository.findById(criteria.getId()).get().getSessions().remove(deletedSession);
-                this.criteriaRepository.saveAndFlush(criteria);
+            criterias.forEach(sessionCritere -> {
+                this.sessionCritereRepository.deleteById(sessionCritere.getId());
             });
 
             projects.clear();
@@ -259,6 +264,8 @@ public class SessionService {
         runs.addAll(this.sessionRepository.findById(sessionId).get().getRuns());
         return runs;
     }
+
+
 
 //    public void exportCSV(Long runId, HttpServletResponse response) {
 //
