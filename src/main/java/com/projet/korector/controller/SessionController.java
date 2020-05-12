@@ -86,12 +86,12 @@ public class SessionController {
         return service.getSessionProjects(sessionId);
     }
 
-    @GetMapping("/all")
-    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
-    {
-        return service.getSessionCriterias(sessionId);
-    }
+//    @GetMapping("/all")
+//    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
+//    {
+//        return service.getSessionCriterias(sessionId);
+//    }
 
     @GetMapping("/all")
     @RequestMapping(value = "/user/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -132,12 +132,12 @@ public class SessionController {
         service.setSessionProjects(sessionId,projects);
     }
 
-    @PostMapping("/all")
-    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
-    {
-        service.setSessionCriterias(sessionId,criterias);
-    }
+//    @PostMapping("/all")
+//    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
+//    {
+//        service.setSessionCriterias(sessionId,criterias);
+//    }
 
     @DeleteMapping("/all")
     @RequestMapping(value = "/deleteSession/{sessionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -60,7 +60,6 @@ import { UpdateCriteriaComponent } from './update-criteria/update-criteria.compo
 import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
-import { DepotProjetComponent } from './depot-projet/depot-projet.component';
 
 
 @NgModule({
@@ -103,8 +102,7 @@ import { DepotProjetComponent } from './depot-projet/depot-projet.component';
     UpdateCriteriaGroupComponent,
     UpdateCriteriaComponent,
     ValidationModalComponent,
-    AjoutSessionCritereComponent,
-    DepotProjetComponent
+    AjoutSessionCritereComponent
   ],
   imports: [
     BrowserModule,
