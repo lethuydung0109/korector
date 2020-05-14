@@ -14,7 +14,7 @@ public class SessionImp {
     private String date_depot;
     private String heureDepot;
     private List<Long> projects=new ArrayList<>();
-    private List<Long> criterias=new ArrayList<>();
+    //private List<Long> criterias=new ArrayList<>();
     private List<Long> sessionCritere= new ArrayList<>();
     private List<Long> runs = new ArrayList<>();
     private List<Long> users = new ArrayList<>();
@@ -67,13 +67,13 @@ public class SessionImp {
         this.projects = projects;
     }
 
-    public List<Long> getCriterias() {
-        return criterias;
-    }
-
-    public void setCriterias(List<Long> criterias) {
-        this.criterias = criterias;
-    }
+//    public List<Long> getCriterias() {
+//        return criterias;
+//    }
+//
+//    public void setCriterias(List<Long> criterias) {
+//        this.criterias = criterias;
+//    }
 
     public List<Long> getSessionCritere() {
         return sessionCritere;
@@ -107,7 +107,7 @@ public class SessionImp {
                 ", date_depot='" + date_depot + '\'' +
                 ", heureDepot='" + heureDepot + '\'' +
                 ", projects=" + projects +
-                ", criterias=" + criterias +
+                ", sessionCritere=" + sessionCritere +
                 ", runs=" + runs +
                 ", users=" + users +
                 '}';

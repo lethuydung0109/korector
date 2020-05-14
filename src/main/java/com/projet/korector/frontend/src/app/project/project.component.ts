@@ -111,6 +111,7 @@ export class ProjectComponent implements OnInit {
   public submit() : void 
   {
     this.hideView ? this.hideView=false : this.hideView=true;
+    this.sessionService.addProjectToSession(19,4);
   }
 
   public submitProject(p:Project,s:Session) : void{

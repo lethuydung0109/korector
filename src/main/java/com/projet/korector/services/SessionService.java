@@ -127,7 +127,7 @@ public class SessionService {
 
     public void addProjectToSession(Long sessionId,Long projectId)
     {
-        log.info("Add Project : "+projectId+" to session : "+sessionId);
+        log.info(" ************** Add Project : "+projectId+" to session : "+sessionId);
         Project putProject=this.projectRepository.findById(projectId).get();
         Session putSession=this.sessionRepository.findById(sessionId).get();
 

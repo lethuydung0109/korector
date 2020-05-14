@@ -76,7 +76,6 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  //A implementer dans backend
   public deleteAllSessions () : Observable<any> {
     const routeQuery=this.url+"/deleteAllSessions";
     return this.http.delete(routeQuery);
@@ -84,7 +83,8 @@ export class SessionService {
 
   public addProjectToSession(sessionId : number,projectId : number) : Observable<any>
   {
-    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
+    console.log("add project service : ",sessionId,projectId);
+    let routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
     return this.http.get(routeQuery);
   }
 

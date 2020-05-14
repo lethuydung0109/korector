@@ -115,6 +115,7 @@ public class SessionController {
     @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
+        log.info("dans controller de add");
         service.addProjectToSession(sessionId,projectId);
     }
 
