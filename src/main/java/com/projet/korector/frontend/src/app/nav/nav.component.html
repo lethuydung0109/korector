@@ -3,23 +3,23 @@
     <div class="collapse navbar-collapse">
       <!-- Left nav items -->
       <ul class="navbar-nav mr-auto">
-        
+
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/session" *ngIf="isLoggedIn">Session</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn">Projects</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/projet" *ngIf="isLoggedIn" >Projects</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" *ngIf="isLoggedIn" routerLink="/Criteria">Criteria</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/section" >Sections</a>
-        </li> -->
+         <li class="nav-item">
+          <a class="nav-link" *ngIf="showAdminBoard"  routerLink="/section" >Sections</a>
+        </li>
 
         <li class="nav-item">
           <a class="nav-link" *ngIf="showAdminBoard" routerLinkActive="active" routerLink="/stats" >Statistiques</a>
-        </li>      
+        </li>
       </ul>
 
 

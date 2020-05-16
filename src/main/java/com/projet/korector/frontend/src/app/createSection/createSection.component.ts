@@ -15,8 +15,9 @@ export class CreateSectionComponent  implements OnInit {
   private section: Section;
   submitted = false;
   result: any;
-  years = [2019, 2020, 2021, 2022, 2023, 2024 ];
   year2: any;
+  errorYear =false;
+  errorName= false;
 
   constructor(private sectionService: SectionService,
               private router: Router) { }
@@ -33,13 +34,27 @@ export class CreateSectionComponent  implements OnInit {
   }
 
   onSubmit(sectionForm: NgForm) {
-    console.log(sectionForm.controls.year1.value);
-    console.log(sectionForm.controls.year2.value);
-    this.section = new Section(sectionForm.controls.name.value, sectionForm.controls.year1.value, sectionForm.controls.year2.value);
-    let resp = this.sectionService.createSection(this.section);
-    resp.subscribe((data) => this.result = data);
-    console.log('Résultat :', this.section);
-    this.submitted = true;
+    this.errorName = false;
+    this.errorYear=false;
+    if(sectionForm.controls.name.value ==''){
+      this.errorName = true;
+     // document.getElementById('errorName').classList.remove("hidden");
+    }
+    else if(sectionForm.controls.year1.value ==''){
+      this.errorYear=true;
+    }
+    else {
+      console.log(sectionForm.controls.year1.value);
+      console.log(sectionForm.controls.year2.value);
+      this.section = new Section(sectionForm.controls.name.value, sectionForm.controls.year1.value, sectionForm.controls.year2.value);
+      let resp = this.sectionService.createSection(this.section);
+      resp.subscribe((data) => this.result = data);
+      console.log('Résultat :', this.section);
+      this.submitted = true;
+      this.gotoList();
+    }
+
+
   }
 
   changeValue() {
