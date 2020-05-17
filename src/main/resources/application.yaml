@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/korectordb?
     username: postgres
-    password: root
+    password: Database20
 
   jpa:
     show-sql: true
@@ -27,8 +27,8 @@ spring:
               - user:email
 app:
   auth:
-      jwtSecret: korectorLTDSecretKey
-      jwtExpirationMs: 86400000
+    jwtSecret: korectorLTDSecretKey
+    jwtExpirationMs: 86400000
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,
     # we'll be generating an auth token for the user and sending the token to the

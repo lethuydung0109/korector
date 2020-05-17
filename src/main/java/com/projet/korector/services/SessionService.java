@@ -96,6 +96,7 @@ public class SessionService {
         Session newSession=null;
         if(this.sessionRepository.findById(session.getId()).isPresent())
         {
+
             this.setSessionProjects(session.getId(),session.getProjects());
 //            this.setSessionCriterias(session.getId(),session.getCriterias());
             this.setSessionCriteres(session.getId(),session.getSessionCriteres());
@@ -125,6 +126,7 @@ public class SessionService {
 
     public Set<Criteria> getSessionCriterias(Long sessionId)
     {
+
         return new HashSet<Criteria>(this.sessionRepository.findById(sessionId).get().getCriterias());
     }
 

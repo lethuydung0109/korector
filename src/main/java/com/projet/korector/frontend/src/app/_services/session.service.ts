@@ -8,9 +8,17 @@ import { Run } from '../classes/run';
 import { Criteria } from '../classes/criteria';
 import { SessionCritere } from '../classes/session-critere';
 
+const httpOptions = {
+  headers: new HttpHeaders(
+  {
+     'Content-Type': 'application/json'
+  })
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class SessionService {
 
   public url =environment.api_url;

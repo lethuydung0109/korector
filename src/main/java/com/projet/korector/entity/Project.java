@@ -29,6 +29,12 @@ public class Project implements Serializable {
     @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
     private Set<Session> sessions = new HashSet<>();
 
+    /*
+    @JsonIgnore
+
+    @OneToMany(mappedBy = "resultsSonarProjects",fetch = FetchType.LAZY)
+    private Set <SonarResults> results  = new HashSet<>(); */
+
     @OneToOne(cascade=CascadeType.ALL)
     @JoinTable(name="user_projects",
             joinColumns={@JoinColumn(name="project_id", referencedColumnName="id")},
@@ -39,6 +45,9 @@ public class Project implements Serializable {
 
     }
 
+    public Project(Long id) {
+        this.id = id;
+    }
 
     public Project(Long id, String name, String description, String url, String date) {
         this.id = id;
@@ -101,6 +110,14 @@ public class Project implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+/*
+    public Set <SonarResults> getResults() {
+        return results;
+    }
+
+    public void setResults(Set <SonarResults> results) {
+        this.results = results;
+    } */
 
     @Override
     public String toString() {

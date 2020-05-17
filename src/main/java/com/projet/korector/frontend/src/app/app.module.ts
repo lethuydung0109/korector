@@ -4,6 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+
 import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
 import { NavComponent } from './nav/nav.component';
@@ -61,7 +63,7 @@ import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
 
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,

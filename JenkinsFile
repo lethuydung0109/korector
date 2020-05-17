@@ -20,7 +20,6 @@ pipeline {
         stage('Sonar') {
             steps {
                 sh 'mvn sonar:sonar -Dsonar.host.url=http:localhost:9000 -Dsonar.login=c606b8d85ff77b23bc12a6e390390522c4031ff4 -Dsonar.analysis.mode=publish
-                -Dsonar.projectKey=korectorProject'
             }
         }
     }
