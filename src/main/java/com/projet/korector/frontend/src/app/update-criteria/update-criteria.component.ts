@@ -23,16 +23,14 @@ export class UpdateCriteriaComponent implements OnInit {
         console.log(data)
         this.criteria = data;
         (document.getElementById('type') as HTMLInputElement).value=this.criteria.type;
+        if(this.criteria.type  == "Statique") {
+          (document.getElementById("url") as HTMLInputElement).disabled = false;
+        }else {
+          (document.getElementById("url") as HTMLInputElement).disabled = true;
+        }
       }, error => console.log(error));
-
   }
-/**
-  verifyInput(url: string) {
-    if((document.getElementById('type') as HTMLInputElement).value == 'Dynamique')
-    (document.getElementById(url) as HTMLInputElement).disabled=true;
 
-  }
-***/
   changeCriteriaType(type: string) {
     this.criteria.type = type;
   }
@@ -48,10 +46,17 @@ export class UpdateCriteriaComponent implements OnInit {
       data=> console.log(data),
       error => console.log(error)
     );
-
   }
 
   list() {
     this.router.navigate(['Criteria']).then(r => console.log("Error update") );
+  }
+
+  verifyInput(url: string) {
+    if((document.getElementById("type") as HTMLInputElement).value == "Statique") {
+      (document.getElementById(url) as HTMLInputElement).disabled = false;
+    }else {
+      (document.getElementById(url) as HTMLInputElement).disabled = true;
+    }
   }
 }

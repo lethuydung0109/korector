@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Section} from "../classes/section";
 import {Session} from "../classes/session";
+import {environment} from "../../environments/environment";
 
 
 const AUTH_API = 'http://localhost:8085/api/ressource';
@@ -16,16 +17,16 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class SectionService {
-
+  public url =environment.api_url;
   constructor(private http: HttpClient) { }
 
   getSectionById(id: number): Observable<any> {
-    return this.http.get(`${AUTH_API}/SectionById/${id}`);
+    return this.http.get(this.url+"/SectionById/"+id);
   }
 
   createSection(section: Section) {
     console.log("Dans le service");
-    return this.http.post(AUTH_API + '/createSection', section, { responseType: 'text'});
+    return this.http.post(this.url+"/createSection", section, { responseType: 'text'});
   }
 
   updateSection(id: number, value: any): Observable<Object> {
@@ -33,11 +34,11 @@ export class SectionService {
   }
 
   deleteSection(id: number) {
-    return this.http.delete(AUTH_API + '/deleteSection/' + id, { responseType: 'text'});
+    return this.http.delete(this.url+"/deleteSection/" + id, { responseType: 'text'});
   }
 
   getSectionList(): Observable<any> {
-    return this.http.get(`${AUTH_API}/allSections`);
+    return this.http.get(this.url+"/allSections");
   }
 
   getTeachers(): Observable<any> {

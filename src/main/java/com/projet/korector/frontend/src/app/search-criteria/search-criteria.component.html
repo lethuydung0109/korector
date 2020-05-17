@@ -7,7 +7,10 @@
     </div>
     <div class="form-group">
       <label for="type">Type</label>
-      <input type="text" class="form-control" id="type"  [(ngModel)]=type name="type">
+      <select id="type" class="form-control" >
+        <option (click)="changeCriteriaType('Dynamique')" value="Dynamique">Dynamique</option>
+        <option  (click)="changeCriteriaType('Statique')" value="Statique">Statique</option>
+      </select>
     </div>
 
     <div class="btn-group">
@@ -25,7 +28,6 @@
       <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Value(%)</th>
         <th>URL</th>
       </tr>
       </thead>
@@ -33,7 +35,6 @@
       <tr *ngFor="let criteria of criteriaList ">
         <td>{{criteria.name}}</td>
         <td>{{criteria.type}}</td>
-        <td>{{criteria.value}}</td>
         <td>{{criteria.url}}</td>
       </tr>
       </tbody>

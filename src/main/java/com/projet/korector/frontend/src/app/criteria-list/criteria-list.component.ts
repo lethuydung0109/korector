@@ -3,6 +3,9 @@ import {Observable} from "rxjs";
 import {Criteria} from "../classes/criteria";
 import {CriteriaService} from "../_services/criteria.service";
 import {Router} from "@angular/router";
+import {environment} from "../../environments/environment";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {TokenStorageService} from "../_services/token-storage.service";
 
 @Component({
   selector: 'app-criteria-list',
@@ -12,12 +15,24 @@ import {Router} from "@angular/router";
 export class CriteriaListComponent implements OnInit {
 
   criteriaList: Observable<Criteria[]>;
-  constructor(private  criteriaService: CriteriaService,private router: Router) {
+  public userRole: string;
+  constructor(private  criteriaService: CriteriaService,private router: Router,private http: HttpClient,  private tokenStorage: TokenStorageService) {
 
   }
 
   ngOnInit(): void {
     this.reloadData();
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' ,
+        'Authorization' : 'Bearer ' + this.tokenStorage.getToken()})
+    };
+    this.http.get(environment.api_base_url + '/user/me', httpOptions).subscribe(
+      data => {
+        this.tokenStorage.saveUser(data);
+        this.userRole = this.tokenStorage.getUser().roles.map(x => x.name).join(',');
+        this.userRole = this.userRole.replace("ROLE_", "");
+        console.log("profile",this.userRole)
+      });
   }
   public reloadData() {
     this.criteriaList = this.criteriaService.getCriteriaList();

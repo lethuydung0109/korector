@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/GBerenice98/korector#readme",
   "dependencies": {
+    "@angular/cli": "^9.1.4",
+    "@angular/common": "^9.1.4",
+    "@angular/platform-browser-dynamic": "^9.1.4",
+    "bootstrap": "^4.0.0-beta.2",
+    "font-awesome": "^4.7.0",
     "systemjs-nodelibs": "^1.0.0"
   }
 }

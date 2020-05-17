@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/api/ressource")
+@RequestMapping(value = "/api/")
 public class SectionController {
 
     final static Logger log = LoggerFactory.getLogger(SectionController.class);
@@ -21,7 +21,7 @@ public class SectionController {
     @PostMapping(value = "/createSection" )
     public String createSection(@RequestBody Section section) {
         System.out.println("Création de la section"+ section.toString());
-        String response;
+        String response ="ERROR !!";
         if(service.existByName(section.getName())){
             response = "This section name already exist ";
         }

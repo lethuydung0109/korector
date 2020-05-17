@@ -16,4 +16,5 @@ public interface CriteriaRepository extends JpaRepository<Criteria,Long> {
 
     List<Criteria> findByType(String type);
 
+    boolean existsByName(String name);
 }

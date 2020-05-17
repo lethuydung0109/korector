@@ -1,5 +1,6 @@
 package com.projet.korector.controller;
 
+import com.projet.korector.Exceptions.ResourceAlreadyExistsException;
 import com.projet.korector.Exceptions.ResourceNotFoundException;
 import com.projet.korector.entity.Criteria;
 
@@ -20,7 +21,7 @@ public class CriteriaController {
     private CriteriaService service;
 
     @PostMapping("/createCriteria")
-    public Criteria createCriteria(@RequestBody Criteria criteria)
+    public Criteria createCriteria(@RequestBody Criteria criteria) throws ResourceAlreadyExistsException
     {
         return service.createCriteria(criteria);
     }
@@ -39,7 +40,7 @@ public class CriteriaController {
 
     @GetMapping("/id={id}")
     public ResponseEntity<Criteria> getCriteriaById(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
-        return service.getCriteriaById(id);
+            return service.getCriteriaById(id);
     }
 
     @DeleteMapping("/deleteCriteria/{id}")
@@ -49,19 +50,16 @@ public class CriteriaController {
     }
 
     @GetMapping("/researchCriteria/{name}&{type}")
-    public List<Criteria> researchCriteria(@PathVariable String name,@PathVariable String type )
-    {
-        return service.researchCriteria(name, type);
+    public List<Criteria> researchCriteria(@PathVariable String name,@PathVariable String type ) throws ResourceNotFoundException {
+       return service.researchCriteria(name, type);
     }
     @GetMapping("/researchCriteria/name={name}")
-    public List <Criteria> researchCriteriaByName(@PathVariable String name )
-    {
+    public List <Criteria> researchCriteriaByName(@PathVariable String name ) throws ResourceNotFoundException {
         return service.researchCriteriaByName(name);
     }
 
     @GetMapping("/researchCriteria/type={type}")
-    public List <Criteria> researchCriteriaByType(@PathVariable String type )
-    {
+    public List <Criteria> researchCriteriaByType(@PathVariable String type ) throws ResourceNotFoundException {
         return service.researchCriteriaByType(type);
     }
 
