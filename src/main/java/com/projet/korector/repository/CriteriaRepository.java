@@ -15,4 +15,5 @@ public interface CriteriaRepository extends JpaRepository<Criteria,Long> {
     List<Criteria> findByName(String name);
 
     List<Criteria> findByType(String type);
+
 }

@@ -56,7 +56,19 @@ public class Session implements Serializable {
             cascade = CascadeType.PERSIST)
     private Set<SessionCritere> sessionCriteres = new HashSet<>();
 
+    @JsonIgnore
+
+    /*
+    @OneToMany(mappedBy = "resultsSonarSessions",fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
+    private Set <SonarResults> results  = new HashSet<>();
+*/
+
+
     public Session() { }
+
+    public Session(Long id) {
+        this.id = id;
+    }
 
     public Session(String n, String date, String heure) {
         this.name = n;
@@ -148,6 +160,15 @@ public class Session implements Serializable {
     public void setSessionCriteres(Set<SessionCritere> sessionCriteres) {
         this.sessionCriteres = sessionCriteres;
     }
+
+    /*
+    public Set <SonarResults> getResults() {
+        return results;
+    }
+
+    public void setResults(Set <SonarResults>  results) {
+        this.results = results;
+    } */
 
     @Override
     public String toString() {

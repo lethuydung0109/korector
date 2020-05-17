@@ -128,7 +128,9 @@
       </mat-form-field>
     </div>
     <div class="col-md-6">
-      <button class="btn btn-primary" (click)="createRun()">Run</button>
+      <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="!runExitsForSession" >Run</button>
+      <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="runExitsForSession">Relancer</button>
+
     </div>
   </div>
   <br><br>
@@ -140,7 +142,11 @@
         <th scope="col">Nom Projet</th>
         <th scope="col">Url</th>
         <th scope="col">Supprimé</th>  
+        <th scope="col">Last Build</th>  
         <th scope="col">Sonar Results</th>  
+        <th scope="col">Note</th>  
+        <th scope="col"> Analyse </th>  
+
 
       </tr>
       </thead>
@@ -149,12 +155,38 @@
         <td>{{project.name}}</td>
         <td>{{project.url}}</td>
         <td><button class="btn" (click)="deleteToProjectList(project)"><i class="fa fa-trash"></i></button></td> 
-        <td>{{project.sonarResults}}
+        <td> LastBuild : {{date}}</td>
+        <td>
+          Bugs : {{bugs}} <br>
+          Debt  : {{debt}}<br>
+          Smells: {{smells}}<br>
+          Coverage : {{coverage}}<br>
+          Duplications : {{dups}}<br>
+          Duplications blockes : {{dups_block}}
 
-          <button class="btn"><a><i class="fa fa-refresh"></i></a></button>
+
+
+        </td>
+        <td>  {{note_finale}} </td>
+
+        <td>         <!-- my-loader.component.html -->
+              <ng-container *ngIf="show">
+
+              <div class="progress-loader" >
+                    <img src="assets/img/Spinner-1.4s-64px.svg">
+                    <span class="loading-message">Please wait...</span>
+              </div>
+            </ng-container>
 
         </td>
 
+        <td>
+          <div class="col-md-6">
+            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="!runExitsForSessionProject" >Run</button>
+            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="runExitsForSessionProject">Relancer</button>
+      
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>

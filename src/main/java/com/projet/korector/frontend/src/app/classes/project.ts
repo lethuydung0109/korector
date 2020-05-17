@@ -1,5 +1,6 @@
 import { Session } from './session';
 import { User } from './user';
+import {SonarResults} from '../classes/sonar-results';
 
 export class Project {
 
@@ -11,7 +12,8 @@ export class Project {
   dateDepot: string;
   session: Array<Session>;
   user : User;
-  sonarResults : Map<String,String>;
+  sonarResults : SonarResults;
+  runExitsForSessionProject : boolean;
   constructor(name: string) {
     this.name = name;
     this.id = null;
@@ -22,6 +24,7 @@ export class Project {
     this.session= [];
     this.user=null;
     this.sonarResults=null;
+    this.runExitsForSessionProject = null;
 
   }
 

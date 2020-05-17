@@ -1,6 +1,7 @@
 package com.projet.korector.services;
 
 import com.projet.korector.entity.Project;
+import com.projet.korector.entity.Session;
 import com.projet.korector.entity.User;
 import com.projet.korector.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class ProjectService {
     public Optional<Project> getProjectById(Long projectId) {
         return repository.findById(projectId);
     }
+
+    public Project ProjectnById(Long projectId) {
+        return this.repository.findById(projectId).orElse(null);
+    }
+
 
     public boolean existsByUrl(String html_url) {
         return repository.existsByUrl(html_url);

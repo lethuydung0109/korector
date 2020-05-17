@@ -1,12 +1,15 @@
 package com.projet.korector.controller.jenkins;
 
 import com.offbytwo.jenkins.JenkinsServer;
+import com.projet.korector.controller.SessionController;
 import com.projet.korector.entity.*;
 import com.projet.korector.jenkins.Jenkins;
 import com.projet.korector.jenkins.JenkinsService;
 import com.projet.korector.payload.response.MessageResponse;
+import com.projet.korector.repository.SessionRepository;
 import com.projet.korector.services.CriteriaService;
 import com.projet.korector.services.SessionService;
+import com.projet.korector.services.SonarResultsService;
 import com.projet.korector.sonarqube.SonarQube;
 import com.projet.korector.sonarqube.SonarQubeImpl;
 import com.projet.korector.util.XmlReader;
@@ -21,6 +24,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.projet.korector.jenkins.constants.*;
@@ -35,14 +40,20 @@ public class jenkinsController {
     @Autowired
     private JenkinsService jenkinsService;
 
+
     @Autowired
-    private SessionService sessionService;
+    private SessionService service;
+
 
     @Autowired
     private CriteriaService criteriaService;
 
+    private SessionController sessController;
+    @Autowired
+    private SonarResultsController sonarController;
 
-   // @PostMapping("/result/{name}/{url}")
+
+    // @PostMapping("/result/{name}/{url}")
     //@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     /*public Analyse saveAnalyse(@PathVariable("name") String name, @PathVariable("url") String url,@RequestBody Analyse analyse){
         Analyse newAnalyse = this.doAnalyse(name,url,analyse);
@@ -115,27 +126,176 @@ public void testCriteria(@PathVariable Long sessionId){
         }
     }
 */
-    @RequestMapping(value = "/run/{nomBuild}/{url}/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    private void run(@PathVariable String nomBuild, @PathVariable String url,@PathVariable Long sessionId){
-        System.out.println("Lancement de l'analyse");
-        Map<String,String> sonarBuild= this.build(nomBuild,url,true);
+   @GetMapping("/all")
+   @RequestMapping(value = "/run/{nomBuild}/{url}/{sessionId}/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+   public boolean run(@PathVariable String nomBuild, @PathVariable String url,@PathVariable("sessionId") Long sessionId,@PathVariable("projectId") Long projectId)
+   {
+       Long seuilCritere;
+     //  RunSonar runSonar= new RunSonar(sessionId);
+       Map<String,String> sonarBuild= this.build(nomBuild,url,true);
+       Set<SessionCritere> sessionsCriteria = service.getSessionCriteres(sessionId);
+       Set <SessionCritere>  dynamicCriteria = new HashSet<>();
+           double noteBug = 0, noteVul = 0, noteDebt = 0, noteSmell = 0, noteCoverage = 0, noteDuplications = 0, noteBlock = 0, statsNote = 0, dynamicNote = 0, finaleNote = 0;
+           DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+           LocalDateTime now = LocalDateTime.now();
+           System.out.println("Lancement de l'analyse");
+           if (sonarBuild.containsKey("ERROR")) {
+               RunSonar newRun = new RunSonar(sessionId);
+               newRun.setErrorSonnar(true);
+               return false;
 
-      /*  Set<Criteria> sessionsCriteria = sessionService.getSessionCriterias(sessionId);
-        List <String> statsCriteria= new ArrayList<String> ();
-        List <Criteria> dynamicCriteria = new ArrayList<Criteria>(); */
+               }
+
+
+           for (SessionCritere criteriaId : sessionsCriteria) {
+               System.out.println("Criteria id " + criteriaId.getId() + " Name " + criteriaId.getName() + criteriaId.getType());
+               /***************** D'abord on recupere les criteres dynamiques ****************/
+
+               if (criteriaId.getType().equalsIgnoreCase("Dynamique")) {
+                   System.out.println("Criteria id dynamique : Seuil" + criteriaId.getSeuil() + criteriaId.getHeight());
+
+                   dynamicNote += criteriaId.getSeuil() * criteriaId.getHeight();
+                   System.out.println("Critere dyn seuil" + criteriaId.getSeuil());
+                   System.out.println("Critere dyn poids " + criteriaId.getHeight());
+                   System.out.println("dynamic note " + dynamicNote);
+               }
+
+
+               /****************  Ensuite on recupere les criteres statiques ****************/
+               if (criteriaId.getName().equalsIgnoreCase("nombre de bugs")) {
+                   System.out.println("Criteria id stats nbBugs : Seuil" + criteriaId.getSeuil() + criteriaId.getHeight());
+
+                   if (criteriaId.getSeuil() == 0L) {
+                       seuilCritere = 500L;
+                   } else {
+                       seuilCritere = criteriaId.getSeuil();
+
+                   }
+                   noteBug = Double.parseDouble(sonarBuild.get("nombre de bugs")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("nombre de bugs")) / seuilCritere;
+                   statsNote += noteBug * criteriaId.getHeight();
+                   System.out.println("Note bug sonar " + noteBug);
+                   System.out.println("Stats bug poids " + noteBug * criteriaId.getHeight());
+                   System.out.println("Note bug  " + noteBug * criteriaId.getHeight());
+
+                   System.out.println("Note Stats a partir de bugs " + statsNote);
+
+                   //RunSonar.setNote(noteBug);
+               }
+               if (criteriaId.getName().equalsIgnoreCase("vulnérabilités")) {
+                   // System.out.println("Criteria id stats Vuls : Seuil" + criteriaId.getSeuil() + criteriaId.getHeight());
+
+
+                   if (criteriaId.getSeuil() == 0L) {
+                       seuilCritere = 500L;
+                   } else {
+                       seuilCritere = criteriaId.getSeuil();
+
+                   }
+
+                   noteVul = Double.parseDouble(sonarBuild.get("vulnérabilités")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("vulnérabilités")) / seuilCritere;
+                   statsNote += noteVul * criteriaId.getHeight();
+                   System.out.println("Note vul sonar " + noteVul);
+                   System.out.println("Note vul " + noteVul * criteriaId.getHeight());
+
+                   System.out.println("Note Stats a partir de vuls " + statsNote);
+               }
+               if (criteriaId.getName().equalsIgnoreCase("debt")) {
+
+                   if (criteriaId.getSeuil() == 0L) {
+                       seuilCritere = 2500L;
+                   } else {
+                       seuilCritere = criteriaId.getSeuil();
+
+                   }
+                   noteDebt = Double.parseDouble(sonarBuild.get("debt")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("debt")) / seuilCritere;
+                   statsNote += noteDebt * criteriaId.getHeight();
+               }
+               if (criteriaId.getName().equalsIgnoreCase("code smells")) {
+
+                   if (criteriaId.getSeuil() == 0L) {
+                       seuilCritere = 500L;
+                   } else {
+                       seuilCritere = criteriaId.getSeuil();
+
+                   }
+
+                   noteSmell = Double.parseDouble(sonarBuild.get("code smells")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("code smells")) / seuilCritere;
+                   statsNote += noteSmell * criteriaId.getHeight();
+               }
+
+               /*************** For coverage and dup no need seuil ***************/
+               if (criteriaId.getName().equalsIgnoreCase("coverage")) {
+
+                   noteCoverage = Double.parseDouble(sonarBuild.get("coverage")) / 100;
+                   statsNote += noteCoverage * criteriaId.getHeight();
+               }
+               if (criteriaId.getName().equalsIgnoreCase("duplications")) {
+                   noteDuplications = (100 - Double.parseDouble(sonarBuild.get("duplications"))) / 100;
+                   //  newAnalyse.setNoteDuplication(noteDuplications);
+               }
+               if (criteriaId.getName().equalsIgnoreCase("blocs dupliqués")) {
+                   noteBlock = Double.parseDouble(sonarBuild.get("blocs dupliqués")) >= 100 ? 0 : 1 - Double.parseDouble(sonarBuild.get("blocs dupliqués")) / 100;
+
+                   if (criteriaId.getSeuil() == 0L) {
+                       seuilCritere = 100L;
+                   } else {
+                       seuilCritere = criteriaId.getSeuil();
+
+                   }
+                   statsNote += noteBlock * criteriaId.getHeight();
+                   //   double noteFinale = (resultBug) + res
+               }
+
+           }
+           if (statsNote + dynamicNote > 100) {
+               finaleNote = (statsNote * 20) / 100;
+           }
+
+           finaleNote = ((statsNote) * 20) / 100;
+           SonarResults sonarResults = new SonarResults(sonarBuild.get("nombre de bugs"),
+                   sonarBuild.get("vulnérabilités"), sonarBuild.get("debt"),
+                   sonarBuild.get("code smells"), sonarBuild.get("coverage "), sonarBuild.get("duplications"),
+                   sonarBuild.get("blocs dupliqués"), projectId, sessionId, finaleNote, now);
+
+           sonarController.saveResults(sonarResults);
+           System.out.println("Final note" + finaleNote);
+           return true;
+
+                // On affiche les criteres dynamiques
+
+
+               }
+
+           //@PathVariable String nomBuild, @PathVariable String url,
+    //{nomBuild}/{url}/
+ /*  @GetMapping("/all")
+   @RequestMapping(value = "/run2/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    private Set<SessionCritere> run2(@PathVariable("sessionId") Long sessionId){
+        System.out.println("Lancement de l'analyse");
+       System.out.println("Id " + sessionId);
+       return  service.getSessionCriteres(sessionId);
+
+       // Map<String,String> sonarBuild= this.build(nomBuild,url,true);
+//Set<Criteria> sessionsCriteria = sessionService.getSessionCriterias(sessionId);
+   // return service.getSessionCriterias(sessionId);
+
+       /* List <String> statsCriteria= new ArrayList<String> ();
+        List <Criteria> dynamicCriteria = new ArrayList<Criteria>();
+
 
         double noteBug=0,noteVul=0,noteDebt=0,noteSmell=0,noteCoverage=0,noteDuplications=0,noteBlock=0,finaleNote;
 
-        if(sonarBuild.containsKey("ERROR")){
+     /*   if(sonarBuild.containsKey("ERROR")){
             RunSonar newRun = new RunSonar(sessionId);
             newRun.setErrorSonnar(true);
             //return newRun;
             System.out.println("Error");
         }
         RunSonar runSonar= new RunSonar(sessionId);
-       /* for(Criteria criteriaId : sessionsCriteria){
-          Long idCriteria = criteriaId.getId();
-            Optional<Criteria> criteriaData = criteriaService.findById(idCriteria);
+        for(Criteria criteriaId : sessionsCriteria){
+          //Long idCriteria = criteriaId.getId();
+        System.out.println("Criteria id " + criteriaId.getId() + " Name " + criteriaId.getName() + criteriaId.getType()); */
+           /* Optional<Criteria> criteriaData = criteriaService.findById(idCriteria);
            Criteria criteriaObject = criteriaData.get();
             if(criteriaObject.getType()=="Statique"){
                 statsCriteria.add(criteriaObject.getName());
@@ -148,44 +308,45 @@ public void testCriteria(@PathVariable Long sessionId){
 
             }
 
-        }
-
+        } */
+/*
 for (String name : statsCriteria) {
-    if(name == "nombre de bugs"){ */
+    if(name == "nombre de bugs"){
       noteBug = Double.parseDouble(sonarBuild.get("nombre de bugs")) >= 500 ? 0 : 1 - Double.parseDouble(sonarBuild.get("nombre de bugs")) / 500;
         //RunSonar.setNote(noteBug);
    /* }
-    if(name == "vulnérabilités") { */
+    if(name == "vulnérabilités") {
 
        noteVul = Double.parseDouble(sonarBuild.get("vulnérabilités")) >= 500 ? 0 : 1 - Double.parseDouble(sonarBuild.get("vulnérabilités")) / 500;
         //   newAnalyse.setNoteVul(noteVul);
    /* }
-    if(name == "debt") { */
+    if(name == "debt") {
        noteDebt = Double.parseDouble(sonarBuild.get("debt")) >= 2500 ? 0 : 1 - Double.parseDouble(sonarBuild.get("debt")) / 2500;
         // newAnalyse.setNoteDebt(noteDebt);
    /* }
-    if(name == "code smells") { */
+    if(name == "code smells") {
 
         noteSmell = Double.parseDouble(sonarBuild.get("code smells")) >= 500 ? 0 : 1 - Double.parseDouble(sonarBuild.get("code smells")) / 500;
         //    newAnalyse.setNoteSmells(noteSmell);
     /*}
-    if(name == "coverage") { */
+    if(name == "coverage") {
 
       noteCoverage = Double.parseDouble(sonarBuild.get("coverage")) / 100;
         // newAnalyse.setNoteCoverage(noteCoverage);
-   /* }
-    if(name == "duplications") { */
+    }
+    if(name == "duplications") {
        noteDuplications = (100 - Double.parseDouble(sonarBuild.get("duplications"))) / 100;
         //  newAnalyse.setNoteDuplication(noteDuplications);
-  /*  }
-    if(name == "blocs dupliqués") { */
-       noteBlock = Double.parseDouble(sonarBuild.get("blocs dupliqués")) >= 100 ? 0 : 1 - Double.parseDouble(sonarBuild.get("blocs dupliqués")) / 100;
+   }
+    if(name == "blocs dupliqués") {
+       noteBlock =
+       //Double.parseDouble(sonarBuild.get("blocs dupliqués")) >= 100 ? 0 : 1 - Double.parseDouble(sonarBuild.get("blocs dupliqués")) / 100;
+
         //      newAnalyse.setNoteDupBlock(noteBlock);
         //   double noteFinale = (resultBug) + res
     /*}
-} */
-     double finaleNoteStats = (noteBug) * 10 + (noteVul) * 10+ (noteDebt) * 10 + (noteSmell) * 10 + (noteCoverage) * 10
-                + (noteDuplications) * 10 + (noteBlock) * 10;
+}
+
 
     finaleNote = finaleNoteStats;
         runSonar.setFinalNote((finaleNoteStats*20)/100);
@@ -193,7 +354,7 @@ for (String name : statsCriteria) {
         runSonar.setFinalNote((finaleNote));
     System.out.println("fINALE NOTE" + finaleNote);
 
-    }
+    } */
 
     private String createJob(String name, String url){
         System.out.println("Test Passed ");
