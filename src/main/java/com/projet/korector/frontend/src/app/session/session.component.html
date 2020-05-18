@@ -18,16 +18,16 @@
     <table class="table table-hover">
       <thead>
       <tr>
-        <th scope="col">No.</th>
-        <th scope="col">Nom</th>
+        <th scope="col">ID</th>
+        <th scope="col">Nom</th>        
         <th scope="col">Supprimé</th>
       </tr>
       </thead>
-      <tbody *ngFor="let session of sessions">
+      <tbody *ngFor="let session of sessions; let i = index">
       <tr>
-        <td><a [routerLink]="['/session-detail/', session.id]">{{session.id}}</a></td>
-        <td>{{session.name}}</td>
-        <td><button class="btn" (click)="deleteSessionById(session)"><i class="fa fa-trash"></i></button></td>
+        <td><a [routerLink]="['/session-detail/', session.id]">{{i+1}}</a></td>
+        <td>{{session.name}}</td>      
+        <td><button class="btn  btn-danger" (click)="deleteSession(session)"><i class="fa fa-trash"></i></button></td>
       </tr>
       </tbody>
     </table>

@@ -9,7 +9,6 @@ export class Session {
     public date_depot : string;
     public heureDepot : string;
     public projects : Array<number>;
-    public criterias : Array<number>;
     public sessionCritere : Array<number>;
     public users : Array<User>;
     public runs : Array<Run>;
@@ -21,7 +20,6 @@ export class Session {
         this.date_depot=date;
         this.heureDepot=heure;
         this.projects=[];
-        this.criterias=[];
         this.sessionCritere=[];
         this.users=[];
         this.runs=[];        

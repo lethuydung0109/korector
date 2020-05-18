@@ -47,7 +47,7 @@ import { CriteriaDetailsComponent } from './criteria-details/criteria-details.co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 
@@ -127,7 +127,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     MatCardModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DatePipe
+    DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

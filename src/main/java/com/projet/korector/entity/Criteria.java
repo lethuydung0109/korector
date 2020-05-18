@@ -31,6 +31,10 @@ public class Criteria implements Serializable {
     @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
     private Set<Session> sessions = new HashSet<>();
 
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "criterias",fetch = FetchType.LAZY)
+//    private Set<Session> sessions = new HashSet<>();
+
     public Criteria( String name, String type, String url) {
         this.name = name;
         this.type = type;
@@ -73,15 +77,15 @@ public class Criteria implements Serializable {
         this.url = url;
     }
 
-   // @JsonIgnore
-    public Set<Session> getSessions() {
-        return sessions;
-    }
-
-   // @JsonIgnore
-    public void setSessions(Set<Session> sessions) {
-        this.sessions = sessions;
-    }
+//   // @JsonIgnore
+//    public Set<Session> getSessions() {
+//        return sessions;
+//    }
+//
+//   // @JsonIgnore
+//    public void setSessions(Set<Session> sessions) {
+//        this.sessions = sessions;
+//    }
 
     @Override
     public String toString() {
