@@ -84,16 +84,16 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  //A implementer dans backend
   public deleteAllSessions () : Observable<any> {
     const routeQuery=this.url+"/deleteAllSessions";
     return this.http.delete(routeQuery);
   }
 
-  public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
+  public addProjectToSession(sessionId : number,projectId : number) : Observable<number>
   {
-    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
-    return this.http.put(routeQuery,project);
+    console.log("add project service : ",sessionId,projectId);
+    let routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
+    return this.http.get<number>(routeQuery);
   }
 
   public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>
@@ -106,6 +106,12 @@ export class SessionService {
   {
     const routeQuery=this.url+"/getSessionRuns/"+sessionId;
     return this.http.get<Array<Run>>(routeQuery);
+  }
+
+  public getSessionsDepot() : Observable<Array<Session>>
+  {
+    const routeQuery=this.url+"/getSessionsDepot";
+    return this.http.get<Array<Session>>(routeQuery);
   }
 
   public exportCSV(runId : number) : Observable<any>

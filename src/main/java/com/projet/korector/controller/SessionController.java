@@ -54,14 +54,14 @@ public class SessionController {
     @RequestMapping(value = "/allSessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Session> getAllSessions()
     {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String json="";
-        try {
-            json = mapper.writeValueAsString(service.getAllSessions());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+//        String json="";
+//        try {
+//            json = mapper.writeValueAsString(service.getAllSessions());
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
         return service.getAllSessions();
     }
 
@@ -86,11 +86,22 @@ public class SessionController {
         return service.getSessionProjects(sessionId);
     }
 
+//    @GetMapping("/all")
+//    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
+//    {
+//        return service.getSessionCriterias(sessionId);
+//    }
+
     @GetMapping("/all")
-    @RequestMapping(value = "/sessionCriterias/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Set<Criteria> getSessionCriterias(@PathVariable("sessionId") Long sessionId)
+    @RequestMapping(value = "/user/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Set<Session> getAllSessionsByUser()
     {
-        return service.getSessionCriterias(sessionId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User currentUser = this.userController.findById(userDetails.getId());
+
+        return service.getAllSessionsByUser(currentUser);
     }
 
     @GetMapping("/all")
@@ -100,11 +111,14 @@ public class SessionController {
         return  service.getSessionCriteres(sessionId);
     }
 
-    @PutMapping("/all")
-    @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
+    @GetMapping("/all")
+    @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
+        log.info("dans controller de add");
+        System.out.println("dans controller de add");
         service.addProjectToSession(sessionId,projectId);
+        return 1L;
     }
 
     @DeleteMapping("/all")
@@ -121,12 +135,12 @@ public class SessionController {
         service.setSessionProjects(sessionId,projects);
     }
 
-    @PostMapping("/all")
-    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
-    {
-        service.setSessionCriterias(sessionId,criterias);
-    }
+//    @PostMapping("/all")
+//    @RequestMapping(value = "/setSessionCriterias/{sessionId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public void setSessionCriterias(@PathVariable Long sessionId,@RequestBody Set<Criteria> criterias)
+//    {
+//        service.setSessionCriterias(sessionId,criterias);
+//    }
 
     @DeleteMapping("/all")
     @RequestMapping(value = "/deleteSession/{sessionId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -155,10 +169,10 @@ public class SessionController {
         return service.getSessionRuns(sessionId);
     }
 
-//    @GetMapping("/all")
-//    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
-//        service.exportCSV(runId,response);
-//    }
+    @GetMapping("/all")
+    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
+        service.exportCSV(runId,response);
+    }
 
 }

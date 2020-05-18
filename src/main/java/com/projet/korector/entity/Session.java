@@ -31,16 +31,16 @@ public class Session implements Serializable {
                             nullable = false, updatable = false)})
     private Set<Project> projects = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name="sessions_criterias",
-            joinColumns = {
-                    @JoinColumn(name = "session_id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "criteria_id",
-                            nullable = false, updatable = false)})
-    private Set<Criteria> criterias = new HashSet<>();
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @JoinTable(name="sessions_criterias",
+//            joinColumns = {
+//                    @JoinColumn(name = "session_id",
+//                            nullable = false, updatable = false)},
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "criteria_id",
+//                            nullable = false, updatable = false)})
+//    private Set<Criteria> criterias = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -125,15 +125,15 @@ public class Session implements Serializable {
         this.projects= projects;
     }
 
-    @JsonIgnore
-    public Set<Criteria> getCriterias() {
-        return criterias;
-    }
-
-    @JsonIgnore
-    public void setCriterias(Set<Criteria> criterias) {
-        this.criterias = criterias;
-    }
+//    @JsonIgnore
+//    public Set<Criteria> getCriterias() {
+//        return criterias;
+//    }
+//
+//    @JsonIgnore
+//    public void setCriterias(Set<Criteria> criterias) {
+//        this.criterias = criterias;
+//    }
 
     public Set<Run> getRuns() {
         return runs;

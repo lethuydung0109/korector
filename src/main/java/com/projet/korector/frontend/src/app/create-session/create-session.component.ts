@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Project} from '../classes/project';
-import {Criteria} from '../classes/criteria';
 import {Session} from '../classes/session';
 import {SessionService} from '../_services/session.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -9,7 +8,6 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import { ProjectService } from '../_services/project.service';
-import { CriteriaService } from '../_services/criteria.service';
 import { Router } from '@angular/router';
 import { ValidationModalComponent } from '../validation-modal/validation-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -69,8 +67,8 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession(): void
   {        
-    let dateDepot:string="";
-    let heureDepot:string="";
+    let dateDepot:string="null";
+    let heureDepot:string="null";
 
     if(this.typeSession=="depot") 
     {
