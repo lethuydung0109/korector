@@ -113,10 +113,12 @@ public class SessionController {
 
     @GetMapping("/all")
     @RequestMapping(value = "/addProjectToSession/{sessionId}/{projectId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
+    public Long addProjectToSession(@PathVariable("sessionId") Long sessionId, @PathVariable("projectId") Long projectId)
     {
         log.info("dans controller de add");
+        System.out.println("dans controller de add");
         service.addProjectToSession(sessionId,projectId);
+        return 1L;
     }
 
     @DeleteMapping("/all")
@@ -167,10 +169,10 @@ public class SessionController {
         return service.getSessionRuns(sessionId);
     }
 
-//    @GetMapping("/all")
-//    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
-//        service.exportCSV(runId,response);
-//    }
+    @GetMapping("/all")
+    @RequestMapping(value = "/exportCSV/{runId}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public void exportCSV(@PathVariable("runId") Long runId,HttpServletResponse response) {
+        service.exportCSV(runId,response);
+    }
 
 }

@@ -64,6 +64,7 @@ export class ProjectComponent implements OnInit {
       });
       this.allProjects=projectList;
 
+      //session des profs
       let sessionsDepotList: Array<Session>=[];
       this.sessionService.getSessionsDepot().subscribe(data => {
         data.forEach(p => { sessionsDepotList.push(p); })
@@ -111,7 +112,7 @@ export class ProjectComponent implements OnInit {
   public submit() : void 
   {
     this.hideView ? this.hideView=false : this.hideView=true;
-    this.sessionService.addProjectToSession(19,4);
+    //this.sessionService.addProjectToSession(11,3).subscribe(data=> { console.log("data",data)});
   }
 
   public submitProject(p:Project,s:Session) : void{

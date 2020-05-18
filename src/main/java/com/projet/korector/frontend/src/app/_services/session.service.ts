@@ -81,11 +81,11 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  public addProjectToSession(sessionId : number,projectId : number) : Observable<any>
+  public addProjectToSession(sessionId : number,projectId : number) : Observable<number>
   {
     console.log("add project service : ",sessionId,projectId);
     let routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
-    return this.http.get(routeQuery);
+    return this.http.get<number>(routeQuery);
   }
 
   public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>

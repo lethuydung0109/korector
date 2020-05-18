@@ -5,6 +5,8 @@ import com.projet.korector.controller.UserController;
 import com.projet.korector.entity.*;
 import com.projet.korector.repository.*;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +106,7 @@ public class SessionService {
 
     public Set<Session> getSessionWithDateDepotNotNull()
     {
-        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> !session.getDate_depot().equals("null")).collect(Collectors.toSet());
+        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> !session.getDate_depot().equals("")).collect(Collectors.toSet());
         log.info("Session- date depot not null : "+sessions);
         return sessions;
     }
@@ -128,6 +130,7 @@ public class SessionService {
     public void addProjectToSession(Long sessionId,Long projectId)
     {
         log.info(" ************** Add Project : "+projectId+" to session : "+sessionId);
+        System.out.println(" ************** Add Project : "+projectId+" to session : "+sessionId);
         Project putProject=this.projectRepository.findById(projectId).get();
         Session putSession=this.sessionRepository.findById(sessionId).get();
 
@@ -254,40 +257,40 @@ public class SessionService {
 
 
 
-//    public void exportCSV(Long runId, HttpServletResponse response) {
-//
-//        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
-//        Date date = new Date();
-//
-//        //set file name and content type
-//        String filename = "run_"+date+".csv";
-//
-//        response.setContentType("text/csv");
-//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=\"" + filename + "\"");
-//
-//        //create a csv writer
-//        Run run = this.runRepository.findById(runId).get();
-//
-//        List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
-//
-//        try (
-//                CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT
-//                        .withHeader("ID", "FirstName", "LastName"));
-//        ) {
-//            for (Project project : sessionsProject) {
-//                List<? extends Serializable> data = Arrays.asList(
-//                        project.getId(),
-//                        project.getName(),
-//                        project.getNote(),
-//                        project.getUrl()
-//                );
-//                csvPrinter.printRecord(data);
-//            }
-//            csvPrinter.flush();
-//        } catch (Exception e) {
-//            System.out.println("Writing CSV error!");
-//            e.printStackTrace();
-//        }
-//    }
+    public void exportCSV(Long runId, HttpServletResponse response) {
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+
+        //set file name and content type
+        String filename = "run_"+date+".csv";
+
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + filename + "\"");
+
+        //create a csv writer
+        Run run = this.runRepository.findById(runId).get();
+
+        List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
+
+        try (
+                CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT
+                        .withHeader("ID", "FirstName", "LastName"));
+        ) {
+            for (Project project : sessionsProject) {
+                List<? extends Serializable> data = Arrays.asList(
+                        project.getId(),
+                        project.getName(),
+                        project.getNote(),
+                        project.getUrl()
+                );
+                csvPrinter.printRecord(data);
+            }
+            csvPrinter.flush();
+        } catch (Exception e) {
+            System.out.println("Writing CSV error!");
+            e.printStackTrace();
+        }
+    }
 }
