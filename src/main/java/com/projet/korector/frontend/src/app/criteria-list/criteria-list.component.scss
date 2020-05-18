@@ -1,20 +1,29 @@
 .criteriaListButton {
   padding-top: 25px;
   padding-bottom: 50px;
-  .btn1 {
+  .btnStatsSearch {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #60a3bc;
+    padding: 20px;
+    border-radius: 50px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+  }
+  .btnStatsAdd {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #60a3bc;
+    padding: 20px;
+    border-radius: 50px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
     margin-right: 50px;
-    background-color: #B5BFCA;
-    font-weight: 400;
-    FONT-SIZE: 18px;
   }
-
-  .btn2 {
-    margin-left: 50px;
-    background-color: #B5BFCA;
-    font-weight: 400;
-    FONT-SIZE: 18px;
-  }
-
 }
 h1 {
   font-weight: bold;

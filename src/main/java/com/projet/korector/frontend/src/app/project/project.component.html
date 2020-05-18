@@ -16,7 +16,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-         
+
           <mat-form-field >
             <mat-label>Choisissez un projet</mat-label>
             <mat-select [(value)]="selectedProject" >
@@ -25,7 +25,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-         
+
           <mat-form-field >
             <mat-label>Choisissez la session de depot</mat-label>
             <mat-select [(value)]="selectedSession">
@@ -34,7 +34,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          
+
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -57,9 +57,6 @@
         <th scope="col">Name</th>
         <th scope="col">Note</th>
         <th scope="col">Show</th>
-        <th scope="col">Test</th>
-        <th scope="col">Update</th>
-        <th scope="col">Delete</th>
       </tr>
       </thead>
       <tbody *ngFor="let projet of projets | async">
@@ -68,9 +65,6 @@
         <td>{{projet.name}}</td>
         <td>{{projet.note}}</td>
         <td><button (click)="projetDetails(projet.id)" class="btn btn-info "><i class="fa fa-eye"></i></button></td>
-        <td><button (click)="projetDetails(projet.id)" class="btn btn-light "><i class="fa fa-terminal"></i></button></td>
-        <td><button (click)="updateProject(projet.id)" class="btn btn-info" style="margin-left: 10px"><i class="fa fa-edit"></i></button></td>
-        <td><button (click)="deleteProject(projet.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
       </tr>
       </tbody>
     </table>

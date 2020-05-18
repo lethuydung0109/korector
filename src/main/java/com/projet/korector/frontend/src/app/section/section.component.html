@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row">
-    <h1>Liste des sections</h1>
+    <h1>Sections list</h1>
   </div> <br>
   <div class="row">
     <div class="col-md-6">
-      <button class="btnStats"  routerLink="/createSection">Ajouter une section </button>
+      <button class="btnStats"  routerLink="/createSection">Add a new section </button>
     </div>
   </div> <br>
   <div class="row">
@@ -15,16 +15,14 @@
         <th scope="col">Nom</th>
         <th scope="col">Afficher</th>
         <th scope="col">Supprimer</th>
-        <th scope="col">Modifier</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let section of sections | async" >
         <td scope="row">{{section.id}}</td>
         <td>{{section.name}}</td>
-        <td><button (click)="sectionDetails(section.id)" class="btn btn-danger"><i class="fa fa-eye"></i></button></td>
+        <td><button (click)="sectionDetails(section.id)" class="btn btn-info"><i class="fa fa-eye"></i></button></td>
         <td><button (click)="deleteSection(section.id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-        <td><button (click)="updateSection(section.id)" class="btn btn-info" style="margin-left: 10px"><i class="fa fa-edit"></i></button></td>
       </tr>
       </tbody>
     </table>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Session } from '../classes/session';
 import { SessionService } from '../_services/session.service';
+import { JenkinsService } from '../_services/jenkins.service';
 
 @Component({
   selector: 'app-session',
@@ -11,7 +12,7 @@ import { SessionService } from '../_services/session.service';
 export class SessionComponent implements OnInit {
   public sessions : Array<Session> = [];
 
-  constructor(private sessionService : SessionService) { }
+  constructor(private sessionService : SessionService , private jenkinsService : JenkinsService) { }
 
   ngOnInit(): void {
     let letSessions : Array<Session> =[];
@@ -28,6 +29,12 @@ export class SessionComponent implements OnInit {
   {
     this.sessionService.deleteSession(session.id).subscribe();
     this.sessions.splice(this.sessions.indexOf(session),1);
+  }
+
+  public runSession(){
+   // this.jenkinsService.runProject();
+    console.log("Start run session ")
+
   }
 
 }

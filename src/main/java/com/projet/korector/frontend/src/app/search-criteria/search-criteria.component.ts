@@ -48,6 +48,9 @@ export class SearchCriteriaComponent implements OnInit {
     }
 
   }
+  changeCriteriaType(type: string) {
+    this.type = type;
+  }
   onSubmit() {
     this.submitted = true;
     this.searchCriteria();

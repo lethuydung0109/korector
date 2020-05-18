@@ -2,12 +2,12 @@
     <actions/>
     <description/>
     <keepDependencies>false</keepDependencies>
-    <properties>sonar.projectKey=seye sonar.projectName=seye sonar.java.binaries = src/main/java/</properties>
+    <properties/>
     <scm class="hudson.plugins.git.GitSCM" plugin="git@4.1.1">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
             <hudson.plugins.git.UserRemoteConfig>
-                <url>https://githu.com/Awadiagne97/projet.git</url>
+                <url>https://github.com/GBerenice98/korector.git</url>
                 <!-- <credentialsId>0894aed9-4937-4c08-8985-d9948f97e5eb</credentialsId> -->
             </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
@@ -28,11 +28,12 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.11">
-            <properties>sonar.projectKey=k
- sonar.projectName=k
- sonar.java.binaries =src/main/java/</properties>
             <project/>
+            <properties>sonar.projectKey = korectorJob
+                sonar.projectName = korectorJob
+                sonar.java.binaries = src/main/java/
 
+            </properties>
             <javaOpts/>
             <additionalArguments/>
             <jdk>(Hérite du job)</jdk>

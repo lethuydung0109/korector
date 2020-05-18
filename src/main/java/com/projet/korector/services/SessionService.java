@@ -85,6 +85,7 @@ public class SessionService {
         Session newSession=null;
         if(this.sessionRepository.findById(session.getId()).isPresent())
         {
+
             this.setSessionProjects(session.getId(),session.getProjects());
             this.setSessionCriteres(session.getId(),session.getSessionCriteres());
 

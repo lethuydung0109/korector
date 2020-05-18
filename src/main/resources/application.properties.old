@@ -31,3 +31,4 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 korector.app.jwtSecret= korectorLTDSecretKey
 korector.app.jwtExpirationMs= 86400000
 
+spring.jpa.properties.hibernate.jdbc.time_zone=UTC

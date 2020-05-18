@@ -50,7 +50,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/saveUser/{userRoleId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> saveTeacher(@RequestBody UserRequest userRequest , @PathVariable ("userRoleId") Long userRoleId) {
+    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest , @PathVariable ("userRoleId") Long userRoleId) {
        if (userRepository.existsByUsername(userRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()

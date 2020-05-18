@@ -33,6 +33,7 @@ import { Oauth2RedirectHandlerComponent } from './oauth2-redirect-handler/oauth2
 import {CriteriaDetailsComponent} from "./criteria-details/criteria-details.component";
 import {UpdateCriteriaComponent} from "./update-criteria/update-criteria.component";
 import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
+import {SectionDetailComponent} from "./section-details/section-details.component";
 
 
 const routes: Routes = [
@@ -53,9 +54,9 @@ const routes: Routes = [
   { path: 'oauth2/redirect', component: Oauth2RedirectHandlerComponent },
   { path: 'projet', component: ProjectComponent },
   { path: 'section', component: SectionComponent },
-
-  //{ path: 'section-detail/:id', component: SectionDetailComponent },
+  
   { path: 'projet-detail/:id', component: ProjetDetailComponent },
+  { path: 'section-detail/:id', component: SectionDetailComponent },
   { path: 'createProjet', component: CreateProjetComponent },
   { path: 'createSection', component: CreateSectionComponent },
   //

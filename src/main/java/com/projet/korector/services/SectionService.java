@@ -14,7 +14,7 @@ public class SectionService {
     private SectionRepository repository;
 
     public Section createSection(Section section) {
-        return null;
+        return repository.save(section);
     }
 
     public List<Section> getAllSections() { return repository.findAll(); }
