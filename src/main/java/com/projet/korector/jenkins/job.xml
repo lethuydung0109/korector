@@ -7,7 +7,7 @@
         <configVersion>2</configVersion>
         <userRemoteConfigs>
             <hudson.plugins.git.UserRemoteConfig>
-                <url>https://githu.com/Awadiagne97/projet.git</url>
+                <url>https://github.com/Awadiagne97/projet.git</url>
                 <!-- <credentialsId>0894aed9-4937-4c08-8985-d9948f97e5eb</credentialsId> -->
             </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
@@ -28,8 +28,8 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.11">
-            <properties>sonar.projectKey=k
- sonar.projectName=k
+            <properties>sonar.projectKey=http
+ sonar.projectName=http
  sonar.java.binaries =src/main/java/</properties>
             <project/>
 

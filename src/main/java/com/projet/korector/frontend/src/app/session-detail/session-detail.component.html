@@ -155,19 +155,19 @@
         <td>{{project.name}}</td>
         <td>{{project.url}}</td>
         <td><button class="btn" (click)="deleteToProjectList(project)"><i class="fa fa-trash"></i></button></td> 
-        <td> LastBuild : {{date}}</td>
+        <td> LastBuild : {{project && project.sonarResults &&  project.sonarResults.date}}</td>
         <td>
-          Bugs : {{bugs}} <br>
-          Debt  : {{debt}}<br>
-          Smells: {{smells}}<br>
-          Coverage : {{coverage}}<br>
-          Duplications : {{dups}}<br>
-          Duplications blockes : {{dups_block}}
+          Bugs :{{project && project.sonarResults &&  project.sonarResults.bugs}}<br>
+          Debt  :{{project && project.sonarResults &&  project.sonarResults.debt}} <br>
+          Smells: {{project && project.sonarResults &&  project.sonarResults.smells}}<br>
+          Coverage : {{project && project.sonarResults &&  project.sonarResults.Coverage}}<br>
+          Duplications : {{project && project.sonarResults &&  project.sonarResults.dups}} <br>
+          Duplications blockes :{{project && project.sonarResults &&  project.sonarResults.dups_block}}
 
 
 
         </td>
-        <td>  {{note_finale}} </td>
+        <td> {{project && project.sonarResults &&  project.sonarResults.note_finale}}  </td>
 
         <td>         <!-- my-loader.component.html -->
               <ng-container *ngIf="show">
@@ -182,8 +182,8 @@
 
         <td>
           <div class="col-md-6">
-            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="!runExitsForSessionProject" >Run</button>
-            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="runExitsForSessionProject">Relancer</button>
+            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="runExitsForSessionProject" >Run</button>
+            <button class="btn btn-primary" (click)="createRun()"  [disabled]="show" *ngIf="!runExitsForSessionProject">Relancer</button>
       
           </div>
         </td>

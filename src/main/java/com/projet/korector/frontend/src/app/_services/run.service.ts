@@ -31,9 +31,9 @@ public sonarQubeRun(buildName : String , urlName : String, sessionId : Number, p
   return this.http.get<boolean> ( API_URL  + "/jenkins/run/" + buildName + "/" +urlName + "/" + sessionId + "/" + projectId,  httpOptions);
 }
 
-public getLastBuild(sessionId : Number, projectId : Number ) : Observable<SonarResults>{
+public getLastBuild(sessionId : Number, projectId : Number ) {
   console.log (this.http.post<any>( "Results URL" + API_URL  +  "/sonarResults/getResultsBySessProj/" + sessionId + "/" + projectId,  httpOptions));
-  return this.http.get<SonarResults> (API_URL  +  "/sonarResults/getResultsBySessProj/" + sessionId + "/" + projectId,  httpOptions);
+  return this.http.get<any> (API_URL  +  "/sonarResults/getResultsBySessProj/" + sessionId + "/" + projectId,  httpOptions);
 
 }
 
