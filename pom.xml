@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.projet</groupId>
 	<artifactId>korector</artifactId>
-	<version>0.3-SNAPSHOT</version>
+	<version>0.31-SNAPSHOT</version>
 	<name>korector</name>
 	<description>Une application de correction automatique de projet via sonarqube</description>
 
