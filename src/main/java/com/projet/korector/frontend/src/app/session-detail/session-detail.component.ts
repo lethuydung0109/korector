@@ -59,7 +59,7 @@ export class SessionDetailComponent implements OnInit {
   public username: string;
   public sonarQubeResults : Array<SonarResults> = [];
 public runExitsForSession : boolean = false;
-public runExitsForSessionProject : boolean;
+public runExitsForSessionProject : boolean = false;
 
 
 /******* SonarResults attribute */
@@ -134,14 +134,25 @@ public session_id: Number;
           {
             p.runExitsForSessionProject = data;
             this.runExitsForSessionProject = data;
-            console.log("Run exists for session project " + p.runExitsForSessionProject);
             console.log("Run exists for session project 2 " +     this.runExitsForSessionProject);
 
 
           });
                 this.runService.getLastBuild(this.sessionId,p.id).subscribe(dataBis =>{
-                      p.sonarResults = dataBis; 
-                     this.date =p.sonarResults.date; 
+
+                      p.sonarResults = dataBis;
+                      JSON.parse(JSON.stringify(p.sonarResults));
+console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
+
+                   //   JSON.parse(p.sonarResults.date);
+                      if(p.sonarResults.date == undefined){
+                        console.log("Undefined value");
+                      }
+                      else {
+                        console.log("No it is not undefined value");
+
+                      }
+                    /* this.date =p.sonarResults.date; 
                       this.bugs =p.sonarResults.bugs;    
                       this.vuls =p.sonarResults.vuls;    
                       this.debt =p.sonarResults.debt;    
@@ -151,7 +162,8 @@ public session_id: Number;
                       this.dups_block =p.sonarResults.dups_block;    
                       this.note_finale =p.sonarResults.note_finale;    
                       this.project_id =p.sonarResults.project_id;    
-                      this.session_id =p.sonarResults.session_id;    
+                      this.session_id =p.sonarResults.session_id;  */
+
                       console.log("Sonar results" + p.sonarResults.date);
 
                 
