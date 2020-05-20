@@ -11,6 +11,7 @@
 	<groupId>com.projet</groupId>
 	<artifactId>korector</artifactId>
 	<version>0.34-SNAPSHOT</version>
+    <packaging>war</packaging>
 	<name>korector</name>
 	<description>Une application de correction automatique de projet via sonarqube</description>
 
@@ -38,7 +39,7 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-
+<!--        SpringBoot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -55,6 +56,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- JWT library -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
