@@ -16,23 +16,20 @@ export class NavComponent implements OnInit {
 
   ngOnInit(){
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    
+
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-     // alert("Connected");
-      //alert(user);
 
-     // this.roles = user.roles;
-     this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
-      this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
-      console.log("Nav bar: roles = " + this.roles); 
-     // alert("username avt");
-
-     this.username = user.username;
-      // this.username = 'Awadiagne97';
-      // alert("username");
-
+      this.roles = user.roles.slice(0,1);
+      console.log("roles",this.roles);
+     console.log(this.roles[0]);
+     if( this.roles[0] == "ROLE_ENSEIGNANT") {
+       this.showModeratorBoard=true;
+     }
+      if( this.roles[0] == "ROLE_ADMIN") {
+        this.showAdminBoard=true;
+      }
+      this.username = user.username;
       console.log("User name  = " + this.username);
 
   }
