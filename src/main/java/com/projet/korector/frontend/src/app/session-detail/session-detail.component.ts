@@ -58,22 +58,22 @@ export class SessionDetailComponent implements OnInit {
   public sonarQubeRun : any;
   public username: string;
   public sonarQubeResults : Array<SonarResults> = [];
-public runExitsForSession : boolean = false;
-public runExitsForSessionProject : boolean = false;
+  public runExitsForSession : boolean = false;
+  public runExitsForSessionProject : boolean = false;
 
 
-/******* SonarResults attribute */
-public date : String
-public bugs : String;
-public vuls: String;
-public debt: String;
-public smells: String;
-public coverage:String;
-public dups: String;
-public dups_block : String;
-public note_finale: Number;
-public project_id: Number;
-public session_id: Number;
+  /******* SonarResults attribute */
+  public date : String
+  public bugs : String;
+  public vuls: String;
+  public debt: String;
+  public smells: String;
+  public coverage:String;
+  public dups: String;
+  public dups_block : String;
+  public note_finale: Number;
+  public project_id: Number;
+  public session_id: Number;
   public show:boolean = false;
 
   constructor(private actRoute: ActivatedRoute, 
@@ -90,8 +90,7 @@ public session_id: Number;
     this.sessionId = this.actRoute.snapshot.params.id;
     this.typeCritere='Statique';
     this.seuilCritere=0;
-
- 
+    this.valueCritere=0;
   }
 
   ngOnInit(): void {
@@ -130,46 +129,39 @@ public session_id: Number;
         console.log("Project id " + p.id);
         console.log("Session id " +this.sessionId);
          // For each project, verify if run exists
-         this.runService.runExistsBySessionProject(this.sessionId,p.id).subscribe(data =>
-          {
-            p.runExitsForSessionProject = data;
-            this.runExitsForSessionProject = data;
-            console.log("Run exists for session project 2 " +     this.runExitsForSessionProject);
+        this.runService.runExistsBySessionProject(this.sessionId,p.id).subscribe(data =>
+        {
+          p.runExitsForSessionProject = data;
+          this.runExitsForSessionProject = data;
+          console.log("Run exists for session project 2 " +     this.runExitsForSessionProject);
+        });
+        
+        this.runService.getLastBuild(this.sessionId,p.id).subscribe(dataBis =>{
+          p.sonarResults = dataBis;
+          JSON.parse(JSON.stringify(p.sonarResults));
+          console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
 
+          //   JSON.parse(p.sonarResults.date);
+          if(p.sonarResults.date == undefined){
+            console.log("Undefined value");
+          }
+          else {
+            console.log("No it is not undefined value");
+          }
+          /* this.date =p.sonarResults.date; 
+            this.bugs =p.sonarResults.bugs;    
+            this.vuls =p.sonarResults.vuls;    
+            this.debt =p.sonarResults.debt;    
+            this.smells =p.sonarResults.smells;    
+            this.coverage =p.sonarResults.coverage; 
+            this.dups =p.sonarResults.dups;  
+            this.dups_block =p.sonarResults.dups_block;    
+            this.note_finale =p.sonarResults.note_finale;    
+            this.project_id =p.sonarResults.project_id;    
+            this.session_id =p.sonarResults.session_id;  */
 
-          });
-                this.runService.getLastBuild(this.sessionId,p.id).subscribe(dataBis =>{
-
-                      p.sonarResults = dataBis;
-                      JSON.parse(JSON.stringify(p.sonarResults));
-console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
-
-                   //   JSON.parse(p.sonarResults.date);
-                      if(p.sonarResults.date == undefined){
-                        console.log("Undefined value");
-                      }
-                      else {
-                        console.log("No it is not undefined value");
-
-                      }
-                    /* this.date =p.sonarResults.date; 
-                      this.bugs =p.sonarResults.bugs;    
-                      this.vuls =p.sonarResults.vuls;    
-                      this.debt =p.sonarResults.debt;    
-                      this.smells =p.sonarResults.smells;    
-                      this.coverage =p.sonarResults.coverage; 
-                      this.dups =p.sonarResults.dups;  
-                      this.dups_block =p.sonarResults.dups_block;    
-                      this.note_finale =p.sonarResults.note_finale;    
-                      this.project_id =p.sonarResults.project_id;    
-                      this.session_id =p.sonarResults.session_id;  */
-
-                      console.log("Sonar results" + p.sonarResults.date);
-
-                
-                }); 
-          
-       
+            console.log("Sonar results" + p.sonarResults.date);                
+        }); 
       });
     });
     this.sessionProjects=listProjects;
@@ -178,11 +170,11 @@ console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
      // console.log("Sonar Results data " + p.sonarResults );
 
     });
+
     this.sessionProjects.forEach( p => {
         this.runService.getLastBuild(p.id,this.sessionId).subscribe(dataBis =>{
             p.sonarResults = dataBis;
             console.log("Project id " + p.id );
-
             console.log("Sonar Results data " + p.sonarResults );
         });
     });
@@ -250,7 +242,10 @@ console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
 
     let pourcentageTotal:number=0;
     this.sessionCriteres.forEach(c => {
-      if(!this.newCriteria.includes(c))
+
+      if(c.type=="Dynamique") c.value=parseFloat(document.getElementsByName("sessionCritereValue_"+c.id)[0]["value"]);
+
+      if(!this.newCriteria.includes(c)) 
       {
         c.height=parseInt(document.getElementsByName("sessionCritereHeight_"+c.id)[0]["value"]);
         if(this.userRole!="ETUDIANT")
@@ -258,7 +253,7 @@ console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
           c.seuil=parseInt(document.getElementsByName("sessionCritereSeuil_"+c.id)[0]["value"]);
         }
         else c.seuil=0;
-        this.sessionCritereService.updateSessionCritere(c.id,c.height,c.seuil).subscribe(data=>{ 
+        this.sessionCritereService.updateSessionCritere(c.id,c.height,c.seuil,c.value).subscribe(data=>{ 
          console.log("data")
          });
       }         
@@ -318,6 +313,7 @@ console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
       sessionCritere.sessionId=this.sessionId;
       sessionCritere.height=this.poidsCritere;
       sessionCritere.type=criteria.type;
+      sessionCritere.value=this.valueCritere;
 
       if(this.userRole!="ETUDIANT")
       {
@@ -400,7 +396,7 @@ console.log("Json parse" + JSON.parse(JSON.stringify(p.sonarResults)));
     const modalRef = this.modalService.open(ValidationModalComponent);
     modalRef.componentInstance.message = message;
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }
