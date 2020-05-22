@@ -4,6 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+
 import { AppComponent } from './app.component';
 import { SessionComponent } from './session/session.component';
 import { NavComponent } from './nav/nav.component';
@@ -45,7 +47,7 @@ import { CriteriaDetailsComponent } from './criteria-details/criteria-details.co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 
@@ -61,7 +63,7 @@ import { DatePipe } from '@angular/common';
 import { ValidationModalComponent } from './validation-modal/validation-modal.component';
 import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-session-critere.component';
 
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -125,7 +127,8 @@ import { AjoutSessionCritereComponent } from './ajout-session-critere/ajout-sess
     MatCardModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DatePipe
+    DatePipe,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

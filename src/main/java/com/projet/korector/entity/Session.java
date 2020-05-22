@@ -31,16 +31,16 @@ public class Session implements Serializable {
                             nullable = false, updatable = false)})
     private Set<Project> projects = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name="sessions_criterias",
-            joinColumns = {
-                    @JoinColumn(name = "session_id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "criteria_id",
-                            nullable = false, updatable = false)})
-    private Set<Criteria> criterias = new HashSet<>();
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+//    @JoinTable(name="sessions_criterias",
+//            joinColumns = {
+//                    @JoinColumn(name = "session_id",
+//                            nullable = false, updatable = false)},
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "criteria_id",
+//                            nullable = false, updatable = false)})
+//    private Set<Criteria> criterias = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "sessions",fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -56,7 +56,19 @@ public class Session implements Serializable {
             cascade = CascadeType.PERSIST)
     private Set<SessionCritere> sessionCriteres = new HashSet<>();
 
+    @JsonIgnore
+
+    /*
+    @OneToMany(mappedBy = "resultsSonarSessions",fetch = FetchType.LAZY,  cascade = CascadeType.PERSIST)
+    private Set <SonarResults> results  = new HashSet<>();
+*/
+
+
     public Session() { }
+
+    public Session(Long id) {
+        this.id = id;
+    }
 
     public Session(String n, String date, String heure) {
         this.name = n;
@@ -113,15 +125,15 @@ public class Session implements Serializable {
         this.projects= projects;
     }
 
-    @JsonIgnore
-    public Set<Criteria> getCriterias() {
-        return criterias;
-    }
-
-    @JsonIgnore
-    public void setCriterias(Set<Criteria> criterias) {
-        this.criterias = criterias;
-    }
+//    @JsonIgnore
+//    public Set<Criteria> getCriterias() {
+//        return criterias;
+//    }
+//
+//    @JsonIgnore
+//    public void setCriterias(Set<Criteria> criterias) {
+//        this.criterias = criterias;
+//    }
 
     public Set<Run> getRuns() {
         return runs;
@@ -148,6 +160,15 @@ public class Session implements Serializable {
     public void setSessionCriteres(Set<SessionCritere> sessionCriteres) {
         this.sessionCriteres = sessionCriteres;
     }
+
+    /*
+    public Set <SonarResults> getResults() {
+        return results;
+    }
+
+    public void setResults(Set <SonarResults>  results) {
+        this.results = results;
+    } */
 
     @Override
     public String toString() {

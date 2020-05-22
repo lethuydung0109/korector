@@ -8,9 +8,17 @@ import { Run } from '../classes/run';
 import { Criteria } from '../classes/criteria';
 import { SessionCritere } from '../classes/session-critere';
 
+const httpOptions = {
+  headers: new HttpHeaders(
+  {
+     'Content-Type': 'application/json'
+  })
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class SessionService {
 
   public url =environment.api_url;
@@ -76,16 +84,16 @@ export class SessionService {
     return this.http.delete(routeQuery);
   }
 
-  //A implementer dans backend
   public deleteAllSessions () : Observable<any> {
     const routeQuery=this.url+"/deleteAllSessions";
     return this.http.delete(routeQuery);
   }
 
-  public addProjectToSession(project : Project, sessionId : Number) : Observable<any>
+  public addProjectToSession(sessionId : number,projectId : number) : Observable<number>
   {
-    const routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+project.id;
-    return this.http.put(routeQuery,project);
+    console.log("add project service : ",sessionId,projectId);
+    let routeQuery=this.url+"/addProjectToSession/"+sessionId+"/"+projectId;
+    return this.http.get<number>(routeQuery);
   }
 
   public deleteProjectFromSession(projectId : Number, sessionId : Number) : Observable<any>
@@ -100,12 +108,17 @@ export class SessionService {
     return this.http.get<Array<Run>>(routeQuery);
   }
 
-  public exportCSV(runId : number) : Observable<any>
+  public getSessionsDepot() : Observable<Array<Session>>
   {
-    let headers = new HttpHeaders();
-    headers = headers.set('Accept', 'application/csv');
+    const routeQuery=this.url+"/getSessionsDepot";
+    return this.http.get<Array<Session>>(routeQuery);
+  }
+
+  public exportCSV(runId : number)
+  {
+    const headers = new HttpHeaders({Accept: 'text/csv'});
     let routeQuery=this.url+"/exportCSV/"+runId;
-    return this.http.get<any>(routeQuery,{headers: headers});
+    return this.http.get(routeQuery,{headers,responseType:'arraybuffer'});
   }
 
 }

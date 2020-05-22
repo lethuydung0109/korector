@@ -13,7 +13,7 @@ public interface JenkinsService {
     boolean isJobExist(String name);
     String getJobXml(String name);
     String buildJob(String name, boolean isCreation);
-    String createJob(String name, String xml);
+    String createJob(String name, String xml,boolean boo);
     String deleteJob(String name);
     String getResultLasBuild(String jobName);
     String getOutPut(String jobName);

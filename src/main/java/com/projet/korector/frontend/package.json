@@ -26,8 +26,11 @@
     "bootstrap": "^4.0.0-beta.2",
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
+    "ng-http-loader": "^7.0.0",
+    "ng4-loading-spinner": "^1.2.3",
     "ngx-spinner": "^9.0.1",
     "rxjs": "~6.5.4",
+    "service": "^0.1.4",
     "tslib": "^1.11.1",
     "zone.js": "^0.10.3"
   },

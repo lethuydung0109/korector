@@ -30,6 +30,8 @@ export class NavComponent implements OnInit {
       }
       console.log("Nav bar: showStudentBoard = " + this.showStudentBoard);
       this.username = user.username;
+      console.log("User name  = " + this.username);
+
   }
 }
 
