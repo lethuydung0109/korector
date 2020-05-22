@@ -17,14 +17,15 @@ export class SessionComponent implements OnInit {
   ngOnInit(): void {
     let letSessions : Array<Session> =[];
     this.sessionService.getAllSessionsByUser().subscribe(data => {
-      data.forEach(s => {
+      data.forEach(s => {      
         letSessions.push(s);
       })
     });
     this.sessions=letSessions;
+    console.log("sessions : ",this.sessions);
   }
 
-  public deleteSessionById(session :Session) : void
+  public deleteSession(session :Session) : void
   {
     this.sessionService.deleteSession(session.id).subscribe();
     this.sessions.splice(this.sessions.indexOf(session),1);

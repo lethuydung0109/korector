@@ -5,6 +5,8 @@ import com.projet.korector.controller.UserController;
 import com.projet.korector.entity.*;
 import com.projet.korector.repository.*;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +51,6 @@ public class SessionService {
     {
         log.info("objet angular reçu pour création :"+sessionImp.toString());
 
-        //        Set<Project> projects = session.getProjects();
-//        Set<Criteria> criterias = session.getCriterias();
         Session session = new Session(sessionImp.getName(),sessionImp.getDate_depot(),sessionImp.getHeureDepot());
 
         Set<Project> projects = new HashSet<>();
@@ -58,17 +58,10 @@ public class SessionService {
             projects.add(this.projectRepository.findById(projectId).get());
         });
 
-        Set<Criteria> criterias = new HashSet<>();
-        sessionImp.getCriterias().forEach(criteriatId-> {
-            criterias.add(this.criteriaRepository.findById(criteriatId).get());
-        });
-
         session.setProjects(new HashSet<>());
-        session.setCriterias(new HashSet<>());
         Session createdSession = this.sessionRepository.save(session);
 
         createdSession.getProjects().addAll(projects);
-        createdSession.getCriterias().addAll(criterias);
 
         log.info("createdSession : "+createdSession);
         currentUser.getSessions().add(createdSession);
@@ -85,10 +78,6 @@ public class SessionService {
             session.getProjects().add(this.projectRepository.findById(projectId).get());
         });
 
-//        sessionImp.getCriterias().forEach(criteriatId-> {
-//            session.getCriterias().add(this.criteriaRepository.findById(criteriatId).get());
-//        });
-
         sessionImp.getSessionCritere().forEach(sessionCritereId-> {
             session.getSessionCriteres().add(this.sessionCritereRepository.findById(sessionCritereId).get());
         });
@@ -98,7 +87,6 @@ public class SessionService {
         {
 
             this.setSessionProjects(session.getId(),session.getProjects());
-//            this.setSessionCriterias(session.getId(),session.getCriterias());
             this.setSessionCriteres(session.getId(),session.getSessionCriteres());
 
             newSession=this.sessionRepository.save(session);
@@ -112,9 +100,14 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
+    public Set<Session> getAllSessionsByUser(User currentUser) {
+
+        return sessionRepository.findAll().stream().filter(session -> session.getUsers().contains(currentUser)).collect(Collectors.toSet());
+    }
+
     public Set<Session> getSessionWithDateDepotNotNull()
     {
-        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> session.getDate_depot() != null).collect(Collectors.toSet());
+        Set<Session> sessions = this.sessionRepository.findAll().stream().filter(session -> !session.getDate_depot().equals("")).collect(Collectors.toSet());
         log.info("Session- date depot not null : "+sessions);
         return sessions;
     }
@@ -124,11 +117,10 @@ public class SessionService {
         return new HashSet<Project>(this.sessionRepository.findById(sessionId).get().getProjects());
     }
 
-    public Set<Criteria> getSessionCriterias(Long sessionId)
-    {
-
-        return new HashSet<Criteria>(this.sessionRepository.findById(sessionId).get().getCriterias());
-    }
+//    public Set<Criteria> getSessionCriterias(Long sessionId)
+//    {
+//        return new HashSet<Criteria>(this.sessionRepository.findById(sessionId).get().getCriterias());
+//    }
 
     public Set<SessionCritere> getSessionCriteres(Long sessionId)
     {
@@ -138,11 +130,14 @@ public class SessionService {
 
     public void addProjectToSession(Long sessionId,Long projectId)
     {
+        log.info(" ************** Add Project : "+projectId+" to session : "+sessionId);
+        System.out.println(" ************** Add Project : "+projectId+" to session : "+sessionId);
         Project putProject=this.projectRepository.findById(projectId).get();
         Session putSession=this.sessionRepository.findById(sessionId).get();
 
         putSession.getProjects().add(putProject);
         putProject.getSessions().add(putSession);
+
         this.projectRepository.saveAndFlush(putProject);
         this.sessionRepository.saveAndFlush(putSession);
     }
@@ -165,23 +160,23 @@ public class SessionService {
         this.sessionRepository.saveAndFlush(putSession);
     }
 
-    public void setSessionCriterias(Long sessionId,Set<Criteria> criterias)
-    {
-        Set<Criteria> putCriterias= new HashSet<>();
-        criterias.forEach(criteria->{
-            putCriterias.add(this.criteriaRepository.findById(criteria.getId()).get());
-        });
-
-        Session putSession=this.sessionRepository.findById(sessionId).get();
-        putSession.setCriterias(putCriterias);
-
-        putCriterias.forEach(criteria -> {
-            criteria.getSessions().add(putSession);
-            this.criteriaRepository.saveAndFlush(criteria);
-        });
-
-        this.sessionRepository.saveAndFlush(putSession);
-    }
+//    public void setSessionCriterias(Long sessionId,Set<Criteria> criterias)
+//    {
+//        Set<Criteria> putCriterias= new HashSet<>();
+//        criterias.forEach(criteria->{
+//            putCriterias.add(this.criteriaRepository.findById(criteria.getId()).get());
+//        });
+//
+//        Session putSession=this.sessionRepository.findById(sessionId).get();
+//        putSession.setCriterias(putCriterias);
+//
+//        putCriterias.forEach(criteria -> {
+//            criteria.getSessions().add(putSession);
+//            this.criteriaRepository.saveAndFlush(criteria);
+//        });
+//
+//        this.sessionRepository.saveAndFlush(putSession);
+//    }
 
     public void setSessionCriteres(Long sessionId,Set<SessionCritere> sessionCriteres)
     {
@@ -218,7 +213,7 @@ public class SessionService {
         if(isPresent)
         {
             Set<Project> projects= deletedSession.getProjects();
-            Set<Criteria> criterias = deletedSession.getCriterias();
+            Set<SessionCritere> sessionCriteres = deletedSession.getSessionCriteres();
             Set<Run> runs = deletedSession.getRuns();
 
             projects.forEach(project -> {
@@ -226,13 +221,12 @@ public class SessionService {
                 this.projectRepository.saveAndFlush(project);
             });
 
-            criterias.forEach(criteria -> {
-                this.criteriaRepository.findById(criteria.getId()).get().getSessions().remove(deletedSession);
-                this.criteriaRepository.saveAndFlush(criteria);
+            sessionCriteres.forEach(sessionCritere -> {
+                this.sessionCritereRepository.deleteById(sessionCritere.getId());
             });
 
             projects.clear();
-            criterias.clear();
+            sessionCriteres.clear();
             runs.clear();
 
             user.getSessions().remove(deletedSession);
@@ -262,40 +256,50 @@ public class SessionService {
         return runs;
     }
 
-//    public void exportCSV(Long runId, HttpServletResponse response) {
-//
-//        SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
-//        Date date = new Date();
-//
-//        //set file name and content type
-//        String filename = "run_"+date+".csv";
-//
-//        response.setContentType("text/csv");
-//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=\"" + filename + "\"");
-//
-//        //create a csv writer
-//        Run run = this.runRepository.findById(runId).get();
-//
-//        List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
-//
-//        try (
-//                CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT
-//                        .withHeader("ID", "FirstName", "LastName"));
-//        ) {
-//            for (Project project : sessionsProject) {
-//                List<? extends Serializable> data = Arrays.asList(
-//                        project.getId(),
-//                        project.getName(),
-//                        project.getNote(),
-//                        project.getUrl()
-//                );
-//                csvPrinter.printRecord(data);
-//            }
-//            csvPrinter.flush();
-//        } catch (Exception e) {
-//            System.out.println("Writing CSV error!");
-//            e.printStackTrace();
-//        }
-//    }
+
+
+    public void exportCSV(Long runId, HttpServletResponse response) {
+
+        response.setContentType("text/csv");
+
+        //create a csv writer
+        Run run = this.runRepository.findById(runId).get();
+
+        List<Project> sessionsProject = new ArrayList<Project>(this.getSessionProjects(run.getSession().getId()));
+        List<SessionCritere> sessionCriteres = new ArrayList<SessionCritere>(this.getSessionCriteres(run.getSession().getId()));
+
+        try (
+                CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), CSVFormat.DEFAULT
+                        .withHeader("Id", "Name","Note","Url"));
+        ) {
+            for (Project project : sessionsProject) {
+                List<? extends Serializable> data = Arrays.asList(
+                        project.getId(),
+                        project.getName(),
+                        project.getNote(),
+                        project.getUrl()
+                );
+                csvPrinter.printRecord(data);
+            }
+
+            csvPrinter.printRecord("\n");
+            csvPrinter.printRecord("Détails Session Criteres");
+            csvPrinter.printRecord("Id","Name","Height","Seuil","Value");
+            for (SessionCritere critere : sessionCriteres) {
+                List<? extends Serializable> data = Arrays.asList(
+                        critere.getId(),
+                        critere.getName(),
+                        critere.getHeight(),
+                        critere.getSeuil(),
+                        critere.getValue()
+                );
+                csvPrinter.printRecord(data);
+            }
+
+            csvPrinter.flush();
+        } catch (Exception e) {
+            System.out.println("Writing CSV error!");
+            e.printStackTrace();
+        }
+    }
 }

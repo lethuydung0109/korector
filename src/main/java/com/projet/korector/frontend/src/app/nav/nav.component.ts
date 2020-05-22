@@ -10,29 +10,26 @@ export class NavComponent implements OnInit {
   private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
+  showStudentBoard = false;
   showModeratorBoard = false;
   username: string;
   constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(){
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    
+
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-     // alert("Connected");
-      //alert(user);
-
-     // this.roles = user.roles;
-     this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      this.roles = user.roles;
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
       this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
-      console.log("Nav bar: roles = " + this.roles); 
-     // alert("username avt");
-
-     this.username = user.username;
-      // this.username = 'Awadiagne97';
-      // alert("username");
-
+      console.log("Nav bar: roles = " + this.roles);
+      if(!this.showModeratorBoard && !this.showAdminBoard){
+        this.showStudentBoard = true;
+      }
+      console.log("Nav bar: showStudentBoard = " + this.showStudentBoard);
+      this.username = user.username;
       console.log("User name  = " + this.username);
 
   }

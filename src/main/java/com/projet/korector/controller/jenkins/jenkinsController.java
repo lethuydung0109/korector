@@ -152,9 +152,9 @@ public void testCriteria(@PathVariable Long sessionId){
                /***************** D'abord on recupere les criteres dynamiques ****************/
 
                if (criteriaId.getType().equalsIgnoreCase("Dynamique")) {
-                   System.out.println("Criteria id dynamique : Seuil" + criteriaId.getSeuil() + criteriaId.getHeight());
+                   System.out.println("Criteria id dynamique : Seuil" + criteriaId.getSeuil() + "Poids " +criteriaId.getHeight());
 
-                   dynamicNote += criteriaId.getSeuil() * criteriaId.getHeight();
+                   dynamicNote += ((criteriaId.getSeuil() * criteriaId.getHeight() /100) );
                    System.out.println("Critere dyn seuil" + criteriaId.getSeuil());
                    System.out.println("Critere dyn poids " + criteriaId.getHeight());
                    System.out.println("dynamic note " + dynamicNote);
@@ -163,16 +163,18 @@ public void testCriteria(@PathVariable Long sessionId){
 
                /****************  Ensuite on recupere les criteres statiques ****************/
                if (criteriaId.getName().equalsIgnoreCase("nombre de bugs")) {
-                   System.out.println("Criteria id stats nbBugs : Seuil" + criteriaId.getSeuil() + criteriaId.getHeight());
+                   System.out.println("Criteria id stats nbBugs : Seuil " + criteriaId.getSeuil() + "Poids : " + criteriaId.getHeight());
 
                    if (criteriaId.getSeuil() == 0L) {
-                       seuilCritere = 500L;
+                       seuilCritere = 20L;
                    } else {
                        seuilCritere = criteriaId.getSeuil();
 
                    }
                    noteBug = Double.parseDouble(sonarBuild.get("nombre de bugs")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("nombre de bugs")) / seuilCritere;
-                   statsNote += noteBug * criteriaId.getHeight();
+                   noteBug =  (20 * noteBug )* (criteriaId.getHeight()/100) ;
+                   System.out.println("Seuil donne pr " + seuilCritere);
+
                    System.out.println("Note bug sonar " + noteBug);
                    System.out.println("Stats bug poids " + noteBug * criteriaId.getHeight());
                    System.out.println("Note bug  " + noteBug * criteriaId.getHeight());
@@ -186,29 +188,32 @@ public void testCriteria(@PathVariable Long sessionId){
 
 
                    if (criteriaId.getSeuil() == 0L) {
-                       seuilCritere = 500L;
+                       seuilCritere = 50L;
                    } else {
                        seuilCritere = criteriaId.getSeuil();
 
                    }
 
-                   noteVul = Double.parseDouble(sonarBuild.get("vulnérabilités")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("vulnérabilités")) / seuilCritere;
-                   statsNote += noteVul * criteriaId.getHeight();
-                   System.out.println("Note vul sonar " + noteVul);
-                   System.out.println("Note vul " + noteVul * criteriaId.getHeight());
+                   Double vul =Double.parseDouble(sonarBuild.get("vulnérabilités")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("vulnérabilités")) / seuilCritere ;
+                   System.out.println("Seuil donne pr" + seuilCritere);
+                   System.out.println("Note vul  " + vul);
 
-                   System.out.println("Note Stats a partir de vuls " + statsNote);
+                 noteVul =  ( 20 * vul ) * (criteriaId.getHeight()/100);
+                   System.out.println("criteria" +criteriaId.getHeight());
+
+                   System.out.println("Note vul calcul " + noteVul);
+
                }
                if (criteriaId.getName().equalsIgnoreCase("debt")) {
 
                    if (criteriaId.getSeuil() == 0L) {
-                       seuilCritere = 2500L;
+                       seuilCritere = 2000L;
                    } else {
                        seuilCritere = criteriaId.getSeuil();
 
                    }
                    noteDebt = Double.parseDouble(sonarBuild.get("debt")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("debt")) / seuilCritere;
-                   statsNote += noteDebt * criteriaId.getHeight();
+                   noteDebt= ( 20 * noteDebt)* (criteriaId.getHeight()/100);
                }
                if (criteriaId.getName().equalsIgnoreCase("code smells")) {
 
@@ -220,45 +225,48 @@ public void testCriteria(@PathVariable Long sessionId){
                    }
 
                    noteSmell = Double.parseDouble(sonarBuild.get("code smells")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("code smells")) / seuilCritere;
-                   statsNote += noteSmell * criteriaId.getHeight();
+                   noteSmell = ( ( 20 * noteSmell) * (criteriaId.getHeight()/100) );
                }
 
                /*************** For coverage and dup no need seuil ***************/
                if (criteriaId.getName().equalsIgnoreCase("coverage")) {
 
                    noteCoverage = Double.parseDouble(sonarBuild.get("coverage")) / 100;
-                   statsNote += noteCoverage * criteriaId.getHeight();
+                   statsNote += ( ( 20 * noteCoverage)  * (criteriaId.getHeight() / 100));
                }
                if (criteriaId.getName().equalsIgnoreCase("duplications")) {
                    noteDuplications = (100 - Double.parseDouble(sonarBuild.get("duplications"))) / 100;
+                   noteDuplications= ( ( 20 * noteDuplications)  * (criteriaId.getHeight() / 100));
+
                    //  newAnalyse.setNoteDuplication(noteDuplications);
                }
                if (criteriaId.getName().equalsIgnoreCase("blocs dupliqués")) {
-                   noteBlock = Double.parseDouble(sonarBuild.get("blocs dupliqués")) >= 100 ? 0 : 1 - Double.parseDouble(sonarBuild.get("blocs dupliqués")) / 100;
 
                    if (criteriaId.getSeuil() == 0L) {
-                       seuilCritere = 100L;
+                       seuilCritere = 10L;
                    } else {
                        seuilCritere = criteriaId.getSeuil();
 
                    }
-                   statsNote += noteBlock * criteriaId.getHeight();
+                   noteBlock = Double.parseDouble(sonarBuild.get("blocs dupliqués")) >= seuilCritere ? 0 : 1 - Double.parseDouble(sonarBuild.get("blocs dupliqués")) / seuilCritere;
+
+                   noteBlock = ( ( 20 * noteBlock * criteriaId.getHeight()/ 100));
                    //   double noteFinale = (resultBug) + res
                }
 
            }
-           if (statsNote + dynamicNote > 100) {
-               finaleNote = (statsNote * 20) / 100;
-           }
 
-           finaleNote = ((statsNote) * 20) / 100;
+
+           finaleNote = (noteBug + noteVul + noteDebt +noteSmell + noteCoverage + noteDuplications + noteBlock + dynamicNote);
            SonarResults sonarResults = new SonarResults(sonarBuild.get("nombre de bugs"),
                    sonarBuild.get("vulnérabilités"), sonarBuild.get("debt"),
                    sonarBuild.get("code smells"), sonarBuild.get("coverage "), sonarBuild.get("duplications"),
                    sonarBuild.get("blocs dupliqués"), projectId, sessionId, finaleNote, now);
 
            sonarController.saveResults(sonarResults);
-           System.out.println("Final note" + finaleNote);
+       System.out.println("Stats" + statsNote);
+
+       System.out.println("Final note" + finaleNote);
            return true;
 
                 // On affiche les criteres dynamiques

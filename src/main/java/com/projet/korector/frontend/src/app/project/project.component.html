@@ -1,4 +1,51 @@
 <h3>Projets List</h3>
+<div class="row">
+  <div class="col-md-6" *ngIf="this.userRole=='ETUDIANT'">
+    <button class="btn btn-primary" (click)="submit()">Déposer Projet</button>
+  </div>
+  <div>
+    <button (click)="submitTest()" class="btn btn-danger">Test RUN<i class="fa fa-trash"></i></button>
+  </div>
+</div> <br>
+
+<div class="row" *ngIf="this.userRole=='ETUDIANT'">
+  <div class="col-md-3" *ngIf="hideView==false">
+    <div class="card " style="text-align:left;">
+      <div class="card-header bg-info text-white">
+        Déposez votre Projet
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <mat-form-field >
+            <mat-label>Choisissez un projet</mat-label>
+            <mat-select [(value)]="selectedProject" >
+              <mat-option *ngFor="let project of allProjects" [value]="project">
+                {{project.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field >
+            <mat-label>Choisissez la session de depot</mat-label>
+            <mat-select [(value)]="selectedSession">
+              <mat-option *ngFor="let session of allDepositeSessions" [value]="session">
+                {{session.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary" (click)="submitProject(selectedProject,selectedSession)">Deposer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="container-fluid">
   <br>
