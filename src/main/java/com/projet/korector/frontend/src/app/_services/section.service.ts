@@ -3,9 +3,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Section} from "../classes/section";
 import {environment} from "../../environments/environment";
+const AUTH_API = environment.api_url + '/resource';
+// const AUTH_API = 'http://localhost:8085/api/resource';
 
 
-const AUTH_API = 'http://localhost:8085/api/ressource';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -41,10 +42,10 @@ export class SectionService {
   }
 
   getTeachers(): Observable<any> {
-    return this.http.get("http://localhost:8080/api/user/findAllProf");
+    return this.http.get(AUTH_API + "/user/findAllProf");
   }
 
   getStudents(): Observable<any> {
-    return this.http.get("http://localhost:8080/api/user/findAllStudent");
+    return this.http.get(AUTH_API + "/user/findAllStudent");
   }
 }

@@ -4,7 +4,8 @@ import {Observable} from 'rxjs';
 import {User} from "../classes/user";
 import {environment} from "../../environments/environment";
 
-const AUTH_API = 'http://localhost:8085/api/ressource';
+const AUTH_API = environment.api_url+'/resource';
+// const AUTH_API = 'http://localhost:8085/api/resource';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

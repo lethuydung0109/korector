@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from '../../environments/environment';
+const API_URL = environment.api_url+'/jenkins';
 
 
 const httpOptions = {
@@ -8,7 +10,7 @@ const httpOptions = {
      'Content-Type': 'application/json'
   })
 }
-const API_URL = 'http://localhost:8085/api/jenkins/';
+
 @Injectable({
   providedIn: 'root'
 })

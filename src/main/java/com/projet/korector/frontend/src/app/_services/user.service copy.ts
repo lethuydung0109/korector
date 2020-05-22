@@ -6,12 +6,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from '../classes/user';
 //import { SectionName } from '../classes/section-name';
-
 import { Observable } from 'rxjs';
 import {  retry, catchError } from 'rxjs/operators'
-import { environment } from 'src/environments/environment';
-
-const API_URL = 'http://localhost:8085/api/user/';
+import {environment} from "../../environments/environment";
+const API_URL = environment.api_url + '/user';
+// const API_URL = 'http://localhost:8085/api/user/';
 
 allStudent : User   ;
 const httpOptions = {

@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 
 
 import { User } from '../classes/user';
+import {environment} from "../../environments/environment";
+const API_URL_BASE = environment.api_url ;
 
+const API_URL = API_URL_BASE + '/user/';
 
-const API_URL = 'http://localhost:8085/api/user/';
-
-const API_URL2 = 'http://localhost:8085/api/resource/';
+const API_URL2 = API_URL_BASE + '/resource/';
 
 allStudent : User   ;
 const httpOptions = {

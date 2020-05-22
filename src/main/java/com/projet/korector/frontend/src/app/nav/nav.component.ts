@@ -21,9 +21,12 @@ export class NavComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      console.log("Nav bar: roles = " + this.roles.toString());
+      this.showAdminBoard = this.roles.includes("ROLE_ADMIN");
+      console.log("Nav bar: roles = " + this.roles);
       console.log("Nav bar: showAdminBoard = " + this.showAdminBoard);
-      this.showModeratorBoard = this.roles.includes('ROLE_ENSEIGNANT');
+      this.roles = user.roles.map(x => x.name).join(',');
+      this.showModeratorBoard = this.roles.includes("ROLE_ENSEIGNANT");
       console.log("Nav bar: roles = " + this.roles);
       if(!this.showModeratorBoard && !this.showAdminBoard){
         this.showStudentBoard = true;

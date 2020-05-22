@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Run } from '../classes/run';
 import {SonarResults} from '../classes/sonar-results';
+const API_URL = environment.api_url;
+
 const httpOptions = {
   headers: new HttpHeaders(
   {
      'Content-Type': 'application/json'})
 }
-const API_URL= 'http://localhost:8085/api';
 @Injectable({
   providedIn: 'root'
 })
