@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { environment } from '../../environments/environment';
-const AUTH_API = environment.api_url;
+const AUTH_API = environment.api_base_url;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
