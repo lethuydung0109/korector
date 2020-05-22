@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from '../_services/token-storage.service';
-const AUTH_API = 'http://localhost:8085/';
+import { environment } from '../../environments/environment';
+const AUTH_API = environment.api_url;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -27,7 +28,7 @@ export class ProfileComponent implements OnInit {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' , 
       'Authorization' : 'Bearer ' + this.tokenStorage.getToken()})
     };
-    this.http.get(AUTH_API + 'user/me', httpOptions).subscribe(
+    this.http.get(AUTH_API + '/user/me', httpOptions).subscribe(
       data => {
         this.tokenStorage.saveUser(data);
         this.isLoginFailed = false;
