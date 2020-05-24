@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import {environment} from "../../environments/environment";
+import {Router} from "@angular/router"
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   githubURL = environment.github_auth_uri;
 
   constructor(private authService: AuthService, 
-    private tokenStorage: TokenStorageService) { }
+    private tokenStorage: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage() {
-    window.location.reload();
+    // window.location.reload();
+    this.router.navigate(['/login']);
   }
 }
